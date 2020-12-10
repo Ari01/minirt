@@ -6,6 +6,7 @@
 
 int		exit_prog(t_rt *rt)
 {
+	printf("exit\n");
 	mlx_clear_window(rt->mlx, rt->window);
 	mlx_destroy_window(rt->mlx, rt->window);
 	exit(EXIT_SUCCESS);
@@ -13,12 +14,8 @@ int		exit_prog(t_rt *rt)
 
 int		get_key_press(int key, t_rt *rt)
 {
-	printf("key pressed = %d\n", key);
 	if (key == ESCAPE)
-	{
-		printf("yo\n");
 		exit_prog(rt);
-	}
 	return (1);
 }
 
@@ -53,6 +50,12 @@ int		get_mouse_pos(int x, int y, t_rt *rt)
 	return (0);
 }
 
+int render_next_frame(t_rt *rt)
+{
+	(void)rt;
+	return (0);
+}
+
 int		main()
 {
 	t_rt	rt;
@@ -64,12 +67,8 @@ int		main()
 	if (!rt.window)
 		return (1);
 	printf("yo\n");
-	mlx_do_key_autorepeatoff(rt.mlx);
-	mlx_hook(rt.window, 2, 0, get_key_press, &rt);
-	mlx_hook(rt.window, 4, 0, mouse_press, &rt);
-	mlx_hook(rt.window, 5, 0, mouse_release, &rt);
-	mlx_hook(rt.window, 6, 0, get_mouse_pos, &rt);
-	mlx_hook(rt.window, 17, 0, exit_prog, &rt);
+	mlx_hook(rt.window, 17, 1L<<17, &exit_prog, &rt);
+	mlx_key_hook(rt.window, &get_key_press, &rt);
 	mlx_loop(rt.mlx);
 	return (0);
 }
