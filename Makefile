@@ -1,6 +1,6 @@
 NAME			= minirt
 
-SRCS			= main.c
+SRCS			= $(wildcard *.c)
 OBJS			= $(SRCS:.c=.o)
 
 CC				= clang
