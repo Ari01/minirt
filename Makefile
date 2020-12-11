@@ -5,7 +5,7 @@ OBJS			= $(SRCS:.c=.o)
 
 CC				= clang
 CFLAGS			= -Wall -Wextra -Werror
-LFLAGS			= -L minilibx -lmlx -lXext -lX11
+LFLAGS			= -L minilibx -lmlx -lXext -lX11 -lm
 
 RM				= rm -Rf
 

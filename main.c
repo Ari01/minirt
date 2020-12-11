@@ -67,8 +67,8 @@ int		main()
 	if (!rt.window)
 		return (1);
 	printf("yo\n");
-	mlx_hook(rt.window, 17, 1L<<17, &exit_prog, &rt);
-	mlx_key_hook(rt.window, &get_key_press, &rt);
+	mlx_hook(rt.window, 17, 1L<<0, exit_prog, &rt);
+	mlx_hook(rt.window, 2, 1L<<0, &get_key_press, &rt);
 	mlx_loop(rt.mlx);
 	return (0);
 }
