@@ -7,7 +7,7 @@ int render_next_frame(t_rt *rt)
 	return (0);
 }
 
-t_rt	*init_window(int width, int height, char *title)
+t_rt	*new_window(int width, int height, char *title)
 {
 	t_rt *rt;
 
@@ -42,17 +42,17 @@ int		main()
 {
 	t_rt		*rt;
 	t_sphere	sp;
-	t_ray		ray;
+	t_camera	camera;
 
-	rt = init_window(500, 500, "minirt");
+	rt = new_window(500, 500, "minirt");
 	if (!rt)
 		return (0);
 	rt->img.img = mlx_new_image(rt->mlx, 500, 500);
 	rt->img.addr = mlx_get_data_addr(rt->img.img, &rt->img.bits_per_pixel,
 								&rt->img.line_length, &rt->img.endian);
-	sp = init_sphere(new_vector(255.0, 255.0, 0), 100);
-	ray = init_ray(new_vector(0, 0, 0), new_vector(0, 0, 1));
-	print_sphere(rt, sp, ray);
+	sp = new_sphere(new_vector(255.0, 255.0, 0), 100);
+	camera = new_camera(new_ray(new_vector(-50, 0, 20), new_vector(0, 0, 1)), 70);
+	print_sphere(rt, sp, camera);
 	mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
 	wait_event(rt);
 	return (0);

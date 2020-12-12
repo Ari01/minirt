@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.c                                              :+:      :+:    :+:   */
+/*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/11 14:25:18 by user42            #+#    #+#             */
-/*   Updated: 2020/12/12 18:53:56 by user42           ###   ########.fr       */
+/*   Created: 2020/12/12 18:43:31 by user42            #+#    #+#             */
+/*   Updated: 2020/12/12 18:57:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_ray	new_ray(t_vector start, t_vector dir)
+t_camera	new_camera(t_ray ray, int fov)
 {
-	t_ray r;
+	t_camera c;
 
-	r.start = start;
-	r.dir = dir;
-	return (r);
+	c.viewray = ray;
+	c.fov = fov;
+	return (c);
 }
