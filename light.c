@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 12:33:58 by user42            #+#    #+#             */
-/*   Updated: 2020/12/13 13:49:04 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/13 19:16:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,19 @@ t_light		new_light(t_vector pos, t_color color, double intensity)
 }
 
 #include <stdio.h>
-t_color		get_light_value(t_holder *holder, t_sphere sp, t_vector new_start, t_vector normal)
+t_color		get_light_value(t_holder *holder, t_sphere sp, t_vector new_start, t_vector normal, double coef)
 {
-	t_color		color;
 	t_vector	dist;
 	t_ray		light_ray;
 	double		t;
 	double		lambert;
-	
-	color.red = 0;
-	color.green = 0;
-	color.blue = 0;
-
 	int i;
 
 	i = 0;
-	while (i < 2)
+	while (i < 3)
 	{
 		dist = vectorSub(holder->light[i].pos, new_start);
-		if (vectorMul(normal, dist) <= 0.0f)
+		if (vectorMul(normal, dist) >= 0.0f)
 		{
 			t = sqrtf(vectorMul(dist, dist));
 			light_ray.start = new_start;
@@ -63,13 +57,13 @@ t_color		get_light_value(t_holder *holder, t_sphere sp, t_vector new_start, t_ve
 			}
 			if (!in_shadow)
 			{
-				lambert = vectorMul(light_ray.dir, normal);
-				color.red += lambert * holder->light[i].color.red * holder->light[i].intensity * sp.color.red;
-				color.green += lambert * holder->light[i].color.green * holder->light[i].intensity * sp.color.green;
-				color.blue += lambert * holder->light[i].color.blue * holder->light[i].intensity * sp.color.blue;
+				lambert = vectorMul(light_ray.dir, normal) * coef;
+				holder->current_color.red += lambert * holder->light[i].color.red * sp.color.red;
+				holder->current_color.green += lambert * holder->light[i].color.green * sp.color.green;
+				holder->current_color.blue += lambert * holder->light[i].color.blue * sp.color.blue;
 			}
 		}
 		i++;
 	}
-	return (color);
+	return (holder->current_color);
 }

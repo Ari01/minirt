@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 12:32:32 by user42            #+#    #+#             */
-/*   Updated: 2020/12/13 13:46:50 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/13 19:15:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int			get_intersection(double a, double b, double discriminant, double *intersec
 		*intersection = s0;
 		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 /*
@@ -68,42 +68,69 @@ int			intersect_ray_sphere(t_ray ray, t_sphere sp, double *intersection)
 void		print_sphere(t_rt *rt, t_holder *holder)
 {
 	double	intersection;
+	int		depth;
 	t_vector normal;
 	t_vector new_start;
 	t_vector scaled;
-	t_color	color;
+	double	reflection[3];
+	double	coef;
+	int x,y;
 
-	intersection = 20000.0f;
-	holder->camera->viewray.start.y = 0;
-	while (holder->camera->viewray.start.y < rt->height)
+	reflection[0] = 0.2;
+	reflection[1] = 0.5;
+	reflection[2] = 0.9;
+	y = 0;
+
+	while (y < rt->height)
 	{
-		holder->camera->viewray.start.x = 0;
-		while (holder->camera->viewray.start.x < rt->width)
+		x = 0;
+		while (x < rt->width)
 		{
-			int i;
-			int current_sphere;
+			holder->camera->viewray.start.x = x;
+			holder->camera->viewray.start.y = y;
+			holder->camera->viewray.start.z = -2000;
+			holder->camera->viewray.dir.x = 0;
+			holder->camera->viewray.dir.y = 0;
+			holder->camera->viewray.dir.z = 1;
+			holder->current_color.red = 0;
+			holder->current_color.green = 0;
+			holder->current_color.blue = 0;
+			depth = 0;
+			coef = 1.0;
+			while (coef > 0.0f && depth < 15)
+			{
+				int i;
+				int current_sphere;
 
-			i = 0;
-			current_sphere = -1;
-			while (i < 3)
-			{
-				if (intersect_ray_sphere(holder->camera->viewray, holder->sphere[i], &intersection))
-					current_sphere = i;
-				i++;
-			}
-			if (current_sphere != -1)
-			{
+				intersection = 20000.0f;
+				i = 0;
+				current_sphere = -1;
+				while (i < 3)
+				{
+					if (intersect_ray_sphere(holder->camera->viewray, holder->sphere[i], &intersection))
+						current_sphere = i;
+					i++;
+				}
+				if (current_sphere == -1)
+					break;
 				scaled = vectorScale(intersection, holder->camera->viewray.dir);
 				new_start = vectorAdd(holder->camera->viewray.start, scaled);
-				if (get_normal(&normal, new_start, holder->sphere[current_sphere].center))
-				{
-					color = get_light_value(holder, holder->sphere[current_sphere], new_start, normal);
-					img_pixel_put(rt, holder->camera->viewray.start.x, holder->camera->viewray.start.y, color_to_trgb(color));
-				}
-				//img_pixel_put(rt, holder->camera->viewray.start.x, holder->camera->viewray.start.y, color_to_trgb(holder->sphere[current_sphere].color));
+				if (!get_normal(&normal, new_start, holder->sphere[current_sphere].center))
+					break;
+				holder->current_color = get_light_value(holder, holder->sphere[current_sphere], new_start, normal, coef);
+			//	img_pixel_put(rt, holder->camera->viewray.start.x, holder->camera->viewray.start.y, color_to_trgb(holder->sphere[current_sphere].color));
+				holder->camera->viewray.start = new_start;
+				double reflect = 2.0f * vectorMul(holder->camera->viewray.dir, normal);
+				holder->camera->viewray.dir = vectorSub(holder->camera->viewray.dir, vectorScale(reflect, normal));
+				coef *= reflection[current_sphere];
+				depth++;
 			}
-			holder->camera->viewray.start.x++;
+			holder->current_color.red = min(holder->current_color.red * 255, 255);
+			holder->current_color.green = min(holder->current_color.green * 255, 255);
+			holder->current_color.blue *= min(holder->current_color.blue * 255, 255);	
+			img_pixel_put(rt, x, y, color_to_trgb(holder->current_color));
+			x++;
 		}
-		holder->camera->viewray.start.y++;
+		y++;
 	}
 }

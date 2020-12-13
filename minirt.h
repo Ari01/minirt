@@ -6,7 +6,7 @@
 /*   By: dchheang <denis.c1@live.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:34:57 by dchheang          #+#    #+#             */
-/*   Updated: 2020/12/13 13:09:18 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/13 18:28:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <math.h>
 
 # define ESCAPE 65307
+# define min(x, y)	((x) < (y) ? (x) : (y))
 
 typedef struct	s_img
 {
@@ -82,6 +83,7 @@ typedef struct	s_holder
 	t_light		*light;
 	t_sphere	*sphere;
 	t_camera	*camera;
+	t_color		current_color;
 }				t_holder;
 
 int				exit_prog(t_rt *rt);
@@ -111,10 +113,10 @@ t_ray			new_ray(t_vector start, t_vector dir);
 
 t_camera		new_camera(t_ray ray, int fov);
 
-t_color			new_color(int r, int b, int g);
+t_color			new_color(double r, double b, double g);
 int				color_to_trgb(t_color color);
 
 t_light			new_light(t_vector pos, t_color color, double intensity);
-t_color			get_light_value(t_holder *holder, t_sphere sp, t_vector new_start, t_vector normal);
+t_color			get_light_value(t_holder *holder, t_sphere sp, t_vector new_start, t_vector normal, double coef);
 
 #endif

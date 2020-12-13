@@ -6,13 +6,13 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 18:00:46 by user42            #+#    #+#             */
-/*   Updated: 2020/12/12 16:20:21 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/13 17:37:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_color		new_color(int r, int g, int b)
+t_color		new_color(double r, double g, double b)
 {
 	t_color c;
 
