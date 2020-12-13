@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 12:33:58 by user42            #+#    #+#             */
-/*   Updated: 2020/12/12 17:41:01 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:49:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_light		new_light(t_vector pos, t_color color, double intensity)
 	return (light);
 }
 
-t_color		get_light_value(t_light light, t_vector new_start, t_vector normal)
+#include <stdio.h>
+t_color		get_light_value(t_holder *holder, t_sphere sp, t_vector new_start, t_vector normal)
 {
 	t_color		color;
 	t_vector	dist;
@@ -33,16 +34,42 @@ t_color		get_light_value(t_light light, t_vector new_start, t_vector normal)
 	color.red = 0;
 	color.green = 0;
 	color.blue = 0;
-	dist = vectorSub(light.pos, new_start);
-	if (vectorMul(normal, dist) <= 0.0f)
+
+	int i;
+
+	i = 0;
+	while (i < 2)
 	{
-		t = sqrtf(vectorMul(dist, dist));
-		light_ray.start = new_start;
-		light_ray.dir = vectorScale(1 / t, dist);
-		lambert = vectorMul(light_ray.dir, normal);
-		color.red += lambert * light.color.red * light.intensity / 255;
-		color.green += lambert * light.color.green * light.intensity / 255;
-		color.blue += lambert * light.color.blue * light.intensity / 255;
+		dist = vectorSub(holder->light[i].pos, new_start);
+		if (vectorMul(normal, dist) <= 0.0f)
+		{
+			t = sqrtf(vectorMul(dist, dist));
+			light_ray.start = new_start;
+			light_ray.dir = vectorScale(1 / t, dist);
+
+			int j;
+			int in_shadow;
+
+			j = 0;
+			in_shadow = 0;
+			while (j < 3)
+			{
+				if (intersect_ray_sphere(light_ray, holder->sphere[j], &t))
+				{
+					in_shadow = 1;
+					break;
+				}
+				j++;
+			}
+			if (!in_shadow)
+			{
+				lambert = vectorMul(light_ray.dir, normal);
+				color.red += lambert * holder->light[i].color.red * holder->light[i].intensity * sp.color.red;
+				color.green += lambert * holder->light[i].color.green * holder->light[i].intensity * sp.color.green;
+				color.blue += lambert * holder->light[i].color.blue * holder->light[i].intensity * sp.color.blue;
+			}
+		}
+		i++;
 	}
 	return (color);
 }
