@@ -6,7 +6,7 @@
 /*   By: dchheang <denis.c1@live.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 11:34:57 by dchheang          #+#    #+#             */
-/*   Updated: 2020/12/13 18:28:28 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/14 17:18:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct	s_vector
 
 typedef struct	s_sphere
 {
-	t_vector	center;
+	t_vector	pos;
 	t_color		color;
 	double		radius;
 }				t_sphere;
@@ -94,7 +94,7 @@ int				get_mouse_pos(int x, int y, t_rt *rt);
 
 void			img_pixel_put(t_rt *rt, int x, int y, int color);
 
-t_sphere		new_sphere(t_vector center, double radius, t_color color);
+t_sphere		new_sphere(t_vector pos, double radius, t_color color);
 
 
 int				get_intersection(double a, double b, double discriminant, double *intersection);
@@ -117,6 +117,11 @@ t_color			new_color(double r, double b, double g);
 int				color_to_trgb(t_color color);
 
 t_light			new_light(t_vector pos, t_color color, double intensity);
-t_color			get_light_value(t_holder *holder, t_sphere sp, t_vector new_start, t_vector normal, double coef);
+t_color			get_light_value(t_holder *holder, t_sphere sp, t_vector new_start, t_vector normal);
+
+void			print_object(t_rt *rt, t_holder *holder);
+void			add_pixel_color(t_rt *rt, t_holder *holder, void *current_object, double intersection); // tmp
+
+void			*get_intersected_object(t_holder *holder, double *intersection);
 
 #endif

@@ -25,7 +25,7 @@ t_rt	*new_window(int width, int height, char *title)
 
 void	wait_event(t_rt *rt)
 {
-	mlx_hook(rt->window, 17, 1L<<0, &exit_prog, rt);
+	mlx_hook(rt->window, 33, 1L<<0, &exit_prog, rt);
 	mlx_hook(rt->window, 2, 1L<<0, &get_key_press, rt);
 	mlx_loop(rt->mlx);
 }
@@ -55,8 +55,8 @@ int		main()
 	sphere[0] = new_sphere(new_vector(200, 300, 0), 100.0, new_color(1.0, 0, 0));
 	sphere[1] = new_sphere(new_vector(400, 400, 0), 100.0, new_color(0, 1.0, 0));
 	sphere[2] = new_sphere(new_vector(500, 140, 0), 100.0, new_color(0, 0, 1.0));
-	light[0] = new_light(new_vector(0, 240, -100), new_color(1.0, 1.0, 1.0), 0.2);
-	light[1] = new_light(new_vector(3200, 3000, -1000), new_color(0.6, 0.7, 1.0), 0.5);
+	light[0] = new_light(new_vector(0, 240, -100), new_color(1.0, 1.0, 1.0), 1.0);
+	light[1] = new_light(new_vector(3200, 3000, -1000), new_color(0.6, 0.7, 1.0), 0.7);
 	light[2] = new_light(new_vector(600, 0, -100), new_color(0.3, 0.5, 1.0), 0.9);
 	camera = new_camera(new_ray(new_vector(0, 0, -2000), new_vector(0, 0, 1)), 70);
 	holder.sphere = sphere;
