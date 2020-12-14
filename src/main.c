@@ -1,12 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/14 17:26:41 by user42            #+#    #+#             */
+/*   Updated: 2020/12/14 17:56:54 by user42           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 #include <stdio.h>
-int render_next_frame(t_rt *rt)
-{
-	(void)rt;
-	return (0);
-}
-
 t_rt	*new_window(int width, int height, char *title)
 {
 	t_rt *rt;
@@ -28,14 +34,6 @@ void	wait_event(t_rt *rt)
 	mlx_hook(rt->window, 33, 1L<<0, &exit_prog, rt);
 	mlx_hook(rt->window, 2, 1L<<0, &get_key_press, rt);
 	mlx_loop(rt->mlx);
-}
-
-void	img_pixel_put(t_rt *rt, int x, int y, int color)
-{
-	char *dst;
-
-	dst = rt->img.addr + (y * rt->img.line_length + x * (rt->img.bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
 }
 
 int		main()
@@ -62,7 +60,7 @@ int		main()
 	holder.sphere = sphere;
 	holder.light = light;
 	holder.camera = &camera;
-	print_sphere(rt, &holder);
+	print_object(rt, &holder);
 	mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
 	wait_event(rt);
 	return (0);

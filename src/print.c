@@ -6,13 +6,21 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 14:18:43 by user42            #+#    #+#             */
-/*   Updated: 2020/12/14 17:06:19 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/14 17:55:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void		add_pixel_color(t_rt *rt, t_holder *holder, void *current_object, double intersection)
+void		img_pixel_put(t_rt *rt, int x, int y, int color)
+{
+	char *dst;
+
+	dst = rt->img.addr + (y * rt->img.line_length + x * (rt->img.bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
+void		get_pixel_color(t_rt *rt, t_holder *holder, void *current_object, double intersection)
 {
 	t_vector	normal;
 	t_vector	new_start;
@@ -33,15 +41,13 @@ void		add_pixel_color(t_rt *rt, t_holder *holder, void *current_object, double i
 		}
 	}
 }
-/*
+
 void		print_object(t_rt *rt, t_holder *holder)
 {
 	double	intersection;
-	t_vector normal;
-	t_vector new_start;
-	t_vector scaled;
-	t_color	color;
-	int x,y;
+	void	*current_object;
+	int		x;
+	int		y;
 
 	y = 0;
 	while (y < rt->height)
@@ -49,34 +55,14 @@ void		print_object(t_rt *rt, t_holder *holder)
 		x = 0;
 		while (x < rt->width)
 		{
-			color = new_color(0, 0, 0);
 			holder->camera->viewray.start = new_vector(x, y, -2000);
 			holder->camera->viewray.dir = new_vector(0, 0, 1);
-
-			int i;
-			int current_sphere;
-
 			intersection = 20000.0f;
-			i = 0;
-			current_sphere = -1;
-			while (i < 3)
-			{
-				if (intersect_ray_sphere(holder->camera->viewray, holder->sphere[i], &intersection))
-					current_sphere = i;
-				i++;
-			}
-			if (current_sphere != -1)
-			{
-				scaled = vectorScale(intersection, holder->camera->viewray.dir);
-				new_start = vectorAdd(holder->camera->viewray.start, scaled);
-				if (get_normal(&normal, new_start, holder->sphere[current_sphere].center))
-				{
-					color = get_light_value(holder, holder->sphere[current_sphere], new_start, normal);
-					img_pixel_put(rt, x, y, color_to_trgb(color));
-				}
-			}
+			current_object = get_intersected_object(holder, &intersection);
+			if (current_object)
+				get_pixel_color(rt, holder, current_object, intersection);
 			x++;
 		}
 		y++;
 	}
-}*/
+}

@@ -6,13 +6,12 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 12:32:32 by user42            #+#    #+#             */
-/*   Updated: 2020/12/14 17:18:28 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/14 17:30:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-#include <stdio.h>
 t_sphere	new_sphere(t_vector pos, double radius, t_color color)
 {
 	t_sphere sphere;
@@ -63,29 +62,4 @@ int			intersect_ray_sphere(t_ray ray, t_sphere sp, double *intersection)
 	if (discriminant < 0.f)
 		return (0);
 	return (get_intersection(a, b, discriminant, intersection));
-}
-
-void		print_sphere(t_rt *rt, t_holder *holder)
-{
-	double	intersection;
-	void	*current_object;
-	int		x;
-	int		y;
-
-	y = 0;
-	while (y < rt->height)
-	{
-		x = 0;
-		while (x < rt->width)
-		{
-			holder->camera->viewray.start = new_vector(x, y, -2000);
-			holder->camera->viewray.dir = new_vector(0, 0, 1);
-			intersection = 20000.0f;
-			current_object = get_intersected_object(holder, &intersection);
-			if (current_object)
-				add_pixel_color(rt, holder, current_object, intersection);
-			x++;
-		}
-		y++;
-	}
 }
