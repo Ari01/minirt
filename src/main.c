@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 17:26:41 by user42            #+#    #+#             */
-/*   Updated: 2020/12/14 18:39:50 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/15 14:30:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		main()
 	light[0] = new_light(new_vector(0, 240, -100), new_color(1.0, 1.0, 1.0), 1.0);
 	light[1] = new_light(new_vector(3200, 3000, -1000), new_color(0.6, 0.7, 1.0), 0.7);
 	light[2] = new_light(new_vector(600, 0, -100), new_color(0.3, 0.5, 1.0), 0.9);
-	camera = new_camera(new_ray(new_vector(0, 0, -2000), new_vector(0, 0, 1)), 70);
+	camera = new_camera(new_ray(new_vector(0, 0, -1000), new_vector(0, 0, 1)), 70);
 	holder.sphere = sphere;
 	holder.light = light;
 	holder.camera = &camera;

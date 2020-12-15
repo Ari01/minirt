@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 14:18:43 by user42            #+#    #+#             */
-/*   Updated: 2020/12/14 17:55:52 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/15 14:28:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,9 @@ void		print_object(t_rt *rt, t_holder *holder)
 		x = 0;
 		while (x < rt->width)
 		{
-			holder->camera->viewray.start = new_vector(x, y, -2000);
-			holder->camera->viewray.dir = new_vector(0, 0, 1);
+			holder->camera->viewray.start.x = x;
+			holder->camera->viewray.start.y = y;
+			//holder->camera->viewray.dir = new_vector(0, 0, 1);
 			intersection = 20000.0f;
 			current_object = get_intersected_object(holder, &intersection);
 			if (current_object)
