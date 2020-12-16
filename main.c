@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 15:30:06 by user42            #+#    #+#             */
-/*   Updated: 2020/12/15 20:49:07 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/16 18:30:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,17 @@ t_color		new_color(double r, double g, double b)
 	return (c);
 }
 
+t_color		color_clamp(t_color c)
+{
+	c.r = min(255, max(0, c.r));
+	c.g = min(255, max(0, c.g));
+	c.b = min(255, max(0, c.b));
+	return (c);
+}
+
 int			color_to_trgb(t_color color)
 {
+	color = color_clamp(color);
 	return (0 << 24 | (int)color.r << 16 | (int)color.g << 8 | (int)color.b);
 }
 
@@ -147,7 +156,7 @@ t_vector	canvas_to_viewport(t_rt *rt, double x, double y)
 				rt->viewport.distance));
 }
 
-double		intersect_ray_sphere(t_ray viewray, t_sphere sp)
+void		intersect_ray_sphere(t_ray viewray, t_sphere sp, double *t1, double *t2)
 {
 	double		a;
 	double		b;
@@ -161,8 +170,15 @@ double		intersect_ray_sphere(t_ray viewray, t_sphere sp)
 	c = vector_mul(dist, dist) - sp.radius * sp.radius;
 	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
-		return (100000.0);
-	return (min((-b + sqrtf(discriminant)) / (2 * a), (-b - sqrtf(discriminant)) / (2 * a)));
+	{
+		*t1 = 100000.0;
+		*t2 = 100000.0;
+	}
+	else
+	{
+		*t1 = -b + sqrtf(discriminant) / (2 * a);
+		*t2 = -b - sqrtf(discriminant) / (2 * a);
+	}
 }
 
 double		add_light(t_ray viewray, t_light *light, t_vector sp_center, double t)
@@ -175,7 +191,7 @@ double		add_light(t_ray viewray, t_light *light, t_vector sp_center, double t)
 
 	intersection = vector_add(viewray.start, vector_scale(t, viewray.dir));
 	normal = vector_sub(intersection, sp_center);
-	normal = vector_scale(1.0f / vector_len(normal), normal);
+	normal = vector_scale(1.0 / vector_len(normal), normal);
 	res = 0;
 	i = 0;
 	while (i < 3)
@@ -184,42 +200,54 @@ double		add_light(t_ray viewray, t_light *light, t_vector sp_center, double t)
 			res += light[i].intensity;
 		else
 		{
-			if (i == 1)
-				light_dir = vector_sub(light[i].pos, intersection);
-			else
+		//	if (i == 1)
+		//		light_dir = vector_sub(light[i].pos, intersection);
+				//printf("pos = %f %f %f \n intersection = %f %f %f\n", light[i].pos.x, light[i].pos.y, light[i].pos.z, intersection.x, intersection.y, intersection.z);
+		//	else
 				light_dir = light[i].pos;
 			if (vector_mul(normal, light_dir) > 0)
 			{
-				res += (vector_mul(normal, light_dir) * light[i].intensity) / (vector_len(normal) * vector_len(light_dir));
+				double erase;
+
+				erase = (vector_mul(normal, light_dir) * light[i].intensity) / (vector_len(normal) * vector_len(light_dir));
+				res += erase;
+				//printf("e = %f\n", erase);
 			}
 		}
 		i++;
 	}
+	//printf("res = %f\n", res);
 	return (res);
 }
 
 t_color		trace_ray(t_ray viewray, t_sphere* sp, t_light *light)
 {
-	double		closest_t;
 	double		t;
+	double		t1;
+	double		t2;
 	t_sphere	*closest_sphere;
 	int			i;
-
-	closest_t = 100000.0;
+	(void)light;
+	t = 100000.0;
 	closest_sphere = NULL;
-	i = 0;
-	while (i < 4)
+	i = -1;
+	while (++i < 4)
 	{
-		t = intersect_ray_sphere(viewray, sp[i]);
-		if (t < closest_t)
+		intersect_ray_sphere(viewray, sp[i], &t1, &t2);
+		if (t1 < t && t1 > 1 && t1 < 100000.0)
 		{
-			closest_t = t;
+			t = t1;
 			closest_sphere = &sp[i];
 		}
-		i++;
+		if (t2 < t && t2 > 1 && t2 < 100000.0)
+		{
+			t = t2;
+			closest_sphere = &sp[i];
+		}
 	}
 	if (closest_sphere)
-		return (color_mul(add_light(viewray, light, closest_sphere->pos, t), closest_sphere->color));
+		return (closest_sphere->color);
+		//return (color_mul(add_light(viewray, light, closest_sphere->pos, t), closest_sphere->color));
 	return (new_color(0, 0, 0));
 }
 
@@ -254,12 +282,12 @@ int main()
 	rt = init_rt(600, 600);
 	viewport = new_viewport(1, 1, 1.0);
 	rt.viewport = viewport;
-	sp[0] = new_sphere(new_vector(0, -1, 3), 1, new_color(255, 0, 0));
-	sp[1] = new_sphere(new_vector(2, 0, 4), 1, new_color(0, 0, 255));
-	sp[2] = new_sphere(new_vector(-2, 0, 4), 1, new_color(0, 255, 0));
-	sp[3] = new_sphere(new_vector(0, -5001, 0), 5000, new_color(255, 255, 0));
+	sp[0] = new_sphere(new_vector(0, -1, 3), 4, new_color(255, 0, 0));
+	sp[1] = new_sphere(new_vector(2, 0, 4), 2, new_color(0, 0, 255));
+	sp[2] = new_sphere(new_vector(-2, 0, 4), 2, new_color(0, 255, 0));
+	sp[3] = new_sphere(new_vector(0, 0, 2), 5, new_color(255, 255, 0));
 	viewray = new_ray(new_vector(0, 0, 0), new_vector(0, 0, 1));
-	light[0] = new_light(new_vector(2, 1, 0), new_color(255, 255, 255), 0.2);
+	light[0] = new_light(new_vector(0, 0, 0), new_color(255, 255, 255), 0.2);
 	light[1] = new_light(new_vector(2, 1, 0), new_color(255, 255, 255), 0.6);
 	light[2] = new_light(new_vector(1, 4, 4), new_color(255, 255, 255), 0.2);
 
@@ -269,6 +297,7 @@ int main()
 		x = -rt.width/2;
 		while (x < rt.width/2)
 		{
+			//viewray.dir = new_vector(x, y, 1);
 			viewray.dir = canvas_to_viewport(&rt, x, y);
 			color = trace_ray(viewray, sp, light);
 			img_pixel_put(&rt.img, x, y, color_to_trgb(color));
