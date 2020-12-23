@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 02:45:57 by user42            #+#    #+#             */
-/*   Updated: 2020/12/23 21:18:25 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/23 22:39:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	img_pixel_put(t_rt *rt, int x, int y, int color)
 {
 	char *dst;
 
-	x = rt->width / 2 + x;
-	y = rt->height / 2 - y - 1;
+	//x = rt->width / 2 + x;
+	//y = rt->height / 2 - y - 1;
 	if (x < 0 || x >= rt->width || y < 0 || y >= rt->height)
 		return ;
 	dst = rt->img.addr + (y * rt->img.line_length + x *(rt->img.bits_per_pixel / 8));
@@ -114,12 +114,24 @@ t_viewport	new_viewport(double width, double height, double distance)
 	return (v);
 }
 
-t_vector	img_to_viewport(t_rt *rt, t_viewport vp, double x, double y)
+t_vector	img_to_viewport(t_rt *rt, t_vector ray_start, double x, double y)
 {
-	return (new_vector(
-				x * vp.width / rt->width,
-				y * vp.height / rt->height,
-				vp.distance));
+	double		aspect_ratio;
+	double		scale;
+	double		max;
+	double		min;
+	t_vector	dir;
+(void)ray_start;
+	max = MAX(rt->width, rt->height);
+	min = MIN(rt->width, rt->height);
+	aspect_ratio = max / min;
+	scale = tan(M_PI * 70 * 0.5 / 180);
+	x = (2 * (x + 0.5) / (double)rt->width - 1) * aspect_ratio * scale;
+	y = (1 - 2 * (y + 0.5) / (double)rt->height) * scale;
+	dir = new_vector(x, y, 1);
+//	dir = vector_sub(dir, ray_start);
+	dir = vector_mul(1 / vector_len(dir), dir);
+	return (dir);
 }
 
 t_color	new_color(double r, double g, double b)
@@ -147,9 +159,9 @@ t_color	color_mul(double x, t_color color)
 
 t_color	color_clamp(t_color color)
 {
-	color.r = min(255, max(0, color.r));
-	color.g = min(255, max(0, color.g));
-	color.b = min(255, max(0, color.b));
+	color.r = MIN(255, MAX(0, color.r));
+	color.g = MIN(255, MAX(0, color.g));
+	color.b = MIN(255, MAX(0, color.b));
 	return (color);
 }
 
@@ -320,7 +332,6 @@ int	exit_prog(t_rt *rt)
 int main()
 {
 	t_rt		rt;
-	t_viewport	viewport;
 	t_ray		viewray;
 	t_sphere	sphere[4];
 	t_light		light[3];
@@ -330,8 +341,7 @@ int main()
 	int			y;
 
 	rt = init_rt(600, 600);
-	viewray.start = new_vector(1, 0, -1);
-	viewport = new_viewport(1, 1, 1);
+	viewray.start = new_vector(1, 0, 0);
 	sphere[0] = new_sphere(new_vector(0, -1, 3), 1, 500, new_color(255, 0, 0));
 	sphere[1] = new_sphere(new_vector(2, 0, 4), 1, 500, new_color(0, 0, 255));
 	sphere[2] = new_sphere(new_vector(-2, 0, 4), 1, 10, new_color(0, 255, 0));
@@ -340,13 +350,13 @@ int main()
 	light[1] = new_light(new_vector(2, 1, 0), 0.6, new_color(255, 255, 255));
 	light[2] = new_light(new_vector(1, 4, 4), 0.2, new_color(255, 255, 255));
 	scene = new_scene(sphere, light);
-	y = -rt.height / 2;
-	while (y < rt.height / 2)
+	y = 0;
+	while (y < rt.height)
 	{
-		x = -rt.width / 2;
-		while (x < rt.width / 2)
+		x = 0;
+		while (x < rt.width)
 		{
-			viewray.dir = img_to_viewport(&rt, viewport, x, y);
+			viewray.dir = img_to_viewport(&rt, viewray.start, x, y);
 			//viewray.dir.x -= 0.25;
 			color = trace_ray(viewray, &scene);
 			img_pixel_put(&rt, x, y, color_to_trgb(color_clamp(color)));

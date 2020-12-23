@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 02:39:10 by user42            #+#    #+#             */
-/*   Updated: 2020/12/23 20:32:41 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/23 22:07:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <math.h>
 # include <stdlib.h>
 
-# define min(x,y)	((x) < (y) ? (x) : (y))
-# define max(x,y)	((x) > (y) ? (x) : (y))
+# define MIN(x,y)	((x) < (y) ? (x) : (y))
+# define MAX(x,y)	((x) > (y) ? (x) : (y))
 
 typedef struct	s_img
 {
