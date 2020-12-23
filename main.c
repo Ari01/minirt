@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 02:45:57 by user42            #+#    #+#             */
-/*   Updated: 2020/12/23 11:05:29 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/23 21:18:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_viewport	new_viewport(double width, double height, double distance)
 t_vector	img_to_viewport(t_rt *rt, t_viewport vp, double x, double y)
 {
 	return (new_vector(
-				x * vp.width  / rt->width,
+				x * vp.width / rt->width,
 				y * vp.height / rt->height,
 				vp.distance));
 }

@@ -6,9 +6,12 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 02:39:10 by user42            #+#    #+#             */
-/*   Updated: 2020/12/23 10:10:20 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/23 20:32:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef RT_H
+# define RT_H
 
 # include "mlx.h"
 # include <math.h>
@@ -37,9 +40,9 @@ typedef struct	s_rt
 
 typedef struct	s_viewport
 {
-	double width;
-	double height;
-	double distance;
+	double	width;
+	double	height;
+	double	distance;
 }				t_viewport;
 
 typedef struct	s_vector
@@ -83,3 +86,5 @@ typedef struct	s_scene
 	t_light		*light;
 	t_ray		viewray;
 }				t_scene;
+
+#endif
