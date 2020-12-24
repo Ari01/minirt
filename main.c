@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 02:45:57 by user42            #+#    #+#             */
-/*   Updated: 2020/12/24 17:20:35 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/25 00:09:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,8 +325,8 @@ double		deg_to_rad(double deg)
 t_vector	rotate_y(t_vector v, double angle)
 {
 	angle = deg_to_rad(angle);
-	v.x *= cos(angle) - v.z * sin(angle);
-	v.z *= cos(angle) + v.x * sin(angle);
+	v.x = v.x * cos(angle) - v.z * sin(angle);
+	v.z = v.z * cos(angle) + v.x * sin(angle);
 	return(v);
 }
 
@@ -348,70 +348,50 @@ t_vector	img_to_viewport(t_rt *rt, t_ray viewray, double x, double y)
 	else if (rt->height > rt->width)
 		y *= aspect_ratio;
 	viewray.dir = new_vector(x, y, 1);
-	viewray.dir = vector_mul(1 / vector_len(viewray.dir), viewray.dir);
 	return (viewray.dir);
+}
+
+void	render(t_rt *rt, t_vector (*rotate)(t_vector, double), double rad)
+{
+	int i;
+	int j;
+	t_color color;
+
+	j = 0;
+	while (j < rt->height)
+	{
+		i = 0;
+		while (i < rt->width)
+		{
+			rt->object->camera->viewray.dir = img_to_viewport(rt, rt->object->camera->viewray, i, j);
+			if (rad != 0)
+				rt->object->camera->viewray.dir = rotate(rt->object->camera->viewray.dir, rad);
+			rt->object->camera->viewray.dir = vector_mul(1 / vector_len(rt->object->camera->viewray.dir), rt->object->camera->viewray.dir);
+			rt->scene.viewray = rt->object->camera->viewray;
+			color = trace_ray(rt->object->camera->viewray, &rt->scene);
+			img_pixel_put(rt, i, j, color_to_trgb(color_clamp(color)));
+			i++;
+		}
+		j++;
+	}
+	mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
 }
 
 int key_hook(int key, t_rt *rt)
 {
-	int i;
-	int j;
-	double x;
-	double y;
 	static double rad;
-	t_color color;
 
 	if (key == ESCAPE)
 		exit_prog(rt);
 	if (key == RIGHT)
 	{
-		//printf("origin = %f %f %f\n", rt->object->camera->viewray.start.x, rt->object->camera->viewray.start.y, rt->object->camera->viewray.start.z);
-
-		/*
-		rad = -0.174533;
-		y_rotation_matrix[0] = new_vector(cos(rad), 0, sin(rad));
-		y_rotation_matrix[1] = new_vector(0, 1, 0);
-		y_rotation_matrix[2] = new_vector(-sin(rad), 0, cos(rad));*/
-		//rt->object->camera->viewray.start = matrix_multiply(rt->object->camera->viewray.start, y_rotation_matrix);
-		//rt->object->camera->viewray.start = rotate_y(rt->object->camera->viewray.start, 20);
-		//printf("origin2 = %f %f %f\n", rt->object->camera->viewray.start.x, rt->object->camera->viewray.start.y, rt->object->camera->viewray.start.z);
-
-
-
-		double		aspect_ratio;
-		double		scale;
-		double		max;
-		double		min;
-		max = MAX(rt->width, rt->height);
-		min = MIN(rt->width, rt->height);
-		aspect_ratio = max / min;
-		scale = tan(M_PI * 70 * 0.5 / 180);
-		j = 0;
 		rad += 10;
-		while (j < rt->height)
-		{
-			i = 0;
-			while (i < rt->width)
-			{
-				x = (2 * (i + 0.5) / (double)rt->width - 1) * scale;
-				y = (1 - 2 * (j + 0.5) / (double)rt->height) * scale;
-				if (rt->width > rt->height)
-					x *= aspect_ratio;
-				else if (rt->height > rt->width)
-					y *= aspect_ratio;
-				rt->object->camera->viewray.dir.x = x;
-				rt->object->camera->viewray.dir.y = y;
-				rt->object->camera->viewray.dir = rotate_y(rt->object->camera->viewray.dir, rad);
-				rt->object->camera->viewray.dir = vector_sub(rt->object->camera->viewray.dir, rt->object->camera->viewray.start);
-				rt->object->camera->viewray.dir = vector_mul(1 / vector_len(rt->object->camera->viewray.dir), rt->object->camera->viewray.dir);
-				rt->scene.viewray = rt->object->camera->viewray;
-				color = trace_ray(rt->object->camera->viewray, &rt->scene);
-				img_pixel_put(rt, i, j, color_to_trgb(color_clamp(color)));
-				i++;
-			}
-			j++;
-		}
-		mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
+		render(rt, &rotate_y, rad);
+	}
+	if (key == LEFT)
+	{
+		rad -= 10;
+		render(rt, &rotate_y, rad);
 	}
 	return (1);
 }
@@ -454,6 +434,7 @@ int main()
 		while (x < rt.width)
 		{
 			viewray.dir = img_to_viewport(&rt, viewray, x, y);
+			viewray.dir = vector_mul(1 / vector_len(viewray.dir), viewray.dir);
 			camera.viewray = viewray;
 			camera.fov = 70;
 			rt.object = &set;
