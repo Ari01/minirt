@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 02:45:57 by user42            #+#    #+#             */
-/*   Updated: 2020/12/23 22:39:34 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/24 17:20:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,26 +112,6 @@ t_viewport	new_viewport(double width, double height, double distance)
 	v.height = height;
 	v.distance = distance;
 	return (v);
-}
-
-t_vector	img_to_viewport(t_rt *rt, t_vector ray_start, double x, double y)
-{
-	double		aspect_ratio;
-	double		scale;
-	double		max;
-	double		min;
-	t_vector	dir;
-(void)ray_start;
-	max = MAX(rt->width, rt->height);
-	min = MIN(rt->width, rt->height);
-	aspect_ratio = max / min;
-	scale = tan(M_PI * 70 * 0.5 / 180);
-	x = (2 * (x + 0.5) / (double)rt->width - 1) * aspect_ratio * scale;
-	y = (1 - 2 * (y + 0.5) / (double)rt->height) * scale;
-	dir = new_vector(x, y, 1);
-//	dir = vector_sub(dir, ray_start);
-	dir = vector_mul(1 / vector_len(dir), dir);
-	return (dir);
 }
 
 t_color	new_color(double r, double g, double b)
@@ -329,19 +309,134 @@ int	exit_prog(t_rt *rt)
 	exit(EXIT_SUCCESS);
 }
 
+t_vector	matrix_multiply(t_vector v, t_vector matrix[3])
+{
+	v.x = v.x * matrix[0].x + v.y * matrix[0].y + v.z * matrix[0].z;
+	v.y = v.x * matrix[1].x + v.y * matrix[1].y + v.z * matrix[1].z;
+	v.z = v.x * matrix[2].x + v.y * matrix[2].y + v.z * matrix[2].z;
+	return (v);
+}
+
+double		deg_to_rad(double deg)
+{
+	return ((deg * M_PI) / 180);
+}
+
+t_vector	rotate_y(t_vector v, double angle)
+{
+	angle = deg_to_rad(angle);
+	v.x *= cos(angle) - v.z * sin(angle);
+	v.z *= cos(angle) + v.x * sin(angle);
+	return(v);
+}
+
+t_vector	img_to_viewport(t_rt *rt, t_ray viewray, double x, double y)
+{
+	double		aspect_ratio;
+	double		scale;
+	double		max;
+	double		min;
+
+	max = MAX(rt->width, rt->height);
+	min = MIN(rt->width, rt->height);
+	aspect_ratio = max / min;
+	scale = tan(M_PI * 70 * 0.5 / 180);
+	x = (2 * (x + 0.5) / (double)rt->width - 1) * scale;
+	y = (1 - 2 * (y + 0.5) / (double)rt->height) * scale;
+	if (rt->width > rt->height)
+		x *= aspect_ratio;
+	else if (rt->height > rt->width)
+		y *= aspect_ratio;
+	viewray.dir = new_vector(x, y, 1);
+	viewray.dir = vector_mul(1 / vector_len(viewray.dir), viewray.dir);
+	return (viewray.dir);
+}
+
+int key_hook(int key, t_rt *rt)
+{
+	int i;
+	int j;
+	double x;
+	double y;
+	static double rad;
+	t_color color;
+
+	if (key == ESCAPE)
+		exit_prog(rt);
+	if (key == RIGHT)
+	{
+		//printf("origin = %f %f %f\n", rt->object->camera->viewray.start.x, rt->object->camera->viewray.start.y, rt->object->camera->viewray.start.z);
+
+		/*
+		rad = -0.174533;
+		y_rotation_matrix[0] = new_vector(cos(rad), 0, sin(rad));
+		y_rotation_matrix[1] = new_vector(0, 1, 0);
+		y_rotation_matrix[2] = new_vector(-sin(rad), 0, cos(rad));*/
+		//rt->object->camera->viewray.start = matrix_multiply(rt->object->camera->viewray.start, y_rotation_matrix);
+		//rt->object->camera->viewray.start = rotate_y(rt->object->camera->viewray.start, 20);
+		//printf("origin2 = %f %f %f\n", rt->object->camera->viewray.start.x, rt->object->camera->viewray.start.y, rt->object->camera->viewray.start.z);
+
+
+
+		double		aspect_ratio;
+		double		scale;
+		double		max;
+		double		min;
+		max = MAX(rt->width, rt->height);
+		min = MIN(rt->width, rt->height);
+		aspect_ratio = max / min;
+		scale = tan(M_PI * 70 * 0.5 / 180);
+		j = 0;
+		rad += 10;
+		while (j < rt->height)
+		{
+			i = 0;
+			while (i < rt->width)
+			{
+				x = (2 * (i + 0.5) / (double)rt->width - 1) * scale;
+				y = (1 - 2 * (j + 0.5) / (double)rt->height) * scale;
+				if (rt->width > rt->height)
+					x *= aspect_ratio;
+				else if (rt->height > rt->width)
+					y *= aspect_ratio;
+				rt->object->camera->viewray.dir.x = x;
+				rt->object->camera->viewray.dir.y = y;
+				rt->object->camera->viewray.dir = rotate_y(rt->object->camera->viewray.dir, rad);
+				rt->object->camera->viewray.dir = vector_sub(rt->object->camera->viewray.dir, rt->object->camera->viewray.start);
+				rt->object->camera->viewray.dir = vector_mul(1 / vector_len(rt->object->camera->viewray.dir), rt->object->camera->viewray.dir);
+				rt->scene.viewray = rt->object->camera->viewray;
+				color = trace_ray(rt->object->camera->viewray, &rt->scene);
+				img_pixel_put(rt, i, j, color_to_trgb(color_clamp(color)));
+				i++;
+			}
+			j++;
+		}
+		mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
+	}
+	return (1);
+}
+
 int main()
 {
-	t_rt		rt;
-	t_ray		viewray;
-	t_sphere	sphere[4];
-	t_light		light[3];
-	t_color		color;
-	t_scene		scene;
-	int			x;
-	int			y;
+	t_rt			rt;
+	t_ray			viewray;
+	t_sphere		sphere[4];
+	t_light			light[3];
+	t_color			color;
+	t_scene			scene;
+	t_object_set	set;
+	t_camera		camera;
+	int				x;
+	int				y;
+	//double			rad;
+	//t_vector		y_rotation_matrix[3];
 
-	rt = init_rt(600, 600);
-	viewray.start = new_vector(1, 0, 0);
+	rt = init_rt(600, 800);
+	/*rad = -0.174533;
+	y_rotation_matrix[0] = new_vector(cos(rad), 0, sin(rad));
+	y_rotation_matrix[1] = new_vector(0, 1, 0);
+	y_rotation_matrix[2] = new_vector(-sin(rad), 0, cos(rad));*/
+	viewray = new_ray(new_vector(0, 0, -1), new_vector(0, 0, 1));
 	sphere[0] = new_sphere(new_vector(0, -1, 3), 1, 500, new_color(255, 0, 0));
 	sphere[1] = new_sphere(new_vector(2, 0, 4), 1, 500, new_color(0, 0, 255));
 	sphere[2] = new_sphere(new_vector(-2, 0, 4), 1, 10, new_color(0, 255, 0));
@@ -350,15 +445,21 @@ int main()
 	light[1] = new_light(new_vector(2, 1, 0), 0.6, new_color(255, 255, 255));
 	light[2] = new_light(new_vector(1, 4, 4), 0.2, new_color(255, 255, 255));
 	scene = new_scene(sphere, light);
+	set.light = light;
+	set.sphere = sphere;
 	y = 0;
 	while (y < rt.height)
 	{
 		x = 0;
 		while (x < rt.width)
 		{
-			viewray.dir = img_to_viewport(&rt, viewray.start, x, y);
-			//viewray.dir.x -= 0.25;
-			color = trace_ray(viewray, &scene);
+			viewray.dir = img_to_viewport(&rt, viewray, x, y);
+			camera.viewray = viewray;
+			camera.fov = 70;
+			rt.object = &set;
+			rt.object->camera = &camera;
+			rt.scene = scene;
+			color = trace_ray(rt.object->camera->viewray, &rt.scene);
 			img_pixel_put(&rt, x, y, color_to_trgb(color_clamp(color)));
 			x++;
 		}
@@ -366,6 +467,7 @@ int main()
 	}
 	mlx_put_image_to_window(rt.mlx, rt.window, rt.img.img, 0, 0);
 	mlx_hook(rt.window, 33, 1L<<0, &exit_prog, &rt);
+	mlx_hook(rt.window, 2, 1L<<0, &key_hook, &rt);
 	mlx_loop(rt.mlx);
 	return (0);
 }
