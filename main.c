@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 02:45:57 by user42            #+#    #+#             */
-/*   Updated: 2020/12/25 00:09:39 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/25 00:24:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,7 +364,7 @@ void	render(t_rt *rt, t_vector (*rotate)(t_vector, double), double rad)
 		while (i < rt->width)
 		{
 			rt->object->camera->viewray.dir = img_to_viewport(rt, rt->object->camera->viewray, i, j);
-			if (rad != 0)
+			if (rotate)
 				rt->object->camera->viewray.dir = rotate(rt->object->camera->viewray.dir, rad);
 			rt->object->camera->viewray.dir = vector_mul(1 / vector_len(rt->object->camera->viewray.dir), rt->object->camera->viewray.dir);
 			rt->scene.viewray = rt->object->camera->viewray;
@@ -385,14 +385,25 @@ int key_hook(int key, t_rt *rt)
 		exit_prog(rt);
 	if (key == RIGHT)
 	{
-		rad += 10;
+		rad -= 10;
 		render(rt, &rotate_y, rad);
 	}
 	if (key == LEFT)
 	{
-		rad -= 10;
+		rad += 10;
 		render(rt, &rotate_y, rad);
 	}
+	if (key == UP)
+	{
+		rt->object->camera->viewray.start.z += 1;
+		render(rt, NULL, 0);
+	}
+	if (key == DOWN)
+	{
+		rt->object->camera->viewray.start.z -= 1;
+		render(rt, NULL, 0);
+	}
+
 	return (1);
 }
 
