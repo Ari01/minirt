@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/26 09:15:33 by user42            #+#    #+#             */
-/*   Updated: 2020/12/27 08:02:12 by user42           ###   ########.fr       */
+/*   Created: 2020/12/27 09:04:24 by user42            #+#    #+#             */
+/*   Updated: 2020/12/27 10:25:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	print_error_msg(char *msg)
+t_vector	new_vector(double x, double y, double z)
 {
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(EXIT_FAILURE);
-}
+	t_vector v;
 
-int		is_elem_id(char *id)
-{
-	if (!ft_strnstr(ELEM_ID_SET, id, 1024))
-		return (0);
-	return (1);
+	v.x = x;
+	v.y = y;
+	v.z = z;
+	return (v);
 }

@@ -1,7 +1,7 @@
 NAME		= minirt
 LIBFT		= libft/libft.a
 
-SRCS		= *.c
+SRCS		= $(wildcard *.c)
 OBJS		= $(SRCS:.c=.o)
 
 CC			= clang
@@ -17,7 +17,7 @@ $(NAME) :	$(OBJS)
 			$(CC) -o $@ $^ $(CFLAGS) $(INCLUDES) $(LFLAGS)
 
 $(LIBFT) :
-			cd libft && $(MAKE) bonus
+			make -C libft
 
 .c.o :
 			$(CC) -c $< -o $(<:.c=.o) $(CFLAGS) $(INCLUDES)
@@ -26,6 +26,7 @@ clean :
 			$(RM) $(OBJS)
 
 fclean :	clean
+			make fclean -C libft
 			$(RM) $(NAME)
 
 re :		fclean all

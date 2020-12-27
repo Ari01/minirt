@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/26 09:15:33 by user42            #+#    #+#             */
-/*   Updated: 2020/12/27 08:02:12 by user42           ###   ########.fr       */
+/*   Created: 2020/12/27 09:02:32 by user42            #+#    #+#             */
+/*   Updated: 2020/12/27 09:03:48 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	print_error_msg(char *msg)
+t_camera	new_camera(t_vector pos, t_vector dir, double fov)
 {
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(EXIT_FAILURE);
-}
+	t_camera c;
 
-int		is_elem_id(char *id)
-{
-	if (!ft_strnstr(ELEM_ID_SET, id, 1024))
-		return (0);
-	return (1);
+	c.position = pos;
+	c.direction = dir;
+	c.fov = fov;
+	return (c);
 }

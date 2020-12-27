@@ -6,15 +6,15 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:19:13 by user42            #+#    #+#             */
-/*   Updated: 2020/12/26 08:25:03 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/27 10:26:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_light	init_ambiant_light()
+t_ambiant_light	init_ambiant_light()
 {
-	t_light l;
+	t_ambiant_light l;
 
 	l.intensity = -1;
 	return (l);

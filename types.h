@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2020/12/26 08:12:50 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/27 08:59:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct	s_triangle
 	t_color		color;
 }				t_triangle;
 
+// object id ??
 typedef struct	s_object
 {
 	void	*ptr;
@@ -108,8 +109,8 @@ typedef struct	s_object
 typedef struct	s_scene
 {
 	t_ambiant_light	ambiant_light;
-	t_light			*light;
-	t_camera		*camera;
+	t_list			*light;
+	t_list			*camera;
 	t_list			*objects;
 }				t_scene;
 

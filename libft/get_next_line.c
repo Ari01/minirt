@@ -6,11 +6,12 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 17:34:58 by user42            #+#    #+#             */
-/*   Updated: 2020/12/03 06:53:30 by user42           ###   ########.fr       */
+/*   Updated: 2020/12/27 11:21:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "libft.h"
 
 char	*ft_strcat_alloc(char const *s1, char const *s2)
 {
@@ -31,30 +32,6 @@ char	*ft_strcat_alloc(char const *s1, char const *s2)
 	if (ft_strlcat(cat, s2, size) != len1 + len2)
 		return (NULL);
 	return (cat);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*sub;
-	size_t	i;
-
-	if (len + 1 <= 0)
-		len = 0;
-	sub = malloc(sizeof(*sub) * (len + 1));
-	if (!sub)
-		return (NULL);
-	i = 0;
-	if (s && start < ft_strlen(s))
-	{
-		while (i < len && s[start])
-		{
-			sub[i] = s[start];
-			start++;
-			i++;
-		}
-	}
-	sub[i] = 0;
-	return (sub);
 }
 
 int		read_line(int fd, char **linebuf)
