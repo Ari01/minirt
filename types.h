@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2020/12/27 08:59:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/01 11:09:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct	s_triangle
 typedef struct	s_object
 {
 	void	*ptr;
-	int		(*intersect)(t_camera, void *);
+	void	(*intersect)(void *);
 }				t_object;
 
 /*
