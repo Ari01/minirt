@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:44:14 by user42            #+#    #+#             */
-/*   Updated: 2021/01/01 14:47:35 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/01 15:35:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	set_camera(char **split, t_rt *rt)
 	}
 	ft_lstadd_front(&rt->scene.camera, ft_lstnew(&camera));
 }
+
 
 void	set_light(char **split, t_rt *rt)
 {

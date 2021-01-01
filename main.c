@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:14:22 by user42            #+#    #+#             */
-/*   Updated: 2021/01/01 14:57:55 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/01 18:59:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,10 @@ int	main(int ac, char **av)
 
 	if (ac == 2)
 	{
-		rt = parse(av[1]);
-		printf("res = %f %f\n", rt.width, rt.height);
-		int i = 0;
-		while (rt.scene.objects)
-		{
-			i++;
-			rt.scene.objects = rt.scene.objects->next;
-		}
-		printf("number of objects = %d\n", i);
+		rt = set_rt(av[1]);
+		printf("file res = %f %f\n", rt.width, rt.height);
+		set_mlx(&rt);
+		printf("final res = %f %f\n", rt.width, rt.height);
 	}
 	return (0);
 }

@@ -6,25 +6,13 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:00:51 by user42            #+#    #+#             */
-/*   Updated: 2021/01/01 14:52:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/01 15:37:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	check_missing_parameters(t_rt *rt)
-{
-	if (rt->width <= 0 || rt->height <= 0)
-		print_error_msg("missing resolution");
-	if (rt->scene.ambiant_light.intensity <= 0)
-		print_error_msg("missing ambiant light");
-	if (!rt->scene.camera)
-		print_error_msg("missing camera");
-	if (!rt->scene.objects)
-		print_error_msg("missing object");
-}
-
-void	set_rt(char *line, t_rt *rt)
+void	set_scene(char *line, t_rt *rt)
 {
 	char **split;
 
@@ -54,7 +42,19 @@ void	set_rt(char *line, t_rt *rt)
 	string_array_free(split);
 }
 
-t_rt	parse(char *pathfile)
+void	check_missing_parameters(t_rt *rt)
+{
+	if (rt->width <= 0 || rt->height <= 0)
+		print_error_msg("missing resolution");
+	if (rt->scene.ambiant_light.intensity <= 0)
+		print_error_msg("missing ambiant light");
+	if (!rt->scene.camera)
+		print_error_msg("missing camera");
+	if (!rt->scene.objects)
+		print_error_msg("missing object");
+}
+
+t_rt	set_rt(char *pathfile)
 {
 	t_rt	rt;
 	int		fd;
@@ -72,7 +72,7 @@ t_rt	parse(char *pathfile)
 	{
 		if (*line)
 		{
-			set_rt(line, &rt);
+			set_scene(line, &rt);
 			free(line);
 			line = NULL;
 		}

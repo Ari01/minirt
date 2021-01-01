@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/01 14:49:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/01 19:00:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "get_next_line.h"
 # include "types.h"
+# include "mlx.h"
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -24,8 +25,13 @@
 # include <unistd.h>
 
 # define ELEM_ID_SET "R,A,c,l,sp,pl,sq,cy,tr"
+# define MAX(x,y)	(x) > (y) ? x : y
+# define MIN(x,y)	(x) < (y) ? x : y
 
+// rt.c
 t_rt				init_rt();
+void				set_mlx(t_rt *rt);
+
 t_scene				init_scene();
 t_ambiant_light		init_ambiant_light();
 
@@ -51,6 +57,6 @@ void				set_triangle(char **split, t_rt *rt);
 void				set_cylindre(char **split, t_rt *rt);
 void				set_square(char **split, t_rt *rt);
 // parser
-t_rt				parse(char *pathfile);
+t_rt				set_rt(char *pathfile);
 
 #endif
