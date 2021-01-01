@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/26 07:14:22 by user42            #+#    #+#             */
-/*   Updated: 2021/01/01 20:45:13 by user42           ###   ########.fr       */
+/*   Created: 2021/01/01 19:16:14 by user42            #+#    #+#             */
+/*   Updated: 2021/01/01 20:42:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	test_func(void *object_ptr)
+int		exit_prog(t_rt *rt)
 {
-	t_sphere sp;
-
-	sp = *(t_sphere *)object_ptr;
-	printf("sp.center = %f %f %f, sp.diameter = %f, sp.color = %f %f %f\n",
-	sp.center.x, sp.center.y, sp.center.z, sp.diameter, sp.color.r, sp.color.g, sp.color.b);
+	mlx_destroy_image(rt->mlx, rt->img.img);
+	mlx_clear_window(rt->mlx, rt->window);
+	mlx_destroy_window(rt->mlx, rt->window);
+	exit(EXIT_SUCCESS);
 }
 
-int	main(int ac, char **av)
+int		key_hook(int key, t_rt *rt)
 {
-	t_rt rt;
-
-	if (ac == 2)
-	{
-		rt = set_rt(av[1]);
-		set_mlx(&rt);
-	}
+	if (key == ESCAPE)
+		exit_prog(rt);
 	return (0);
 }
