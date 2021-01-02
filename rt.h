@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/01 20:42:25 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/02 15:03:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <string.h>
 # include <errno.h>
 # include <unistd.h>
+# include <math.h>
 
 # define ELEM_ID_SET "R,A,c,l,sp,pl,sq,cy,tr"
 # define MAX(x,y)	(x) > (y) ? x : y
@@ -36,6 +37,7 @@
 
 // rt
 t_rt				init_rt();
+void				free_rt(t_rt *rt);
 void				set_mlx(t_rt *rt);
 
 // hook
@@ -48,13 +50,24 @@ t_scene				init_scene();
 // light
 t_ambiant_light		init_ambiant_light();
 
+// camera
+
 // color
 t_color				new_color(double r, double g, double b);
+int					color_to_trgb(t_color color);
+t_color				color_mul(double x, t_color color);
+t_color				color_clamp(t_color color);
 
 // vector
 t_vector			new_vector(double x, double y, double z);
+t_vector			vector_add(t_vector v1, t_vector v2);
+t_vector			vector_sub(t_vector v1, t_vector v2);
+t_vector			vector_mul(double x, t_vector v2);
+double				vector_dot(t_vector v1, t_vector v2);
+double				vector_len(t_vector v);
 
 // error
+void				ft_perror();
 void				print_error_msg(char *msg);
 
 // parser utils
@@ -63,16 +76,16 @@ int					set_color(char **split, t_color *color);
 int					set_coord(char **split, t_vector *coord);
 int					correct_direction(t_vector dir);
 // set_scene
-void				set_resolution(char **split, t_rt *rt);
-void				set_ambiant_light(char **split, t_rt *rt);
-void				set_camera(char **split, t_rt *rt);
-void				set_light(char **split, t_rt *rt);
+int					set_resolution(char **split, t_rt *rt);
+int					set_ambiant_light(char **split, t_rt *rt);
+int					set_camera(char **split, t_rt *rt);
+int					set_light(char **split, t_rt *rt);
 // set_objects
-void				set_sphere(char **split, t_rt *rt);
-void				set_plane(char **split, t_rt *rt);
-void				set_triangle(char **split, t_rt *rt);
-void				set_cylindre(char **split, t_rt *rt);
-void				set_square(char **split, t_rt *rt);
+int					set_sphere(char **split, t_rt *rt);
+int					set_plane(char **split, t_rt *rt);
+int					set_triangle(char **split, t_rt *rt);
+int					set_cylindre(char **split, t_rt *rt);
+int					set_square(char **split, t_rt *rt);
 // parser
 t_rt				set_rt(char *pathfile);
 

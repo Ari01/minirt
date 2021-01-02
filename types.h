@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/01/01 15:39:25 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/02 13:06:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,13 @@ typedef struct	s_img
 
 typedef struct	s_rt
 {
-	void	*mlx;
-	void	*window;
-	t_img	img;	
-	double	width;
-	double	height;
-	t_scene	scene;
+	void		*mlx;
+	void		*window;
+	t_img		img;	
+	double		width;
+	double		height;
+	t_scene		scene;
+	t_camera	*camera;
 }				t_rt;
 
 #endif

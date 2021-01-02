@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 19:16:14 by user42            #+#    #+#             */
-/*   Updated: 2021/01/01 20:42:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/02 15:21:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int		exit_prog(t_rt *rt)
 {
-	mlx_destroy_image(rt->mlx, rt->img.img);
-	mlx_clear_window(rt->mlx, rt->window);
-	mlx_destroy_window(rt->mlx, rt->window);
+	free_rt(rt);
 	exit(EXIT_SUCCESS);
 }
 

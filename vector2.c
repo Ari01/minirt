@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   vector2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/26 09:15:33 by user42            #+#    #+#             */
-/*   Updated: 2021/01/02 13:11:37 by user42           ###   ########.fr       */
+/*   Created: 2021/01/02 07:07:09 by user42            #+#    #+#             */
+/*   Updated: 2021/01/02 07:07:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_perror()
+double		vector_len(t_vector v)
 {
-	perror(strerror(errno));
-	exit(EXIT_FAILURE);
-}
-
-void	print_error_msg(char *msg)
-{
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(EXIT_FAILURE);
-}
-
-int		is_elem_id(char *id)
-{
-	if (!ft_strnstr(ELEM_ID_SET, id, 1024))
-		return (0);
-	return (1);
+	return (sqrtf(vector_dot(v, v)));
 }
