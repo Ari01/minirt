@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:44:14 by user42            #+#    #+#             */
-/*   Updated: 2021/01/02 15:17:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/03 14:01:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,3 +80,34 @@ int		set_light(char **split, t_rt *rt)
 	ft_lstadd_front(&rt->scene.light, ft_lstnew(light));
 	return (1);
 }
+
+int		set_scene(char *line, char **split, t_rt *rt)
+{
+	int		valid_scene;
+
+	valid_scene = 1;
+	split = ft_split(line, " \t");
+	if (!split || !*split || !ft_strnstr(ELEM_ID_SET, split[0], 1024))
+		valid_scene = 0;
+	else if (!ft_strncmp(split[0], "R", 2))
+		valid_scene = set_resolution(split, rt);
+	else if (!ft_strncmp(split[0], "A", 2))
+		valid_scene = set_ambiant_light(split, rt);
+	else if (!ft_strncmp(split[0], "c", 2))
+		valid_scene = set_camera(split, rt);
+	else if (!ft_strncmp(split[0], "l", 2))
+		valid_scene = set_light(split, rt);
+	else if (!ft_strncmp(split[0], "sp", 2))
+		valid_scene = set_sphere(split, rt);
+	else if (!ft_strncmp(split[0], "pl", 2))
+		valid_scene = set_plane(split, rt);
+	else if (!ft_strncmp(split[0], "sq", 2))
+		valid_scene = set_square(split, rt);
+	else if (!ft_strncmp(split[0], "cy", 2))
+		valid_scene = set_cylindre(split, rt);
+	else if (!ft_strncmp(split[0], "tr", 2))
+		valid_scene = set_triangle(split, rt);
+	string_array_free(split);
+	return (valid_scene);
+}
+

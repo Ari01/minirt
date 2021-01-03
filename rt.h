@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/02 15:03:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/03 14:02:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define RT_H
 
 # include "libft.h"
-# include "get_next_line.h"
 # include "types.h"
 # include "mlx.h"
 # include <fcntl.h>
@@ -80,6 +79,7 @@ int					set_resolution(char **split, t_rt *rt);
 int					set_ambiant_light(char **split, t_rt *rt);
 int					set_camera(char **split, t_rt *rt);
 int					set_light(char **split, t_rt *rt);
+int					set_scene(char *line, char **split, t_rt *rt);
 // set_objects
 int					set_sphere(char **split, t_rt *rt);
 int					set_plane(char **split, t_rt *rt);

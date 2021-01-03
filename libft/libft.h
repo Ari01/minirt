@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 14:37:58 by user42            #+#    #+#             */
-/*   Updated: 2020/12/27 12:02:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/03 12:16:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <stddef.h>
+# define BUFFER_SIZE 1024
 
 /*
 ** MEM
@@ -90,5 +91,10 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 								void (*del)(void *));
+
+/*
+**	ADDED FUNCTIONS
+*/
+int					get_next_line(int fd, char **line);
 
 #endif

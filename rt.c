@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 15:34:58 by user42            #+#    #+#             */
-/*   Updated: 2021/01/02 15:52:06 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/03 14:29:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_rt	init_rt()
 
 	rt.width = -1;
 	rt.height = -1;
-	//rt.scene = init_scene();
+	rt.scene = init_scene();
 	rt.scene.camera = NULL;
 	rt.scene.light = NULL;
 	rt.scene.objects = NULL;
@@ -43,9 +43,11 @@ void	free_rt(t_rt *rt)
 	ft_lstclear(&rt->scene.camera, &free);
 	ft_lstclear(&rt->scene.light, &free);
 	ft_lstclear(&rt->scene.objects, &free_object);
-/*	mlx_destroy_image(rt->mlx, rt->img.img);
+	mlx_destroy_image(rt->mlx, rt->img.img);
 	mlx_clear_window(rt->mlx, rt->window);
-	mlx_destroy_window(rt->mlx, rt->window);*/
+	mlx_destroy_window(rt->mlx, rt->window);
+	mlx_destroy_display(rt->mlx);
+	free(rt->mlx);
 }
 
 void	set_mlx(t_rt *rt)
@@ -63,7 +65,6 @@ void	set_mlx(t_rt *rt)
 										&rt->img.bits_per_pixel,
 										&rt->img.line_length,
 										&rt->img.endian);
-	printf("width = %f, height = %f\n", rt->width, rt->height);
 	mlx_hook(rt->window, 33, 1L<<0, &exit_prog, rt);
 	mlx_hook(rt->window, 2, 1L<<0, &key_hook, rt);
 	mlx_loop(rt->mlx);

@@ -5,109 +5,85 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/22 17:34:58 by user42            #+#    #+#             */
-/*   Updated: 2021/01/02 16:20:31 by user42           ###   ########.fr       */
+/*   Created: 2021/01/03 10:33:41 by user42            #+#    #+#             */
+/*   Updated: 2021/01/03 12:07:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
 #include "libft.h"
+#include <unistd.h>
+#include <stdlib.h>
 
-char	*ft_strcat_alloc(char const *s1, char const *s2)
+int		read_from_line(int fd, char **linebuf)
 {
-	char	*cat;
-	size_t	size;
-	size_t	len1;
-	size_t	len2;
-
-	if (!s1 || !s2)
-		return (NULL);
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	size = len1 + len2 + 1;
-	cat = malloc(sizeof(*cat) * (size));
-	if (!cat)
-		return (NULL);
-	ft_strlcpy(cat, s1, len1 + 1);
-	if (ft_strlcat(cat, s2, size) != len1 + len2)
-		return (NULL);
-	return (cat);
-}
-
-int		read_line(int fd, char **linebuf)
-{
-	char	buf[BUFFER_SIZE + 1];
-	char	*freeptr;
 	int		read_value;
+	char	buff[BUFFER_SIZE];
+	char	*tmp;
 
-	read_value = read(fd, buf, BUFFER_SIZE);
-	while (read_value > 0)
+	read_value = 1;
+	if (BUFFER_SIZE <= 0)
+		return (-1);
+	while ((read_value = read(fd, buff, BUFFER_SIZE)) > 0)
 	{
-		buf[read_value] = 0;
-		freeptr = *linebuf;
-		*linebuf = ft_strcat_alloc(*linebuf, buf);
+		buff[read_value] = 0;
 		if (!*linebuf)
-			return (-1);
-		free(freeptr);
-		freeptr = NULL;
+			*linebuf = ft_strdup(buff);
+		else
+		{
+			tmp = *linebuf;
+			*linebuf = ft_strjoin(*linebuf, buff);
+			free(tmp);
+		}
 		if (ft_strchr(*linebuf, '\n'))
 			return (1);
-		read_value = read(fd, buf, BUFFER_SIZE);
 	}
 	return (read_value);
 }
 
-char	*trim_line(char **linebuf)
+int		read_from_linebuf(char **linebuf, char **line)
 {
-	char	*freeptr;
-	char	*line;
 	char	*endline;
+	char	*tmp;
 	size_t	len;
 
-	freeptr = *linebuf;
+	if (!*linebuf)
+		return (-1);
 	endline = ft_strchr(*linebuf, '\n');
+	len = 0;
 	if (endline)
-		len = endline - *linebuf;
-	else
-		len = ft_strlen(*linebuf);
-	line = ft_substr(*linebuf, 0, len);
-	if (!line)
-		return (NULL);
-	len++;
-	*linebuf = ft_substr(*linebuf, len, ft_strlen(*linebuf) - len);
-	if (!linebuf)
 	{
-		free(line);
-		line = NULL;
+		len = endline - *linebuf;
+		*line = ft_substr(*linebuf, 0, len);
+		tmp = *linebuf;
+		*linebuf = ft_strdup(*linebuf + len + 1);
+		if (!*line || !*linebuf)
+			return (-1);
+		free(tmp);
+		return (1);
 	}
-	free(freeptr);
-	freeptr = NULL;
-	return (line);
+	*line = ft_strdup(*linebuf);
+	return (0);
 }
 
 int		get_next_line(int fd, char **line)
 {
-	static char	*linebuf;
-	int			read_value;
+	static char		*linebuf;
+	int				read_line;
+	int				read_buf;
 
-	if (!line || BUFFER_SIZE <= 0)
-		return (-1);
-	if (!linebuf)
-		linebuf = ft_strdup("");
-	if (!linebuf)
-		return (-1);
-	read_value = read_line(fd, &linebuf);
-	if (read_value < 0)
-		return (-1);
-	if (ft_strchr(linebuf, '\n'))
-		read_value = 1;
-	*line = trim_line(&linebuf);
-	if (!line || !read_value)
+	read_line = 1;
+	if (!linebuf || !*linebuf)
+		read_line = read_from_line(fd, &linebuf);
+	read_buf = read_from_linebuf(&linebuf, line);
+	if (read_line == -1 || read_buf == -1)
 	{
 		free(linebuf);
-		linebuf = NULL;
-		if (!line)
-			return (-1);
+		return (-1);
 	}
-	return (read_value);
+	if (!read_buf)
+	{
+		free(linebuf);
+		return (0);
+	}
+	return (1);
 }
