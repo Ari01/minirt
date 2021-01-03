@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/01/02 13:06:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/03 15:03:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ typedef struct	s_vector
 	double y;
 	double z;
 }				t_vector;
+
+typedef struct	s_ray
+{
+	t_vector	pos;
+	t_vector	dir;
+}				t_ray;
 
 /*
 ** LIGHT AND CAMERA
