@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/01/02 14:26:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/04 18:50:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ int		set_sphere(char **split, t_rt *rt)
 	coord = ft_split(split[1], ",");
 	color = ft_split(split[3], ",");
 	sphere->diameter = ft_atod(split[2]);
-	if (!set_coord(coord, &sphere->center) || !set_color(color, &sphere->color) || 
+	if (!set_coord(coord, &object->position) || !set_color(color, &object->color) || 
 		sphere->diameter <= 0)
 		return (0);
+
+	object->specular = 500;
 	object->ptr = sphere;
-	object->intersect = NULL;
+	object->intersect = &ray_sphere_intersect;
+	object->get_normal = &get_sphere_normal;
 	ft_lstadd_front(&rt->scene.objects, ft_lstnew(object));
 	return (1);
 }
@@ -50,8 +53,8 @@ int	set_plane(char **split, t_rt *rt)
 	coord = ft_split(split[1], ",");
 	dir = ft_split(split[2], ",");
 	color = ft_split(split[3], ",");
-	if (!set_coord(coord, &plane->position) || !set_coord(dir, &plane->direction) ||
-		!set_color(color, &plane->color) || !correct_direction(plane->direction))
+	if (!set_coord(coord, &object->position) || !set_coord(dir, &plane->direction) ||
+		!set_color(color, &object->color) || !correct_direction(plane->direction))
 		return (0);
 	object->ptr = plane;
 	object->intersect = NULL;
@@ -75,8 +78,8 @@ int	set_square(char **split, t_rt *rt)
 	dir = ft_split(split[2], ",");
 	color = ft_split(split[4], ",");
 	square->height = ft_atod(split[3]);
-	if (!set_coord(coord, &square->position) || !set_coord(dir, &square->direction) ||
-		!set_color(color, &square->color) || !correct_direction(square->direction)
+	if (!set_coord(coord, &object->position) || !set_coord(dir, &square->direction) ||
+		!set_color(color, &object->color) || !correct_direction(square->direction)
 		|| square->height <= 0)
 		return (0);
 	object->ptr = square;
@@ -103,8 +106,8 @@ int	set_cylindre(char **split, t_rt *rt)
 	color = ft_split(split[5], ",");
 	cylindre->diameter = ft_atod(split[3]);
 	cylindre->height = ft_atod(split[4]);
-	if (!set_coord(coord, &cylindre->position) || !set_coord(dir, &cylindre->direction)
-		|| !set_color(color, &cylindre->color) || !correct_direction(cylindre->direction)
+	if (!set_coord(coord, &object->position) || !set_coord(dir, &cylindre->direction)
+		|| !set_color(color, &object->color) || !correct_direction(cylindre->direction)
 		|| cylindre->diameter <= 0 || cylindre->height <= 0)
 		return (0);
 	object->ptr = cylindre;
@@ -129,7 +132,7 @@ int	set_triangle(char **split, t_rt *rt)
 	coord[2] = ft_split(split[3], ",");
 	color = ft_split(split[4], ",");
 	if (!set_coord(coord[0], &triangle->p1) || !set_coord(coord[1], &triangle->p2)
-		|| !set_coord(coord[2], &triangle->p3) || !set_color(color, &triangle->color))
+		|| !set_coord(coord[2], &triangle->p3) || !set_color(color, &object->color))
 		return (0);
 	object->ptr = triangle;
 	object->intersect = NULL;

@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/01/03 15:03:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/04 19:32:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,33 +64,25 @@ typedef struct	s_camera
 */
 typedef struct	s_sphere
 {
-	t_vector	center;
 	double		diameter;
-	t_color		color;
 }				t_sphere;
 
 typedef struct	s_plane
 {
-	t_vector	position;
 	t_vector	direction;
-	t_color		color;
 }				t_plane;
 
 typedef struct	s_square
 {
-	t_vector	position;
 	t_vector	direction;
 	double		height;
-	t_color		color;
 }				t_square;
 
 typedef struct	s_cylindre
 {
-	t_vector	position;
 	t_vector	direction;
 	double		diameter;
 	double		height;
-	t_color		color;
 }				t_cylindre;
 
 typedef struct	s_triangle
@@ -98,13 +90,16 @@ typedef struct	s_triangle
 	t_vector	p1;
 	t_vector	p2;
 	t_vector	p3;
-	t_color		color;
 }				t_triangle;
 
 typedef struct	s_object
 {
-	void	*ptr;
-	void	(*intersect)(void *);
+	void		*ptr;
+	t_vector	position;
+	t_color		color;
+	double		specular;
+	int			(*intersect)(t_ray, struct s_object *, double *);
+	t_vector	(*get_normal)(t_vector, struct s_object *);
 }				t_object;
 
 /*
@@ -139,6 +134,7 @@ typedef struct	s_rt
 	double		height;
 	t_scene		scene;
 	t_camera	*camera;
+	t_ray		ray;
 }				t_rt;
 
 #endif

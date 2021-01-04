@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 15:34:58 by user42            #+#    #+#             */
-/*   Updated: 2021/01/03 14:29:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/04 17:09:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,4 @@ void	set_mlx(t_rt *rt)
 										&rt->img.bits_per_pixel,
 										&rt->img.line_length,
 										&rt->img.endian);
-	mlx_hook(rt->window, 33, 1L<<0, &exit_prog, rt);
-	mlx_hook(rt->window, 2, 1L<<0, &key_hook, rt);
-	mlx_loop(rt->mlx);
 }

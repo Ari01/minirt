@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/03 14:02:06 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/04 19:33:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <math.h>
 
 # define ELEM_ID_SET "R,A,c,l,sp,pl,sq,cy,tr"
-# define MAX(x,y)	(x) > (y) ? x : y
-# define MIN(x,y)	(x) < (y) ? x : y
+# define MAX(x,y)	((x) > (y) ? (x) : (y))
+# define MIN(x,y)	((x) < (y) ? (x) : (y))
 
 # define ESCAPE 65307
 # define UP		65362
@@ -43,13 +43,28 @@ void				set_mlx(t_rt *rt);
 int					exit_prog(t_rt *rt);
 int					key_hook(int key, t_rt *rt);
 
+// render
+void				img_pixel_put(t_rt *rt, int x, int y, int color);
+void				render(t_rt *rt);
+
+// trace ray
+int					resolve_quadratic(t_vector v, double *t1, double *t2);
+double				get_closest_intersection(t_rt *rt, t_object **closest_object, double t_min, double t_max);
+t_color				trace_ray(t_rt *rt);
+
 // scene
 t_scene				init_scene();
 
 // light
 t_ambiant_light		init_ambiant_light();
+double				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vector normal);
 
 // camera
+void				compute_camera(t_rt *rt, double x, double y);
+
+// sphere
+int					ray_sphere_intersect(t_ray ray, t_object *object, double *t);
+t_vector			get_sphere_normal(t_vector intersection, t_object *object);
 
 // color
 t_color				new_color(double r, double g, double b);
