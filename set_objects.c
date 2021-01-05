@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/01/04 18:50:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/05 15:01:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ int	set_plane(char **split, t_rt *rt)
 	if (!set_coord(coord, &object->position) || !set_coord(dir, &plane->direction) ||
 		!set_color(color, &object->color) || !correct_direction(plane->direction))
 		return (0);
+	object->specular = -1;
 	object->ptr = plane;
-	object->intersect = NULL;
+	object->intersect = &ray_plane_intersect;
+	object->get_normal = &get_plane_normal;
 	ft_lstadd_front(&rt->scene.objects, ft_lstnew(object));
 	return (1);
 }

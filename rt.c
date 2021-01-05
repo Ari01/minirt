@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 15:34:58 by user42            #+#    #+#             */
-/*   Updated: 2021/01/04 17:09:33 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/05 16:01:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,5 @@ void	set_mlx(t_rt *rt)
 										&rt->img.bits_per_pixel,
 										&rt->img.line_length,
 										&rt->img.endian);
+	printf("w = %f, h = %f\n", rt->width, rt->height);
 }

@@ -6,13 +6,13 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 17:35:35 by user42            #+#    #+#             */
-/*   Updated: 2021/01/04 19:33:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/05 14:55:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int			ray_sphere_intersect(t_ray ray, t_object *object, double *t)
+double			ray_sphere_intersect(t_ray ray, t_object *object, double t_min, double t_max)
 {
 	t_sphere	sp;
 	t_vector	quadratic;
@@ -26,17 +26,16 @@ int			ray_sphere_intersect(t_ray ray, t_object *object, double *t)
 	quadratic.y = 2 * vector_dot(dist, ray.dir);
 	quadratic.z = vector_dot(dist, dist) - (sp.diameter / 2) * (sp.diameter / 2);
 	if (!resolve_quadratic(quadratic, &t1, &t2))
-		return (0);
-	if (t1 > t2)
-		t1 = t2;
-	if (t1 < 0)
+		return (t_max);
+	if (t1 > t_min && t1 < t_max)
 	{
-		t1 = t2;
-		if (t1 < 0)
-			return (0);
+		if (t1 < t2)
+			return (t1);
+		if (t2 > t_min && t2 < t_max)
+			return (t2);
+		return (t1);
 	}
-	*t = t1;
-	return (1);
+	return (t_max);
 }
 
 t_vector	get_sphere_normal(t_vector intersection, t_object *object)

@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/04 19:33:10 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/05 15:03:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,12 @@ double				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 void				compute_camera(t_rt *rt, double x, double y);
 
 // sphere
-int					ray_sphere_intersect(t_ray ray, t_object *object, double *t);
+double				ray_sphere_intersect(t_ray ray, t_object *object, double t_min, double t_max);
 t_vector			get_sphere_normal(t_vector intersection, t_object *object);
+
+// plane
+double				ray_plane_intersect(t_ray ray, t_object *object, double t_min, double t_max);
+t_vector			get_plane_normal(t_vector intersection, t_object *object);
 
 // color
 t_color				new_color(double r, double g, double b);

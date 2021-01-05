@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:19:13 by user42            #+#    #+#             */
-/*   Updated: 2021/01/04 19:40:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/05 18:35:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ double			compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vect
 	t_vector	light_vector;
 	t_light		current_light;
 	t_list		*light_list;
+	t_object	*shadow_obj;
 	
 	intensity = rt->scene.ambiant_light.intensity;
 	light_list = rt->scene.light;
@@ -68,11 +69,14 @@ double			compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vect
 		current_light = *(t_light *)light_list->content;
 		light_vector = vector_sub(current_light.position, intersection);
 		rt->ray.dir = light_vector;
-		if (get_closest_intersection(rt, NULL, 0.001, 1) == 100000.0)
-			break;
-		intensity += compute_diffuse(light_vector, normal) * current_light.intensity;
-		if (object->specular != -1)
-			intensity += compute_specular(object->specular, rt->camera->direction, normal, light_vector) * current_light.intensity;
+		shadow_obj = NULL;
+		get_closest_intersection(rt, &shadow_obj, 0.001, 1.0);
+		if (shadow_obj == NULL)
+		{
+			intensity += compute_diffuse(light_vector, normal) * current_light.intensity;
+			if (object->specular != -1)
+				intensity += compute_specular(object->specular, rt->camera->direction, normal, light_vector) * current_light.intensity;
+		}
 		light_list = light_list->next;
 	}
 	return (intensity);
