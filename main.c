@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:14:22 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 13:53:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/06 17:56:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,14 @@ void	print_rt(t_rt *rt)
 int	main(int ac, char **av)
 {
 	t_rt rt;
-
+	
 	if (ac == 2)
 	{
 		rt = set_rt(av[1]);
 		//print_rt(&rt);
 		set_mlx(&rt);
-		render(&rt);
-		mlx_hook(rt.window, 33, 1L<<0, &exit_prog, &rt);
-		mlx_hook(rt.window, 2, 1L<<0, &key_hook, &rt);
-		mlx_loop(rt.mlx);
+		init_thread(&rt);
+		//render(&rt);
 	}
 	return (0);
 }

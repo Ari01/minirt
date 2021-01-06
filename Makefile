@@ -6,7 +6,7 @@ OBJS		= $(SRCS:.c=.o)
 
 CC			= clang
 CFLAGS		= -Wall -Wextra -Werror -g
-LFLAGS		= -L libft -lft -lm -lmlx -lXext -lX11
+LFLAGS		= -L libft -lft -lm -lmlx -lXext -lX11 -lpthread
 INCLUDES	= -I libft
 
 RM			= rm -Rf

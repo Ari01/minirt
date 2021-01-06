@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 12:10:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/06 17:57:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ typedef struct	s_vector
 	double y;
 	double z;
 }				t_vector;
+
+typedef struct	s_vector4
+{
+	double x;
+	double y;
+	double z;
+	double w;
+}				t_vector4;
 
 typedef struct	s_ray
 {
@@ -56,6 +64,7 @@ typedef struct	s_camera
 {
 	t_vector	position;
 	t_vector	direction;
+	t_vector4	to_world_matrix[4];
 	double		fov;
 }				t_camera;
 
@@ -127,14 +136,16 @@ typedef struct	s_img
 
 typedef struct	s_rt
 {
-	void		*mlx;
-	void		*window;
-	t_img		img;	
-	double		width;
-	double		height;
-	t_scene		scene;
-	t_camera	*camera;
-	t_ray		ray;
+	void			*mlx;
+	void			*window;
+	t_img			img;	
+	double			width;
+	double			height;
+	t_scene			scene;
+	t_camera		*camera;
+	t_ray			ray;
+	int				thread_id;
+	pthread_mutex_t	mutex;
 }				t_rt;
 
 #endif

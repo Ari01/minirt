@@ -6,16 +6,13 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 15:03:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/06 18:05:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
 
-# include "libft.h"
-# include "types.h"
-# include "mlx.h"
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -23,16 +20,22 @@
 # include <errno.h>
 # include <unistd.h>
 # include <math.h>
+# include <pthread.h>
+# include "libft.h"
+# include "types.h"
+# include "mlx.h"
 
 # define ELEM_ID_SET "R,A,c,l,sp,pl,sq,cy,tr"
 # define MAX(x,y)	((x) > (y) ? (x) : (y))
 # define MIN(x,y)	((x) < (y) ? (x) : (y))
 
-# define ESCAPE 65307
-# define UP		65362
-# define DOWN	65364
-# define LEFT	65361
-# define RIGHT	65363
+# define ESCAPE		65307
+# define SPACE		32
+# define CONTROL	65507
+# define N_THREAD	2
+
+// threads
+void				init_thread(t_rt * rt);
 
 // rt
 t_rt				init_rt();
@@ -45,7 +48,7 @@ int					key_hook(int key, t_rt *rt);
 
 // render
 void				img_pixel_put(t_rt *rt, int x, int y, int color);
-void				render(t_rt *rt);
+void				*render(void *rt);
 
 // trace ray
 int					resolve_quadratic(t_vector v, double *t1, double *t2);
@@ -60,7 +63,9 @@ t_ambiant_light		init_ambiant_light();
 double				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vector normal);
 
 // camera
+t_vector			vector_matrix_mul(t_vector v, t_vector4 *matrix);
 void				compute_camera(t_rt *rt, double x, double y);
+void				camera_move(int key, t_rt *rt);
 
 // sphere
 double				ray_sphere_intersect(t_ray ray, t_object *object, double t_min, double t_max);
@@ -78,6 +83,7 @@ t_color				color_clamp(t_color color);
 
 // vector
 t_vector			new_vector(double x, double y, double z);
+t_vector4			new_vector4(double x, double y, double z, double w);
 t_vector			vector_add(t_vector v1, t_vector v2);
 t_vector			vector_sub(t_vector v1, t_vector v2);
 t_vector			vector_mul(double x, t_vector v2);
