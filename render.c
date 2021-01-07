@@ -22,25 +22,18 @@ void	img_pixel_put(t_rt *rt, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void	*render(void *data)
+void	add_pixel(t_rt *rt)
 {
 	int		i;
 	int		j;
 	t_color	color;
-	t_rt	*rt;
 
-
-	rt = (t_rt *)data;
-
-	pthread_mutex_lock(&rt->mutex);
-	//printf("yo\n");
-	printf("thread id = %d\n", rt->thread_id);
-	j = rt->thread_id * N_THREAD;
+	j = rt->count * rt->height / N_THREAD;
 	//rt->camera->position = vector_matrix_mul(rt->camera->position, rt->camera->to_world_matrix);
-	while (j < rt->height * rt->thread_id / N_THREAD)
+	while (j < rt->height * (rt->count + 1) / N_THREAD)
 	{
-		i = rt->thread_id * N_THREAD;
-		while (i < rt->width * rt->thread_id / N_THREAD)
+		i = 0;
+		while (i < rt->width)
 		{
 			compute_camera(rt, i, j);
 			color = trace_ray(rt);
@@ -49,10 +42,48 @@ void	*render(void *data)
 		}
 		j++;
 	}
+}
+
+void	*add_thread_pixel(void *data)
+{
+	t_rt	*rt;
+
+	rt = (t_rt *)data;
+	while (1)
+	{
+
+		pthread_mutex_lock(&rt->mutex);
+		add_pixel(rt);
+		rt->count++;
+		if (rt->count == N_THREAD - 1)
+			pthread_cond_signal(&rt->render_cond);
+		pthread_mutex_unlock(&rt->mutex);
+		pthread_cond_wait(&rt->add_pixel_cond, &rt->mutex);
+		pthread_mutex_lock(&rt->mutex);
+		if (rt->quit)
+		{
+			rt->count++;
+			if (rt->count == N_THREAD - 1)
+				pthread_cond_signal(&rt->render_cond);
+			pthread_mutex_unlock(&rt->mutex);
+			pthread_exit(NULL);
+		}
+		pthread_mutex_unlock(&rt->mutex);
+	}
+	return (NULL);
+}
+
+void	*render(void *data)
+{
+	t_rt	*rt;
+
+	rt = (t_rt *)data;
+	pthread_mutex_lock(&rt->mutex);
+	pthread_cond_wait(&rt->render_cond, &rt->mutex);
+	add_pixel(rt);
 	mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
 	mlx_hook(rt->window, 33, 1L<<0, &exit_prog, rt);
-	mlx_hook(rt->window, 2, 1L<<0, &key_hook, &rt);
+	mlx_hook(rt->window, 2, 1L<<0, &key_hook, rt);
 	mlx_loop(rt->mlx);
-	pthread_mutex_unlock(&rt->mutex);
 	return (NULL);
 }

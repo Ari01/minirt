@@ -52,9 +52,10 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		rt = set_rt(av[1]);
-		//print_rt(&rt);
 		set_mlx(&rt);
+		//print_rt(&rt);
 		init_thread(&rt);
+		printf("out of threads\n");
 		//render(&rt);
 	}
 	return (0);

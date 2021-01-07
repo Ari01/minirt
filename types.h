@@ -144,8 +144,12 @@ typedef struct	s_rt
 	t_scene			scene;
 	t_camera		*camera;
 	t_ray			ray;
-	int				thread_id;
+	int				count;
+	int				quit;
+	pthread_t		*thread;
 	pthread_mutex_t	mutex;
+	pthread_cond_t	render_cond;
+	pthread_cond_t	add_pixel_cond;
 }				t_rt;
 
 #endif

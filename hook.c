@@ -14,14 +14,19 @@
 
 int		exit_prog(t_rt *rt)
 {
-	free_rt(rt);
-	exit(EXIT_SUCCESS);
+	rt->quit = 1;
+	rt->count = 0;
+	pthread_cond_broadcast(&rt->add_pixel_cond);
+	pthread_cond_wait(&rt->render_cond, &rt->mutex);
+	pthread_mutex_unlock(&rt->mutex);
+	pthread_exit(NULL);
 }
 
 int		key_hook(int key, t_rt *rt)
 {
 	if (key == ESCAPE)
 		exit_prog(rt);
-	camera_move(key, rt);
+	if (key == 'q' || key == 'd' || key == 'z' || key == 's' || key == CONTROL || key == SPACE)
+		camera_move(key, rt);
 	return (0);
 }

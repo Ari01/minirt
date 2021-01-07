@@ -77,5 +77,9 @@ void		camera_move(int key, t_rt *rt)
 		rt->camera->position.y--;
 		rt->camera->to_world_matrix[3].y--;
 	}
-	render(rt);
+	rt->count = 0;
+	pthread_cond_broadcast(&rt->add_pixel_cond);
+	pthread_cond_wait(&rt->render_cond, &rt->mutex);
+	mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
+	pthread_mutex_unlock(&rt->mutex);
 }

@@ -23,6 +23,10 @@ t_rt	init_rt()
 	rt.scene.light = NULL;
 	rt.scene.objects = NULL;
 	pthread_mutex_init(&rt.mutex, NULL);
+	pthread_cond_init(&rt.render_cond, NULL);
+	pthread_cond_init(&rt.add_pixel_cond, NULL);
+	rt.count = 0;
+	rt.quit = 0;
 	return (rt);
 }
 

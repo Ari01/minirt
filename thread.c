@@ -14,12 +14,11 @@
 
 void	init_thread(t_rt *rt)
 {
-	pthread_t	*thread;
 	int			i;
 	int			error;
 
-	thread = malloc(sizeof(*thread) * N_THREAD);
-	if (!thread)
+	rt->thread = malloc(sizeof(*rt->thread) * N_THREAD);
+	if (!rt->thread)
 	{
 		perror(strerror(errno));
 		exit(EXIT_FAILURE);
@@ -27,10 +26,10 @@ void	init_thread(t_rt *rt)
 	i = 0;
 	while (i < N_THREAD)
 	{
-		rt->thread_id = i;
-		error = pthread_create(&thread[i], NULL, &render, rt);
-
-	printf("error = %d\n", error);
+		if (!i)
+			error = pthread_create(&rt->thread[i], NULL, &render, rt);
+		else
+			error = pthread_create(&rt->thread[i], NULL, &add_thread_pixel, rt);
 		if (error)
 		{
 			perror(strerror(errno));
@@ -38,11 +37,12 @@ void	init_thread(t_rt *rt)
 		}
 		i++;
 	}
-	printf("yo\n");
 	i = 0;
 	while (i < N_THREAD)
 	{
-		pthread_join(thread[i], NULL);
+		pthread_join(rt->thread[i], NULL);
 		i++;
 	}
+	free(rt->thread);
+	free_rt(rt);
 }

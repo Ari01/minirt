@@ -32,10 +32,15 @@
 # define ESCAPE		65307
 # define SPACE		32
 # define CONTROL	65507
-# define N_THREAD	2
+# define N_THREAD	10
+
+// tmp del f
+void print_rt(t_rt *rt);
 
 // threads
 void				init_thread(t_rt * rt);
+void				*add_thread_pixel(void *data);
+void				*render(void *data);
 
 // rt
 t_rt				init_rt();
@@ -48,7 +53,7 @@ int					key_hook(int key, t_rt *rt);
 
 // render
 void				img_pixel_put(t_rt *rt, int x, int y, int color);
-void				*render(void *rt);
+void				add_pixel(t_rt *rt);
 
 // trace ray
 int					resolve_quadratic(t_vector v, double *t1, double *t2);

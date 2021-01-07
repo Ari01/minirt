@@ -20,10 +20,9 @@ double		ray_plane_intersect(t_ray ray, t_object *object, double t_min, double t_
 	double		denom;
 
 	t = t_max;
+	plane = *(t_plane *)object->ptr;
 	ray.dir = vector_mul(1 / vector_len(ray.dir), ray.dir);
 	plane.direction = vector_mul(1 / vector_len(plane.direction), plane.direction);
-
-	plane = *(t_plane *)object->ptr;
 	denom = vector_dot(ray.dir, plane.direction);
 	if (denom > exp(-6) || -denom > exp(-6))
 	{
