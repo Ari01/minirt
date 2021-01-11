@@ -18,6 +18,7 @@ int		exit_prog(t_rt *rt)
 	rt->count = 0;
 	pthread_cond_broadcast(&rt->add_pixel_cond);
 	pthread_cond_wait(&rt->render_cond, &rt->mutex);
+	pthread_mutex_unlock(&rt->mutex);
 	pthread_exit(NULL);
 }
 

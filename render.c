@@ -50,31 +50,31 @@ void	*add_thread_pixel(void *data)
 
 	rt = (t_rt *)data;
 	sleep(1);
+	//usleep(1000);
 	while (1)
 	{
+		//sleep(1);
 		pthread_mutex_lock(&rt->mutex);
 		add_pixel(rt);
 		rt->count++;
 		if (rt->count == N_THREAD - 1)
 		{
-			printf("sending signal rt->count max = %d\n", rt->count);
+		//	printf("sending signal rt->count max = %d\n", rt->count);
 			pthread_cond_signal(&rt->render_cond);
-			pthread_mutex_unlock(&rt->mutex);
 		}
-			printf("rt->count b4 wait = %d\n", rt->count);
-		//pthread_mutex_unlock(&rt->mutex);
+		//	printf("rt->count b4 wait = %d\n", rt->count);
 		pthread_cond_wait(&rt->add_pixel_cond, &rt->mutex);
 		if (rt->quit)
 		{
-			printf("quit signal received\n");
-			printf("rt->count = %d\n", rt->count);
+		//	printf("quit signal received\n");
+		//	printf("rt->count = %d\n", rt->count);
 			rt->count++;
 			if (rt->count == N_THREAD - 1)
 				pthread_cond_signal(&rt->render_cond);
-			//pthread_mutex_unlock(&rt->mutex);
+			pthread_mutex_unlock(&rt->mutex);
 			pthread_exit(NULL);
 		}
-		printf("signal not quit, rt count = %d\n", rt->count);
+	///	printf("signal not quit, rt count = %d\n", rt->count);
 		pthread_mutex_unlock(&rt->mutex);
 	}
 	return (NULL);
@@ -86,15 +86,17 @@ void	*render(void *data)
 
 	rt = (t_rt *)data;
 
-	printf("render waiting\n");
-	
-	pthread_mutex_lock(&rt->mutex);
-	pthread_cond_wait(&rt->render_cond, &rt->mutex);
-	printf("render signal received, rt->count = %d\n", rt->count);
-	add_pixel(rt);
-	mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
-	mlx_hook(rt->window, 33, 1L<<0, &exit_prog, rt);
-	mlx_hook(rt->window, 2, 1L<<0, &key_hook, rt);
-	mlx_loop(rt->mlx);
+	while (1)
+	{
+	//	printf("render waiting\n");
+		pthread_mutex_lock(&rt->mutex);
+		pthread_cond_wait(&rt->render_cond, &rt->mutex);
+	//	printf("render signal received, rt->count = %d\n", rt->count);
+		add_pixel(rt);
+		mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
+		mlx_hook(rt->window, 33, 1L<<0, &exit_prog, rt);
+		mlx_hook(rt->window, 2, 1L<<0, &key_hook, rt);
+		mlx_loop(rt->mlx);
+	}
 	return (NULL);
 }

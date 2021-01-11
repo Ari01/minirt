@@ -32,7 +32,7 @@
 # define ESCAPE		65307
 # define SPACE		32
 # define CONTROL	65507
-# define N_THREAD	10
+# define N_THREAD	20
 
 // tmp del f
 void print_rt(t_rt *rt);
