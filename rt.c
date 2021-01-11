@@ -19,6 +19,8 @@ t_rt	init_rt()
 	rt.width = -1;
 	rt.height = -1;
 	rt.scene = init_scene();
+	rt.transform = TRANSLATE;
+	rt.transform_focus = CAMERA;
 	rt.scene.camera = NULL;
 	rt.scene.light = NULL;
 	rt.scene.objects = NULL;

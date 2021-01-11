@@ -24,13 +24,30 @@
 # include <unistd.h>
 # include <math.h>
 
-# define ELEM_ID_SET "R,A,c,l,sp,pl,sq,cy,tr"
 # define MAX(x,y)	((x) > (y) ? (x) : (y))
 # define MIN(x,y)	((x) < (y) ? (x) : (y))
 
+/*
+** PARSER
+*/
+# define ELEM_ID_SET "R,A,c,l,sp,pl,sq,cy,tr"
+
+/*
+** KEY CODE
+*/
 # define ESCAPE		65307
-# define SPACE		32
 # define CONTROL	65507
+# define SPACE		32
+# define TAB		41
+
+/*
+** TRANSFORMATION
+*/
+# define CAMERA		0
+# define OBJECT		1
+# define TRANSLATE	0
+# define ROTATE		1
+# define RAD		0.174533
 
 // rt
 t_rt				init_rt();
@@ -61,6 +78,7 @@ double				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);
 void				compute_camera(t_rt *rt, double x, double y);
 void				move_camera(int key, t_rt *rt);
+void				rotate_camera(int key, t_rt *rt);
 
 // sphere
 double				ray_sphere_intersect(t_ray ray, t_object *object, double t_min, double t_max);

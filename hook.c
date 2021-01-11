@@ -22,9 +22,18 @@ int		key_hook(int key, t_rt *rt)
 {
 	if (key == ESCAPE)
 		exit_prog(rt);
+	if (key == TAB)
+		rt->transform_focus = (rt->transform_focus + 1 == 2 ? 0 : 1);
+	if (key == 't')
+		rt->transform = (rt->transform + 1 == 2 ? 0 : 1);
 	if (key == 'q' || key == 'd' || key == 'z' || key == 's' || key == CONTROL || key == SPACE)
 	{
-		move_camera(key, rt);
+		if (rt->transform_focus == CAMERA)
+			rt->transform == TRANSLATE ? move_camera(key, rt) : rotate_camera(key, rt);
+	/*	else
+		{
+			rt->transform == TRANSLATE ? move_objec(key, rt) : rotate_object(key, rt);	
+		}*/
 		render(rt);
 	}
 	return (0);

@@ -136,6 +136,8 @@ typedef struct	s_rt
 	t_scene		scene;
 	t_camera	*camera;
 	t_ray		ray;
+	int			transform;
+	int			transform_focus;
 }				t_rt;
 
 #endif
