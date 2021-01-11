@@ -28,11 +28,9 @@
 # define MAX(x,y)	((x) > (y) ? (x) : (y))
 # define MIN(x,y)	((x) < (y) ? (x) : (y))
 
-# define ESCAPE 65307
-# define UP		65362
-# define DOWN	65364
-# define LEFT	65361
-# define RIGHT	65363
+# define ESCAPE		65307
+# define SPACE		32
+# define CONTROL	65507
 
 // rt
 t_rt				init_rt();
@@ -60,7 +58,9 @@ t_ambiant_light		init_ambiant_light();
 double				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vector normal);
 
 // camera
+t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);
 void				compute_camera(t_rt *rt, double x, double y);
+void				move_camera(int key, t_rt *rt);
 
 // sphere
 double				ray_sphere_intersect(t_ray ray, t_object *object, double t_min, double t_max);

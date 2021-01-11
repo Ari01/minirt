@@ -56,6 +56,7 @@ typedef struct	s_camera
 {
 	t_vector	position;
 	t_vector	direction;
+	t_vector	to_world_matrix[4];
 	double		fov;
 }				t_camera;
 

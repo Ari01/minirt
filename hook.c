@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 19:16:14 by user42            #+#    #+#             */
-/*   Updated: 2021/01/03 12:46:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/06 17:08:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,10 @@ int		key_hook(int key, t_rt *rt)
 {
 	if (key == ESCAPE)
 		exit_prog(rt);
+	if (key == 'q' || key == 'd' || key == 'z' || key == 's' || key == CONTROL || key == SPACE)
+	{
+		move_camera(key, rt);
+		render(rt);
+	}
 	return (0);
 }

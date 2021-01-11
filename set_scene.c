@@ -56,6 +56,12 @@ int		set_camera(char **split, t_rt *rt)
 	if (!set_coord(coord, &camera->position) || !set_coord(direction, &camera->direction)
 		|| !correct_direction(camera->direction) || camera->fov < 0 || camera->fov > 180)
 		return (0);
+		camera->to_world_matrix[0] = new_vector(1, 0, 0);
+		camera->to_world_matrix[1] = new_vector(0, 1, 0);
+		camera->to_world_matrix[2] = new_vector(0, 0, 1);
+		camera->to_world_matrix[3] = new_vector(camera->position.x, 
+												camera->position.y, 
+												camera->position.z);
 	if (rt->scene.camera == NULL)
 		rt->camera = camera;
 	ft_lstadd_front(&rt->scene.camera, ft_lstnew(camera));
