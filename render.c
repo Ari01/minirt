@@ -29,7 +29,7 @@ void	render(t_rt *rt)
 	t_color	color;
 
 	j = 0;
-	//rt->camera->position = vector_matrix_mul(rt->camera->position, rt->camera->to_world_matrix);
+	rt->camera->position = vector_matrix_mul(new_vector(0, 0, 0), rt->camera->to_world_matrix);
 	while (j < rt->height)
 	{
 		i = 0;
