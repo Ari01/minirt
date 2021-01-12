@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 09:02:32 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 18:24:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/12 21:47:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void		move_camera(int key, t_rt *rt)
 		rt->camera->to_world_matrix[3].z += move;
 	if (key == 's')
 		rt->camera->to_world_matrix[3].z -= move;
-	if (key == CONTROL)
-		rt->camera->to_world_matrix[3].y += move;
 	if (key == SPACE)
+		rt->camera->to_world_matrix[3].y += move;
+	if (key == CONTROL)
 		rt->camera->to_world_matrix[3].y -= move;
 }
 
@@ -74,9 +74,9 @@ void		rotate_camera(int key, t_rt *rt)
 		radx *= xdeg;
 		rady *= ydeg;
 		rt->camera->to_world_matrix[0].x = cos(radx);
-		rt->camera->to_world_matrix[0].z = -sin(radx + rady);
+		rt->camera->to_world_matrix[0].z = -sin(radx);
 		rt->camera->to_world_matrix[2].x = sin(radx);
-		rt->camera->to_world_matrix[2].z = cos(radx + rady);
+		rt->camera->to_world_matrix[2].z = cos(radx);
 	}
 	if (key == 'z' || key == 's')
 	{
@@ -84,8 +84,8 @@ void		rotate_camera(int key, t_rt *rt)
 		rady *= ydeg;
 		radx *= xdeg;
 		rt->camera->to_world_matrix[1].y = cos(rady);
-		rt->camera->to_world_matrix[1].z = sin(radx + rady);
+		rt->camera->to_world_matrix[1].z = sin(radx);
 		rt->camera->to_world_matrix[2].y = -sin(rady);
-		rt->camera->to_world_matrix[2].z = cos(radx + rady);
+		rt->camera->to_world_matrix[2].z = cos(radx);
 	}
 }

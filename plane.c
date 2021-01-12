@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 13:37:29 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 18:45:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/12 21:42:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,23 @@ t_vector	get_plane_normal(t_vector intersection, t_object *object)
 	(void)intersection;
 	plane = *(t_plane *)object->ptr;
 	return (plane.direction);
+}
+
+void		rotate_plane(int key, t_object *object)
+{
+	t_plane		*plane;
+
+	plane = (t_plane *)object->ptr;
+	if (key == 'q')
+		plane->direction.x -= 0.1;
+	if (key == 'd')
+		plane->direction.x += 0.1;
+	if (key == 's')
+		plane->direction.z -= 0.1;
+	if (key == 'z')
+		plane->direction.z += 0.1;
+	if (key == CONTROL)
+		plane->direction.y -= 0.1;
+	if (key == SPACE)
+		plane->direction.y += 0.1;
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 12:10:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/12 21:17:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct	s_object
 	double		specular;
 	double		(*intersect)(t_ray, struct s_object *, double , double);
 	t_vector	(*get_normal)(t_vector, struct s_object *);
+	void		(*rotate)(int, struct s_object *);
 }				t_object;
 
 /*
@@ -135,6 +136,7 @@ typedef struct	s_rt
 	double		height;
 	t_scene		scene;
 	t_camera	*camera;
+	t_object	*object;
 	t_ray		ray;
 	int			transform;
 	int			transform_focus;

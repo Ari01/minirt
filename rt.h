@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 17:35:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/12 21:34:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,10 @@ void				compute_camera(t_rt *rt, double x, double y);
 void				move_camera(int key, t_rt *rt);
 void				rotate_camera(int key, t_rt *rt);
 
+// objects
+
+void				move_object(int key, t_rt *rt);
+
 // sphere
 double				ray_sphere_intersect(t_ray ray, t_object *object, double t_min, double t_max);
 t_vector			get_sphere_normal(t_vector intersection, t_object *object);
@@ -87,6 +91,7 @@ t_vector			get_sphere_normal(t_vector intersection, t_object *object);
 // plane
 double				ray_plane_intersect(t_ray ray, t_object *object, double t_min, double t_max);
 t_vector			get_plane_normal(t_vector intersection, t_object *object);
+void				rotate_plane(int key, t_object *object);
 
 // color
 t_color				new_color(double r, double g, double b);

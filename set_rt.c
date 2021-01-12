@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:00:51 by user42            #+#    #+#             */
-/*   Updated: 2021/01/03 14:01:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/12 20:27:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,17 @@ t_rt	set_rt(char *pathfile)
 	char	*line;
 	char	**split;
 
-	rt = init_rt();
 	line = NULL;
 	split = NULL;
-	fd = open(pathfile, O_RDONLY);
 	valid_file = 1;
-	if (fd == -1)
-	{
-		perror(strerror(errno));
-		exit(EXIT_FAILURE);
-	}
+	rt = init_rt();
+	if ((fd = open(pathfile, O_RDONLY)) == -1)
+		ft_perror();
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (*line)
 			valid_file = set_scene(line, split, &rt);
 		free(line);
-		line = NULL;
 		if (!valid_file)
 			print_error_msg("invalid rt file");
 	}

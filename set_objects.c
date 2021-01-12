@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 15:01:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/12 21:19:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		set_sphere(char **split, t_rt *rt)
 	object->ptr = sphere;
 	object->intersect = &ray_sphere_intersect;
 	object->get_normal = &get_sphere_normal;
+	object->rotate = NULL;
 	ft_lstadd_front(&rt->scene.objects, ft_lstnew(object));
 	return (1);
 }
@@ -60,6 +61,7 @@ int	set_plane(char **split, t_rt *rt)
 	object->ptr = plane;
 	object->intersect = &ray_plane_intersect;
 	object->get_normal = &get_plane_normal;
+	object->rotate = &rotate_plane;
 	ft_lstadd_front(&rt->scene.objects, ft_lstnew(object));
 	return (1);
 }
