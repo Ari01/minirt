@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 21:34:13 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/13 19:15:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@
 */
 # define ESCAPE		65307
 # define CONTROL	65507
+# define TAB		65289
 # define SPACE		32
-# define TAB		41
 
 /*
 ** TRANSFORMATION
@@ -76,6 +76,7 @@ double				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 
 // camera
 t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);
+void				set_camera_matrix(t_camera *camera);
 void				compute_camera(t_rt *rt, double x, double y);
 void				move_camera(int key, t_rt *rt);
 void				rotate_camera(int key, t_rt *rt);
@@ -109,6 +110,7 @@ double				vector_len(t_vector v);
 
 // matrix
 t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);
+void				matrix_mul(t_vector *m1, t_vector *m2);
 
 // error
 void				ft_perror();

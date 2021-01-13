@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 19:16:14 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 21:35:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/13 16:53:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,21 @@ int		exit_prog(t_rt *rt)
 int		key_hook(int key, t_rt *rt)
 {
 	static t_list	*objects = NULL;
+	static t_list	*cameras = NULL;
 
 	if (key == ESCAPE)
 		exit_prog(rt);
+	if (key == TAB)
+	{
+		if (!cameras || !cameras->next)
+			cameras = rt->scene.camera;
+		else
+			cameras = cameras->next;
+		rt->camera = (t_camera *)cameras->content;
+		printf("cam = %f %f %f\n", rt->camera->position.x, rt->camera->position.y, rt->camera->position.z);
+
+		render(rt);
+	}
 	if (key == 'o')
 	{
 		if (!objects || !objects->next)

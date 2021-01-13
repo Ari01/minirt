@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:44:14 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 20:20:56 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/13 19:30:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,13 @@ int		set_camera(char **split, t_rt *rt)
 	if (!set_coord(coord, &camera->position) || !set_coord(direction, &camera->direction)
 		|| !correct_direction(camera->direction) || camera->fov < 0 || camera->fov > 180)
 		return (0);
-		camera->to_world_matrix[0] = new_vector(1, 0, 0);
-		camera->to_world_matrix[1] = new_vector(0, 1, 0);
-		camera->to_world_matrix[2] = new_vector(0, 0, 1);
-		camera->to_world_matrix[3] = new_vector(camera->position.x, 
-												camera->position.y, 
-												camera->position.z);
+		set_camera_matrix(camera);
+	int i = 0;
+	while (i < 4)
+	{
+	//	printf("%f %f %f\n", camera->to_world_matrix[i].x, camera->to_world_matrix[i].y, camera->to_world_matrix[i].z);
+		i++;
+	}
 	if (rt->scene.camera == NULL)
 		rt->camera = camera;
 	ft_lstadd_front(&rt->scene.camera, ft_lstnew(camera));

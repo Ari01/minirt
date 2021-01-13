@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:34:19 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 17:34:30 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/13 19:33:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void		matrix_mul(t_vector *m1, t_vector *m2)
 	i = 0;
 	while (i < 3)
 	{
-		m2[i] = new_vector(mul[i].x, mul[i].y, mul[i].z);
+		m1[i] = new_vector(mul[i].x, mul[i].y, mul[i].z);
 		i++;
 	}
 }
