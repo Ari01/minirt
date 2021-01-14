@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/13 19:15:25 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/14 22:58:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ t_vector			vector_add(t_vector v1, t_vector v2);
 t_vector			vector_sub(t_vector v1, t_vector v2);
 t_vector			vector_mul(double x, t_vector v2);
 double				vector_dot(t_vector v1, t_vector v2);
+t_vector			vector_cross(t_vector v1, t_vector v2);
 double				vector_len(t_vector v);
 
 // matrix
