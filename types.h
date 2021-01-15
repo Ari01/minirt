@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 21:17:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/15 20:15:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,15 @@ typedef struct	s_sphere
 
 typedef struct	s_plane
 {
-	t_vector	direction;
 }				t_plane;
 
 typedef struct	s_square
 {
-	t_vector	direction;
 	double		height;
 }				t_square;
 
 typedef struct	s_cylindre
 {
-	t_vector	direction;
 	double		diameter;
 	double		height;
 }				t_cylindre;
@@ -99,9 +96,11 @@ typedef struct	s_object
 	t_vector	position;
 	t_color		color;
 	double		specular;
+	t_vector	direction;
+	t_vector	to_world_matrix[4];
 	double		(*intersect)(t_ray, struct s_object *, double , double);
 	t_vector	(*get_normal)(t_vector, struct s_object *);
-	void		(*rotate)(int, struct s_object *);
+	//void		(*rotate)(int, struct s_object *);
 }				t_object;
 
 /*

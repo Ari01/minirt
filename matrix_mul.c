@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:34:19 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 18:51:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/15 19:30:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ t_vector	vector_matrix_mul(t_vector v, t_vector *matrix)
 	mul.x = v.x * matrix[0].x + v.y * matrix[1].x + v.z * matrix[2].x + matrix[3].x;
 	mul.y = v.x * matrix[0].y + v.y * matrix[1].y + v.z * matrix[2].y + matrix[3].y;
 	mul.z = v.x * matrix[0].z + v.y * matrix[1].z + v.z * matrix[2].z + matrix[3].z;
-	/*printf("vb = %f %f %f\n", v.x, v.y, v.z);
-	printf("matrix[3] = %f %f %f\n", matrix[3].x, matrix[3].y, matrix[3].z);
-	printf("va = %f %f %f\n", v.x, v.y, v.z);*/
 	return (mul);
 }
 
@@ -53,4 +50,3 @@ void		matrix_mul(t_vector *m1, t_vector *m2)
 		i++;
 	}
 }
-

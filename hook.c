@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 19:16:14 by user42            #+#    #+#             */
-/*   Updated: 2021/01/13 16:53:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/15 21:54:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int		key_hook(int key, t_rt *rt)
 		else
 			cameras = cameras->next;
 		rt->camera = (t_camera *)cameras->content;
-		printf("cam = %f %f %f\n", rt->camera->position.x, rt->camera->position.y, rt->camera->position.z);
-
 		render(rt);
 	}
 	if (key == 'o')
@@ -52,13 +50,19 @@ int		key_hook(int key, t_rt *rt)
 	if (key == 'q' || key == 'd' || key == 'z' || key == 's' || key == CONTROL || key == SPACE)
 	{
 		if (rt->transform_focus == CAMERA)
-			rt->transform == TRANSLATE ? move_camera(key, rt) : rotate_camera(key, rt);
+			rt->transform == TRANSLATE ? move_object(key, rt->camera->to_world_matrix, rt->camera->to_world_matrix) : rotate_object(key, rt->camera->to_world_matrix);
 		else
 		{
 			if (rt->transform == TRANSLATE)
-				move_object(key, rt);
-			else if (rt->object->rotate)
-				rt->object->rotate(key, rt->object);
+			{
+				move_object(key, rt->object->to_world_matrix, rt->camera->to_world_matrix);
+				rt->object->position = vector_matrix_mul(new_vector(0, 0, 0), rt->object->to_world_matrix);
+			}
+			else if (rt->object->direction.x || rt->object->direction.y || rt->object->direction.z)
+			{
+				rotate_object(key, rt->object->to_world_matrix);
+				rt->object->direction = vector_matrix_mul(rt->object->direction, rt->object->to_world_matrix);
+			}
 		}
 		render(rt);
 	}

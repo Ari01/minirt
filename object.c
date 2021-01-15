@@ -6,28 +6,27 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 19:11:56 by user42            #+#    #+#             */
-/*   Updated: 2021/01/13 16:30:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/15 20:46:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	move_object(int key, t_rt *rt)
+void	set_object_matrix(t_object *object)
 {
-/*	double x;
-	double y;
-	double z;
-*/
-	if (key == 'q')
-		rt->object->position.x--;
-	if (key == 'd')
-		rt->object->position.x++;
-	if (key == 'z')
-		rt->object->position.z++;
-	if (key == 's')
-		rt->object->position.z--;
-	if (key == CONTROL)
-		rt->object->position.y--;
-	if (key == SPACE)
-		rt->object->position.y++;
+	t_vector	right;
+	t_vector	up;
+
+	init_rotation_matrix(object->to_world_matrix);
+	if (object->direction.x || object->direction.y || object->direction.z)
+	{
+		right = vector_cross(new_vector(0, 0, 1), object->direction);
+		up = vector_cross(object->direction, right);
+		object->to_world_matrix[0] = right;
+		object->to_world_matrix[1] = up;
+		object->to_world_matrix[2] = object->direction;
+	}
+	object->to_world_matrix[3] = new_vector(object->position.x, 
+											object->position.y, 
+											object->position.z);
 }

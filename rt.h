@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/14 22:58:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/15 21:53:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,11 @@ double				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);
 void				set_camera_matrix(t_camera *camera);
 void				compute_camera(t_rt *rt, double x, double y);
-void				move_camera(int key, t_rt *rt);
-void				rotate_camera(int key, t_rt *rt);
+/*void				move_camera(int key, t_rt *rt);
+void				rotate_camera(int key, t_rt *rt);*/
 
 // objects
-
-void				move_object(int key, t_rt *rt);
+void				set_object_matrix(t_object *object);
 
 // sphere
 double				ray_sphere_intersect(t_ray ray, t_object *object, double t_min, double t_max);
@@ -92,7 +91,7 @@ t_vector			get_sphere_normal(t_vector intersection, t_object *object);
 // plane
 double				ray_plane_intersect(t_ray ray, t_object *object, double t_min, double t_max);
 t_vector			get_plane_normal(t_vector intersection, t_object *object);
-void				rotate_plane(int key, t_object *object);
+//void				rotate_plane(int key, t_object *object);
 
 // color
 t_color				new_color(double r, double g, double b);
@@ -111,7 +110,16 @@ double				vector_len(t_vector v);
 
 // matrix
 t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);
+t_vector			dir_matrix_mul(t_vector v, t_vector *matrix);
 void				matrix_mul(t_vector *m1, t_vector *m2);
+void				init_rotation_matrix(t_vector *m);
+void				set_xrotation_matrix(t_vector *m, double angle);
+void				set_yrotation_matrix(t_vector *m, double angle);
+void				set_zrotation_matrix(t_vector *m, double angle);
+
+// transform
+void				move_object(int key, t_vector *matrix, t_vector *cam_matrix);
+void				rotate_object(int key, t_vector *matrix);
 
 // error
 void				ft_perror();
