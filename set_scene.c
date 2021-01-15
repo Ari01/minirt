@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:44:14 by user42            #+#    #+#             */
-/*   Updated: 2021/01/13 19:30:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/15 17:27:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		set_camera(char **split, t_rt *rt)
 	int i = 0;
 	while (i < 4)
 	{
-	//	printf("%f %f %f\n", camera->to_world_matrix[i].x, camera->to_world_matrix[i].y, camera->to_world_matrix[i].z);
+		printf("cam to world\n %f %f %f\n", camera->to_world_matrix[i].x, camera->to_world_matrix[i].y, camera->to_world_matrix[i].z);
 		i++;
 	}
 	if (rt->scene.camera == NULL)

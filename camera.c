@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 09:02:32 by user42            #+#    #+#             */
-/*   Updated: 2021/01/14 23:34:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/15 17:59:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ void		set_camera_matrix(t_camera *camera)
 {
 	t_vector right;
 	t_vector up;
-	
-	right = vector_cross(new_vector(0, 1, 0), camera->direction);
+
+	/*if (camera->direction.x > 0)
+		right = vector_cross(camera->direction, new_vector(0, 1, 0));
+	else*/
+		right = vector_cross(new_vector(0, 1, 0), camera->direction);
 	printf("right = %f %f %f\n", right.x, right.y, right.z);
 	up = vector_cross(camera->direction, right);
 	printf("up = %f %f %f\n", up.x, up.y, up.z);
