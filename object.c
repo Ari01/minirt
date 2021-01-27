@@ -6,27 +6,39 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 19:11:56 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 20:46:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/27 16:50:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	set_object_matrix(t_object *object)
+void	init_object_matrix(t_list *objects, t_vector *cam_matrix)
 {
-	t_vector	right;
-	t_vector	up;
+	t_list		*ite;
+	t_object	*current_obj;
 
-	init_rotation_matrix(object->to_world_matrix);
-	if (object->direction.x || object->direction.y || object->direction.z)
+	ite = objects;
+
+		(void)cam_matrix;
+	while (ite)
 	{
-		right = vector_cross(new_vector(0, 0, 1), object->direction);
-		up = vector_cross(object->direction, right);
-		object->to_world_matrix[0] = right;
-		object->to_world_matrix[1] = up;
-		object->to_world_matrix[2] = object->direction;
+		current_obj = (t_object *)ite->content;
+		init_rotation_matrix(current_obj->to_world_matrix);
+	//	matrix_mul(current_obj->to_world_matrix, cam_matrix);
+		ite = ite->next;
 	}
-	object->to_world_matrix[3] = new_vector(object->position.x, 
-											object->position.y, 
-											object->position.z);
+}
+
+void	set_object_matrix(t_list *objects, t_vector *cam_matrix)
+{
+	t_list		*ite;
+	t_object	*current_obj;
+
+	ite = objects;
+	while (ite)
+	{
+		current_obj = (t_object *)ite->content;
+		matrix_mul(current_obj->to_world_matrix, cam_matrix);
+		ite = ite->next;
+	}
 }

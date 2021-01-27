@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 20:15:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/19 04:28:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct	s_object
 	t_color		color;
 	double		specular;
 	t_vector	direction;
+	t_vector	current_direction;
 	t_vector	to_world_matrix[4];
 	double		(*intersect)(t_ray, struct s_object *, double , double);
 	t_vector	(*get_normal)(t_vector, struct s_object *);

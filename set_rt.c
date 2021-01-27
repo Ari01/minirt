@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:00:51 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 20:27:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/26 14:17:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ t_rt	set_rt(char *pathfile)
 	}
 	free(line);
 	check_missing_parameters(&rt);
+	init_object_matrix(rt.scene.objects, rt.camera->to_world_matrix);
 	return (rt);
 }

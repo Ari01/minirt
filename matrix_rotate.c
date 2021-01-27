@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_rotation.c                                  :+:      :+:    :+:   */
+/*   matrix_rotate.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 19:47:52 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 19:48:00 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/27 16:04:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void		set_xrotation_matrix(t_vector *m, double angle)
 	angle *= M_PI / 180;
 	m[1].y = cos(angle);
 	m[1].z = sin(angle);
-	m[2].y = -sin(angle);
+	m[2].y = sin(angle);
 	m[2].z = cos(angle);
 }
 
@@ -42,7 +42,7 @@ void		set_zrotation_matrix(t_vector *m, double angle)
 	angle *= M_PI / 180;
 	m[0].x = cos(angle);
 	m[0].y = sin(angle);
-	m[1].x = -sin(angle);
+	m[1].x = sin(angle);
 	m[1].y = cos(angle);
 }
 

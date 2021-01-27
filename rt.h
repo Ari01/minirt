@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 21:53:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/27 16:36:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ void				compute_camera(t_rt *rt, double x, double y);
 void				rotate_camera(int key, t_rt *rt);*/
 
 // objects
-void				set_object_matrix(t_object *object);
+void				init_object_matrix(t_list *objects, t_vector *cam_matrix);
+void				set_object_matrix(t_list *objects, t_vector *cam_matrix);
 
 // sphere
 double				ray_sphere_intersect(t_ray ray, t_object *object, double t_min, double t_max);
@@ -111,7 +112,10 @@ double				vector_len(t_vector v);
 // matrix
 t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);
 t_vector			dir_matrix_mul(t_vector v, t_vector *matrix);
+void				matrix_cpy(t_vector *dst, t_vector *src);
 void				matrix_mul(t_vector *m1, t_vector *m2);
+void				matrix_invert(t_vector *m);
+void				matrix_transpose(t_vector *m);
 void				init_rotation_matrix(t_vector *m);
 void				set_xrotation_matrix(t_vector *m, double angle);
 void				set_yrotation_matrix(t_vector *m, double angle);
@@ -119,7 +123,8 @@ void				set_zrotation_matrix(t_vector *m, double angle);
 
 // transform
 void				move_object(int key, t_vector *matrix, t_vector *cam_matrix);
-void				rotate_object(int key, t_vector *matrix);
+void				rotate_object(int key, t_vector *matrix, t_vector *cam_matrix);
+void				rotate_object2(int key, t_rt *rt);
 
 // error
 void				ft_perror();
