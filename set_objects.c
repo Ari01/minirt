@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/01/25 15:01:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/28 18:21:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ int		set_sphere(char **split, t_rt *rt)
 	if (!set_coord(coord, &object->position) || !set_color(color, &object->color) || 
 		sphere->diameter <= 0)
 		return (0);
-	object->specular = 500;
-	object->ptr = sphere;
+	set_object(object, sphere, 0, 500);
+	object->direction = new_vector(0, 0, 0);
 	object->intersect = &ray_sphere_intersect;
 	object->get_normal = &get_sphere_normal;
-	object->direction = new_vector(0, 0, 0);
 	ft_lstadd_front(&rt->scene.objects, ft_lstnew(object));
 	return (1);
 }
@@ -43,12 +42,13 @@ int	set_plane(char **split, t_rt *rt)
 	char		**coord;
 	char		**dir;
 	char		**color;
-	t_plane		*plane;
+	//t_plane		*plane;
 	t_object	*object;
 
-	plane = malloc(sizeof(*plane));
+	//plane = malloc(sizeof(*plane));
+	// if (!plane)
 	object = malloc(sizeof(*object));
-	if (!plane || !object || !split[1] || !split[2] || !split[3] || split[4])
+	if (!object || !split[1] || !split[2] || !split[3] || split[4])
 		return (0);
 	coord = ft_split(split[1], ",");
 	dir = ft_split(split[2], ",");
@@ -56,8 +56,7 @@ int	set_plane(char **split, t_rt *rt)
 	if (!set_coord(coord, &object->position) || !set_coord(dir, &object->direction) ||
 		!set_color(color, &object->color) || !correct_direction(object->direction))
 		return (0);
-	object->specular = -1;
-	object->ptr = plane;
+	set_object(object, NULL, 1, -1);
 	object->intersect = &ray_plane_intersect;
 	object->get_normal = &get_plane_normal;
 	object->current_direction = object->direction;
@@ -85,8 +84,10 @@ int	set_square(char **split, t_rt *rt)
 		!set_color(color, &object->color) || !correct_direction(object->direction)
 		|| square->height <= 0)
 		return (0);
-	object->ptr = square;
-	object->intersect = NULL;
+	set_object(object, square, 1, 100);
+	object->intersect = &ray_square_intersect;
+	object->get_normal = &get_plane_normal;
+	object->current_direction = object->direction;
 	ft_lstadd_front(&rt->scene.objects, ft_lstnew(object));
 	return (1);
 }

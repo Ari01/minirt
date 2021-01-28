@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 09:02:32 by user42            #+#    #+#             */
-/*   Updated: 2021/01/15 20:28:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/28 13:05:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void		set_camera_matrix(t_camera *camera)
 	camera->to_world_matrix[3] = new_vector(camera->position.x,
 											camera->position.y,
 											camera->position.z);
+	matrix_cpy(camera->to_cam_matrix, camera->to_cam_matrix);
+	matrix_invert(camera->to_cam_matrix);
 }
 
 /*

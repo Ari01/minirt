@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:32:35 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 18:25:21 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/28 17:53:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ double		get_closest_intersection(t_rt *rt, t_object **closest_object, double t_m
 		if (t < closest_t)
 		{
 			closest_t = t;
-			if (closest_object)
-				*closest_object = current_object;
+			*closest_object = current_object;
 		}
 		object_list = object_list->next;
 	}
@@ -71,7 +70,7 @@ t_color		trace_ray(t_rt *rt)
 	rt->ray.dir = rt->camera->direction;
 	closest_object = NULL;
 	closest_t = get_closest_intersection(rt, &closest_object, 1, 100000.0);
-	if (closest_object != NULL)
+	if (closest_object)
 	{
 		rt->ray.dir = vector_mul(closest_t, rt->ray.dir);
 		intersection = vector_add(rt->ray.pos, rt->ray.dir);

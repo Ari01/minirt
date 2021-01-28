@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/27 16:36:01 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/28 18:20:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,10 @@ double				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);
 void				set_camera_matrix(t_camera *camera);
 void				compute_camera(t_rt *rt, double x, double y);
-/*void				move_camera(int key, t_rt *rt);
-void				rotate_camera(int key, t_rt *rt);*/
+void				rotate_camera(int key, t_vector *matrix);
 
 // objects
-void				init_object_matrix(t_list *objects, t_vector *cam_matrix);
-void				set_object_matrix(t_list *objects, t_vector *cam_matrix);
+void				set_object(t_object *object, void *ptr, int rotate, double specular);
 
 // sphere
 double				ray_sphere_intersect(t_ray ray, t_object *object, double t_min, double t_max);
@@ -93,6 +91,9 @@ t_vector			get_sphere_normal(t_vector intersection, t_object *object);
 double				ray_plane_intersect(t_ray ray, t_object *object, double t_min, double t_max);
 t_vector			get_plane_normal(t_vector intersection, t_object *object);
 //void				rotate_plane(int key, t_object *object);
+
+// square
+double				ray_square_intersect(t_ray ray, t_object *object, double t_min, double t_max);
 
 // color
 t_color				new_color(double r, double g, double b);
@@ -122,9 +123,10 @@ void				set_yrotation_matrix(t_vector *m, double angle);
 void				set_zrotation_matrix(t_vector *m, double angle);
 
 // transform
+void				move_camera(int key, t_vector *matrix);
+void				rotate_camera(int key, t_vector *matrix);
 void				move_object(int key, t_vector *matrix, t_vector *cam_matrix);
-void				rotate_object(int key, t_vector *matrix, t_vector *cam_matrix);
-void				rotate_object2(int key, t_rt *rt);
+void				rotate_object(int key, t_object *object, t_camera *cam);
 
 // error
 void				ft_perror();

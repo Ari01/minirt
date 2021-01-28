@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/01/19 04:28:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/28 17:14:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct	s_camera
 	t_vector	position;
 	t_vector	direction;
 	t_vector	to_world_matrix[4];
+	t_vector	to_cam_matrix[4];
 	double		fov;
 }				t_camera;
 
@@ -98,6 +99,7 @@ typedef struct	s_object
 	double		specular;
 	t_vector	direction;
 	t_vector	current_direction;
+	int			rotate;
 	t_vector	to_world_matrix[4];
 	double		(*intersect)(t_ray, struct s_object *, double , double);
 	t_vector	(*get_normal)(t_vector, struct s_object *);

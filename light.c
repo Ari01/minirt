@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:19:13 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 18:35:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/28 16:55:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ double			compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vect
 		light_vector = vector_sub(current_light.position, intersection);
 		rt->ray.dir = light_vector;
 		shadow_obj = NULL;
-		get_closest_intersection(rt, &shadow_obj, 0.001, 1.0);
+		get_closest_intersection(rt, &shadow_obj, 0.0001, 1);
 		if (shadow_obj == NULL)
 		{
 			intensity += compute_diffuse(light_vector, normal) * current_light.intensity;
