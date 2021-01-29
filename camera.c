@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 09:02:32 by user42            #+#    #+#             */
-/*   Updated: 2021/01/28 13:05:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/29 14:02:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,80 +17,17 @@ void		set_camera_matrix(t_camera *camera)
 	t_vector right;
 	t_vector up;
 
-	/*if (camera->direction.x > 0)
-		right = vector_cross(camera->direction, new_vector(0, 1, 0));
-	else*/
-		right = vector_cross(new_vector(0, 1, 0), camera->direction);
-	printf("right = %f %f %f\n", right.x, right.y, right.z);
+	right = vector_cross(new_vector(0, 1, 0), camera->direction);
 	up = vector_cross(camera->direction, right);
-	printf("up = %f %f %f\n", up.x, up.y, up.z);
 	camera->to_world_matrix[0] = right;
 	camera->to_world_matrix[1] = up;
 	camera->to_world_matrix[2] = camera->direction;
 	camera->to_world_matrix[3] = new_vector(camera->position.x,
 											camera->position.y,
 											camera->position.z);
-	matrix_cpy(camera->to_cam_matrix, camera->to_cam_matrix);
+	matrix_cpy(camera->to_cam_matrix, camera->to_world_matrix);
 	matrix_invert(camera->to_cam_matrix);
 }
-
-/*
-void		set_camera_matrix(t_camera *camera)
-{
-	t_vector	xm[3];
-	t_vector	ym[3];
-	t_vector	zm[3];
-	double		angle;
-	int			i;
-
-	init_rotation_matrix(xm);
-	init_rotation_matrix(ym);
-	init_rotation_matrix(zm);
-	// x
-	if (camera->direction.z && camera->direction.y)
-		angle = -90 * camera->direction.y + atan(camera->direction.y / camera->direction.z);
-	else if (!camera->direction.z && !camera->direction.y)
-		angle = 0;
-	else if (!camera->direction.z)
-		angle = -90 * camera->direction.y;
-	else
-		angle = 0;
-	set_xrotation_matrix(xm, angle);
-	// y
-	if (camera->direction.z && camera->direction.x)
-		angle = 90 * camera->direction.x - atan(camera->direction.x / camera->direction.z);
-	else if (!camera->direction.z && !camera->direction.x)
-		angle = 0;
-	else if (!camera->direction.z)
-		angle = 90 * camera->direction.x;
-	else
-		angle = (camera->direction.z >= 0 ? 0 : 180);
-	set_yrotation_matrix(ym, angle);
-
-	matrix_mul(xm, ym);
-	i = 0;
-	while (i < 4)
-	{
-		printf("%f %f %f\n", xm[i].x, xm[i].y, xm[i].z);
-		i++;
-	}
-	matrix_mul(xm, zm);
-	i = 0;
-	while (i < 4)
-	{
-		printf("%f %f %f\n", xm[i].x, xm[i].y, xm[i].z);
-		i++;
-	}
-	i = 0;
-	while (i < 3)
-	{
-		camera->to_world_matrix[i] = new_vector(xm[i].x, xm[i].y, xm[i].z);
-		i++;
-	}
-	camera->to_world_matrix[3] = new_vector(camera->position.x,
-											camera->position.y,
-											camera->position.z);
-}*/
 
 void		compute_camera(t_rt *rt, double x, double y)
 {

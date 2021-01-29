@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 20:28:39 by user42            #+#    #+#             */
-/*   Updated: 2021/01/28 18:55:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/29 16:41:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		move_camera(int key, t_vector *matrix)
 	matrix[3] = vector_add(matrix[3], v);
 }
 
-void		rotate_camera(int key, t_vector *matrix)
+void		rotate_camera(int key, t_camera *camera)
 {
 	double		xdeg = 0;
 	double		ydeg = 0;
@@ -43,14 +43,15 @@ void		rotate_camera(int key, t_vector *matrix)
 	{
 		xdeg += (key == 'q' ? -10 : 10);
 		set_yrotation_matrix(mtmp, xdeg);
-		matrix_mul(matrix, mtmp);
 	}
 	if (key == 'z' || key == 's')
 	{
 		ydeg += (key == 'z' ? 10 : -10);
 		set_xrotation_matrix(mtmp, ydeg);
-		matrix_mul(matrix, mtmp);
 	}
+	matrix_mul(camera->to_world_matrix, mtmp);
+	matrix_cpy(camera->to_cam_matrix, camera->to_cam_matrix);
+	matrix_invert(camera->to_cam_matrix);
 }
 
 void		move_object(int key, t_vector *matrix, t_vector *cam_matrix)
@@ -82,22 +83,21 @@ void		rotate_object(int key, t_object *object, t_camera *cam)
 	{
 		init_rotation_matrix(rotation_matrix);
 		angle = 1;
-		if (!vector_dot(object->direction, new_vector(0, 1, 0)))
+		if (!vector_dot(object->current_direction, new_vector(0, 1, 0)))
 			angle *= -1;
 		if (key == 'q' || key == 'd')
 		{	
-			angle *= (key == 'q' ? -40 : 40);
+			angle *= (key == 'q' ? -90 : 90);
 			set_zrotation_matrix(rotation_matrix, angle);
 		}
 		if (key == 'z' || key == 's')
 		{
-			angle *= (key == 'z' ? 40 : -40);
+			angle *= (key == 'z' ? 90 : -90);
 			set_xrotation_matrix(rotation_matrix, angle);
 		}
 		matrix_mul(object->to_world_matrix, cam->to_world_matrix);
 		matrix_mul(object->to_world_matrix, rotation_matrix);
 		matrix_mul(object->to_world_matrix, cam->to_cam_matrix);
 		object->current_direction = dir_matrix_mul(object->direction, object->to_world_matrix);
-		object->current_direction = vector_mul(1 / vector_len(object->current_direction), object->current_direction);
 	}
 }

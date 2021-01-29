@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 19:16:14 by user42            #+#    #+#             */
-/*   Updated: 2021/01/28 13:20:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/29 13:50:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ int		key_hook(int key, t_rt *rt)
 	{
 		if (rt->transform_focus == CAMERA)
 		{
-			rt->transform == TRANSLATE ? move_camera(key, rt->camera->to_world_matrix) : rotate_camera(key, rt->camera->to_world_matrix);
-			matrix_cpy(rt->camera->to_cam_matrix, rt->camera->to_world_matrix);
-			matrix_invert(rt->camera->to_cam_matrix);
+			rt->transform == TRANSLATE ? move_camera(key, rt->camera->to_world_matrix) : rotate_camera(key, rt->camera);
 		}
 		else
 		{

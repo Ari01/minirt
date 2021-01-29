@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/28 18:20:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/29 13:51:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ double				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);
 void				set_camera_matrix(t_camera *camera);
 void				compute_camera(t_rt *rt, double x, double y);
-void				rotate_camera(int key, t_vector *matrix);
 
 // objects
 void				set_object(t_object *object, void *ptr, int rotate, double specular);
@@ -124,7 +123,7 @@ void				set_zrotation_matrix(t_vector *m, double angle);
 
 // transform
 void				move_camera(int key, t_vector *matrix);
-void				rotate_camera(int key, t_vector *matrix);
+void				rotate_camera(int key, t_camera *cam);
 void				move_object(int key, t_vector *matrix, t_vector *cam_matrix);
 void				rotate_object(int key, t_object *object, t_camera *cam);
 
