@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/01/28 17:14:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/31 15:24:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ typedef struct	s_square
 	double		height;
 }				t_square;
 
-typedef struct	s_cylindre
+typedef struct	s_cylinder
 {
 	double		diameter;
 	double		height;
-}				t_cylindre;
+}				t_cylinder;
 
 typedef struct	s_triangle
 {

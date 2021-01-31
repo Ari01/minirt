@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/29 13:51:25 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/31 16:13:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ t_vector			get_plane_normal(t_vector intersection, t_object *object);
 // square
 double				ray_square_intersect(t_ray ray, t_object *object, double t_min, double t_max);
 
+// cylinder
+double				ray_cylinder_intersect(t_ray ray, t_object *object, double t_min, double t_max);
+
 // color
 t_color				new_color(double r, double g, double b);
 int					color_to_trgb(t_color color);
@@ -146,7 +149,7 @@ int					set_scene(char *line, char **split, t_rt *rt);
 int					set_sphere(char **split, t_rt *rt);
 int					set_plane(char **split, t_rt *rt);
 int					set_triangle(char **split, t_rt *rt);
-int					set_cylindre(char **split, t_rt *rt);
+int					set_cylinder(char **split, t_rt *rt);
 int					set_square(char **split, t_rt *rt);
 // parser
 t_rt				set_rt(char *pathfile);

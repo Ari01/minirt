@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/01/28 18:21:21 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/31 16:14:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,30 +92,32 @@ int	set_square(char **split, t_rt *rt)
 	return (1);
 }
 
-int	set_cylindre(char **split, t_rt *rt)
+int	set_cylinder(char **split, t_rt *rt)
 {
 	char		**coord;
 	char		**dir;
 	char		**color;
-	t_cylindre	*cylindre;
+	t_cylinder	*cylinder;
 	t_object	*object;
 
-	cylindre = malloc(sizeof(*cylindre));
+	cylinder = malloc(sizeof(*cylinder));
 	object = malloc(sizeof(*object));
-	if (!cylindre || !object 
+	if (!cylinder || !object 
 		|| !split[1] || !split[2] || !split[3] || !split[4] || !split[5] || split[6])
 		return (0);
 	coord = ft_split(split[1], ",");
 	dir = ft_split(split[2], ",");
 	color = ft_split(split[5], ",");
-	cylindre->diameter = ft_atod(split[3]);
-	cylindre->height = ft_atod(split[4]);
+	cylinder->diameter = ft_atod(split[3]);
+	cylinder->height = ft_atod(split[4]);
 	if (!set_coord(coord, &object->position) || !set_coord(dir, &object->direction)
 		|| !set_color(color, &object->color) || !correct_direction(object->direction)
-		|| cylindre->diameter <= 0 || cylindre->height <= 0)
+		|| cylinder->diameter <= 0 || cylinder->height <= 0)
 		return (0);
-	object->ptr = cylindre;
-	object->intersect = NULL;
+	set_object(object, cylinder, 1, 100);
+	object->intersect = &ray_cylinder_intersect;
+	object->get_normal = &get_plane_normal;
+	object->current_direction = object->direction;
 	ft_lstadd_front(&rt->scene.objects, ft_lstnew(object));
 	return (1);
 }

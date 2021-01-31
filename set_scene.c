@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:44:14 by user42            #+#    #+#             */
-/*   Updated: 2021/01/28 13:06:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/01/31 15:23:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int		set_scene(char *line, char **split, t_rt *rt)
 	else if (!ft_strncmp(split[0], "sq", 2))
 		valid_scene = set_square(split, rt);
 	else if (!ft_strncmp(split[0], "cy", 2))
-		valid_scene = set_cylindre(split, rt);
+		valid_scene = set_cylinder(split, rt);
 	else if (!ft_strncmp(split[0], "tr", 2))
 		valid_scene = set_triangle(split, rt);
 	string_array_free(split);
