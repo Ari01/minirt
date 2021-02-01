@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/01/31 16:13:10 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/01 17:07:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ double				ray_square_intersect(t_ray ray, t_object *object, double t_min, double
 
 // cylinder
 double				ray_cylinder_intersect(t_ray ray, t_object *object, double t_min, double t_max);
+t_vector			get_cylinder_normal(t_vector intersection, t_object *object);
 
 // color
 t_color				new_color(double r, double g, double b);

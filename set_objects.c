@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/01/31 16:14:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/01 19:10:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	set_square(char **split, t_rt *rt)
 		!set_color(color, &object->color) || !correct_direction(object->direction)
 		|| square->height <= 0)
 		return (0);
-	set_object(object, square, 1, 100);
+	set_object(object, square, 1, 500);
 	object->intersect = &ray_square_intersect;
 	object->get_normal = &get_plane_normal;
 	object->current_direction = object->direction;
@@ -114,9 +114,9 @@ int	set_cylinder(char **split, t_rt *rt)
 		|| !set_color(color, &object->color) || !correct_direction(object->direction)
 		|| cylinder->diameter <= 0 || cylinder->height <= 0)
 		return (0);
-	set_object(object, cylinder, 1, 100);
+	set_object(object, cylinder, 1, 500);
 	object->intersect = &ray_cylinder_intersect;
-	object->get_normal = &get_plane_normal;
+	object->get_normal = &get_cylinder_normal;
 	object->current_direction = object->direction;
 	ft_lstadd_front(&rt->scene.objects, ft_lstnew(object));
 	return (1);
