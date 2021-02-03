@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/01 17:07:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/03 16:05:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 */
 # define CAMERA		0
 # define OBJECT		1
+# define LIGHT		2
 # define TRANSLATE	0
 # define ROTATE		1
 # define RAD		0.174533
@@ -128,7 +129,7 @@ void				set_zrotation_matrix(t_vector *m, double angle);
 // transform
 void				move_camera(int key, t_vector *matrix);
 void				rotate_camera(int key, t_camera *cam);
-void				move_object(int key, t_vector *matrix, t_vector *cam_matrix);
+t_vector			move_object(int key, t_vector position, t_vector *cam_matrix);
 void				rotate_object(int key, t_object *object, t_camera *cam);
 
 // error

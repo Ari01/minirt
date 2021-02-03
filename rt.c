@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 15:34:58 by user42            #+#    #+#             */
-/*   Updated: 2021/01/12 19:17:37 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/03 16:44:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_rt	init_rt()
 	rt.scene.light = NULL;
 	rt.scene.objects = NULL;
 	rt.object = NULL;
+	rt.camera = NULL;
+	rt.light = NULL;
 	return (rt);
 }
 

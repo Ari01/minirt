@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:26:57 by user42            #+#    #+#             */
-/*   Updated: 2021/02/01 19:01:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/03 19:51:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@ int			ray_infinite_cylinder_intersect(t_ray ray, t_object *object, double *t1, d
 
 	t_cylinder	cylinder;
 	cylinder = *(t_cylinder *)object->ptr;
-	tmp = vector_mul(vector_dot(ray.dir, object->direction), object->direction);
-	tmp = vector_sub(ray.dir, tmp);
+	tmp = vector_cross(ray.dir, object->direction);
 	dist = vector_sub(ray.pos, object->position);
-	tmp2 = vector_mul(vector_dot(dist, object->direction), object->direction);
-	tmp2 = vector_sub(dist, tmp2);
+	tmp2 = vector_cross(dist, object->direction);
 	quadratic.x = vector_dot(tmp, tmp);
 	quadratic.y = 2 * vector_dot(tmp, tmp2);
-	quadratic.z = vector_dot(tmp2, tmp2) - pow(cylinder.diameter / 2, 2);
+	quadratic.z = vector_dot(tmp2, tmp2) - (pow(cylinder.diameter / 2, 2)
+	* vector_dot(object->direction, object->direction));
 	return (resolve_quadratic(quadratic, t1, t2));
 }
 
@@ -66,8 +65,6 @@ int			check_inside_ray(t_ray ray, t_object *object, double t)
 	center = vector_add(object->position, vector_mul(cylinder.height, object->direction));
 	vtmp = vector_sub(intersection, center);
 	dot = vector_dot(vtmp, vtmp);
-	if (dot < cylinder.diameter * cylinder.diameter / 4)
-		printf("%d\n", dot < cylinder.diameter * cylinder.diameter / 4);
 	return (dot < cylinder.diameter * cylinder.diameter / 4);
 }
 
@@ -111,7 +108,7 @@ double		ray_cylinder_intersect(t_ray ray, t_object *object, double t_min, double
 		if (t1 > t_min && t1 < t_max && check_between_planes(ray, object, t1))
 		{
 			closest_t = t1;
-			if (t2 > t_min && t2 < t_max && check_between_planes(ray, object, t2))
+			if (t2 > t_min && t2 < t_max )
 				closest_t = MIN(t1, t2);
 		}
 		else if (t2 > t_min && t2 < t_max && check_between_planes(ray, object, t2))
@@ -132,5 +129,7 @@ t_vector	get_cylinder_normal(t_vector intersection, t_object *object)
 	tmp = vector_len(vector_sub(intersection, object->position));
 	tmp = sqrtf(tmp * tmp - cylinder.diameter * cylinder.diameter / 4);
 	normal = vector_add(object->position, vector_mul(tmp, object->direction));
+	normal = vector_sub(intersection, normal);
+	normal = vector_mul(1 / vector_len(normal), normal);
 	return (normal);
 }

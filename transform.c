@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 20:28:39 by user42            #+#    #+#             */
-/*   Updated: 2021/01/29 16:41:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/03 16:05:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		rotate_camera(int key, t_camera *camera)
 	matrix_invert(camera->to_cam_matrix);
 }
 
-void		move_object(int key, t_vector *matrix, t_vector *cam_matrix)
+t_vector	move_object(int key, t_vector position, t_vector *cam_matrix)
 {
 	t_vector	v;
 
@@ -71,7 +71,7 @@ void		move_object(int key, t_vector *matrix, t_vector *cam_matrix)
 	if (key == CONTROL)
 		v = new_vector(0, -1, 0);
 	v = dir_matrix_mul(v, cam_matrix);
-	matrix[3] = vector_add(matrix[3], v);
+	return (vector_add(position, v));
 }
 
 void		rotate_object(int key, t_object *object, t_camera *cam)

@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:19:13 by user42            #+#    #+#             */
-/*   Updated: 2021/01/28 16:55:45 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/03 19:31:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ double			compute_diffuse(t_vector light_vector, t_vector normal)
 
 	intensity = 0;
 	n_dot_l = vector_dot(normal, light_vector);
-	if (n_dot_l > 0)
+	if (n_dot_l > 0.0001)
 		intensity = n_dot_l / (vector_len(normal) * vector_len(light_vector));
 	return (intensity);
 }

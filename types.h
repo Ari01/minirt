@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/01/31 15:24:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/03 16:01:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct	s_rt
 	t_scene		scene;
 	t_camera	*camera;
 	t_object	*object;
+	t_light		*light;
 	t_ray		ray;
 	int			transform;
 	int			transform_focus;
