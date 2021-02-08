@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 17:35:35 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 14:55:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/04 20:25:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,13 @@ double			ray_sphere_intersect(t_ray ray, t_object *object, double t_min, double 
 	return (t_max);
 }
 
-t_vector	get_sphere_normal(t_vector intersection, t_object *object)
+t_vector	get_sphere_normal(t_ray ray, t_vector intersection, t_object *object)
 {
 	t_vector normal;
 
 	normal = vector_sub(intersection, object->position);
 	normal = vector_mul(1 / vector_len(normal), normal);
+	(void)ray;
 	return (normal);
 }
 

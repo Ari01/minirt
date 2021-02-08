@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/02/03 16:01:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/08 09:49:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ typedef struct	s_cylinder
 
 typedef struct	s_triangle
 {
+	t_vector	p0;
 	t_vector	p1;
 	t_vector	p2;
-	t_vector	p3;
 }				t_triangle;
 
 typedef struct	s_object
@@ -102,8 +102,7 @@ typedef struct	s_object
 	int			rotate;
 	t_vector	to_world_matrix[4];
 	double		(*intersect)(t_ray, struct s_object *, double , double);
-	t_vector	(*get_normal)(t_vector, struct s_object *);
-	//void		(*rotate)(int, struct s_object *);
+	t_vector	(*get_normal)(t_ray, t_vector, struct s_object *);
 }				t_object;
 
 /*

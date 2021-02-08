@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/02/03 16:40:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/06 20:02:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,11 +137,13 @@ int	set_triangle(char **split, t_rt *rt)
 	coord[1] = ft_split(split[2], ",");
 	coord[2] = ft_split(split[3], ",");
 	color = ft_split(split[4], ",");
-	if (!set_coord(coord[0], &triangle->p1) || !set_coord(coord[1], &triangle->p2)
-		|| !set_coord(coord[2], &triangle->p3) || !set_color(color, &object->color))
+	if (!set_coord(coord[0], &triangle->p0) || !set_coord(coord[1], &triangle->p1)
+		|| !set_coord(coord[2], &triangle->p2) || !set_color(color, &object->color))
 		return (0);
-	object->ptr = triangle;
-	object->intersect = NULL;
+	set_object(object, triangle, 0, 1000);
+	object->intersect = &ray_triangle_intersect;
+	object->get_normal = &get_triangle_normal;
+	object->current_direction = new_vector(0, 0, 0);
 	ft_lstadd_front(&rt->scene.objects, ft_lstnew(object));
 	return (1);
 }

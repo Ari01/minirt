@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/03 16:05:59 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/08 09:49:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,26 @@ void				set_object(t_object *object, void *ptr, int rotate, double specular);
 
 // sphere
 double				ray_sphere_intersect(t_ray ray, t_object *object, double t_min, double t_max);
-t_vector			get_sphere_normal(t_vector intersection, t_object *object);
+t_vector			get_sphere_normal(t_ray ray, t_vector intersection, t_object *object);
 
 // plane
 double				ray_plane_intersect(t_ray ray, t_object *object, double t_min, double t_max);
-t_vector			get_plane_normal(t_vector intersection, t_object *object);
-//void				rotate_plane(int key, t_object *object);
+t_vector			get_plane_normal(t_ray ray, t_vector intersection, t_object *object);
 
 // square
 double				ray_square_intersect(t_ray ray, t_object *object, double t_min, double t_max);
 
+// cylinder caps
+double				ray_cylinder_planes_intersect(t_ray ray, t_object *object, double t_min, double t_max);
+int					get_caps_normal(t_vector intersection, t_object *object, t_vector *normal);
+
 // cylinder
 double				ray_cylinder_intersect(t_ray ray, t_object *object, double t_min, double t_max);
-t_vector			get_cylinder_normal(t_vector intersection, t_object *object);
+t_vector			get_cylinder_normal(t_ray ray, t_vector intersection, t_object *object);
+
+// triangle
+double				ray_triangle_intersect(t_ray ray, t_object *object, double t_min, double t_max);
+t_vector			get_triangle_normal(t_ray ray, t_vector intersection, t_object *object);
 
 // color
 t_color				new_color(double r, double g, double b);
