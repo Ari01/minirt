@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 17:23:08 by user42            #+#    #+#             */
-/*   Updated: 2021/01/28 18:24:52 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/08 11:22:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ double		ray_square_intersect(t_ray ray, t_object *object, double t_min, double t
 	{
 		ray.dir = vector_mul(t, ray.dir);
 		intersection = vector_add(ray.pos, ray.dir);
-		if (intersection.x <= object->position.x + square.height / 2
-			&& intersection.x >= object->position.x - square.height / 2
-			&& intersection.y <= object->position.y + square.height / 2
-			&& intersection.y >= object->position.y - square.height / 2
-			&& intersection.z <= object->position.z + square.height / 2
-			&& intersection.z >= object->position.z - square.height / 2)
+		if (intersection.x <= object->vertex[0].x + square.height / 2
+			&& intersection.x >= object->vertex[0].x - square.height / 2
+			&& intersection.y <= object->vertex[0].y + square.height / 2
+			&& intersection.y >= object->vertex[0].y - square.height / 2
+			&& intersection.z <= object->vertex[0].z + square.height / 2
+			&& intersection.z >= object->vertex[0].z - square.height / 2)
 			return (t);
 	}
 	return (t_max);

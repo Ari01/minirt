@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 20:28:39 by user42            #+#    #+#             */
-/*   Updated: 2021/02/03 16:05:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/08 15:07:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		rotate_camera(int key, t_camera *camera)
 	matrix_invert(camera->to_cam_matrix);
 }
 
-t_vector	move_object(int key, t_vector position, t_vector *cam_matrix)
+t_vector	get_translation(int key, t_vector *cam_matrix)
 {
 	t_vector	v;
 
@@ -71,19 +71,33 @@ t_vector	move_object(int key, t_vector position, t_vector *cam_matrix)
 	if (key == CONTROL)
 		v = new_vector(0, -1, 0);
 	v = dir_matrix_mul(v, cam_matrix);
-	return (vector_add(position, v));
+	return (v);
+}
+
+void		move_object(t_object *object)
+{
+	int i;
+
+	i = 0;
+	while (i < object->nvertices)
+	{
+		object->vertex[i] = vector_add(object->vertex[i], object->to_world_matrix[3]);
+		i++;
+	}
 }
 
 void		rotate_object(int key, t_object *object, t_camera *cam)
 {
 	double		angle;
+	double		dot;
 	t_vector	rotation_matrix[3];
 
 	if (object->rotate)
 	{
 		init_rotation_matrix(rotation_matrix);
 		angle = 1;
-		if (!vector_dot(object->current_direction, new_vector(0, 1, 0)))
+		dot = vector_dot(object->current_direction, new_vector(0, 1, 0));
+		if (dot < exp(-6) && -dot < exp(-6))
 			angle *= -1;
 		if (key == 'q' || key == 'd')
 		{	

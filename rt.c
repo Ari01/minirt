@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 15:34:58 by user42            #+#    #+#             */
-/*   Updated: 2021/02/03 16:44:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/08 10:42:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	free_object(void *object)
 	{
 		if (tmp->ptr)
 			free(tmp->ptr);
+		if (tmp->vertex)
+			free(tmp->vertex);
 		free(tmp);
 	}
 }

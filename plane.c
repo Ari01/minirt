@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 13:37:29 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 09:05:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/08 17:03:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,14 @@
 double		ray_plane_intersect(t_ray ray, t_object *object, double t_min, double t_max)
 {
 	t_vector	dist;
-	//t_plane		plane;
 	double		t;
 	double		denom;
 
 	t = t_max;
-	//plane = *(t_plane *)object->ptr;
 	denom = vector_dot(object->current_direction, ray.dir);
 	if (denom > exp(-6) || -denom > exp(-6))
 	{
-		dist = vector_sub(object->position, ray.pos);
+		dist = vector_sub(object->vertex[0], ray.pos);
 		t = vector_dot(dist, object->current_direction) / denom;
 	}
 	if (t > t_min && t < t_max)
@@ -35,6 +33,7 @@ double		ray_plane_intersect(t_ray ray, t_object *object, double t_min, double t_
 t_vector	get_plane_normal(t_ray ray, t_vector intersection, t_object *object)
 {
 	(void)intersection;
-	(void)ray;
+	if (vector_dot(object->current_direction, ray.dir) > 0)
+		return (vector_mul(-1, object->current_direction));
 	return (object->current_direction);
 }

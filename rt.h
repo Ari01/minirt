@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 09:49:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/08 10:19:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,8 @@ void				set_zrotation_matrix(t_vector *m, double angle);
 // transform
 void				move_camera(int key, t_vector *matrix);
 void				rotate_camera(int key, t_camera *cam);
-t_vector			move_object(int key, t_vector position, t_vector *cam_matrix);
+t_vector			get_translation(int key, t_vector *cam_matrix);
+void				move_object(t_object *object);
 void				rotate_object(int key, t_object *object, t_camera *cam);
 
 // error

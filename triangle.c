@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:06:08 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 09:24:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/08 16:47:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ double		ray_triangle_intersect(t_ray ray, t_object *object, double t_min, double
 	double		t;
 
 	triangle = *(t_triangle *)object->ptr;
-	normal = vector_cross(vector_sub(triangle.p1, triangle.p0), vector_sub(triangle.p2, triangle.p0));
+	normal = vector_cross(vector_sub(object->vertex[0], object->vertex[1]), vector_sub(object->vertex[0], object->vertex[2]));
 	tmp = vector_dot(normal, ray.dir);
 	t = t_max;
 	if (tmp > exp(-6) || -tmp > exp(-6))
 	{
-		t = -(vector_dot(normal, ray.pos) + vector_dot(normal, triangle.p0)) / tmp;
+		t = -(vector_dot(normal, ray.pos) - vector_dot(normal, object->vertex[0])) / tmp;
 		intersection = vector_add(ray.pos, vector_mul(t, ray.dir));
 		if (t <= t_min
-			|| !inside_outside_test(normal, triangle.p1, triangle.p0, intersection)
-			|| !inside_outside_test(normal, triangle.p2, triangle.p1, intersection)
-			|| !inside_outside_test(normal, triangle.p0, triangle.p2, intersection))
+			|| !inside_outside_test(normal, object->vertex[1], object->vertex[0], intersection)
+			|| !inside_outside_test(normal, object->vertex[2], object->vertex[1], intersection)
+			|| !inside_outside_test(normal, object->vertex[0], object->vertex[2], intersection))
 			return (t_max);
 	}
 	return (t);
@@ -61,8 +61,8 @@ t_vector	get_triangle_normal(t_ray ray, t_vector intersection, t_object *object)
 	(void)ray;
 	(void)intersection;
 	triangle = *(t_triangle *)object->ptr;
-	p0p1 = vector_sub(triangle.p1, triangle.p0);
-	p0p2 = vector_sub(triangle.p2, triangle.p0);
+	p0p1 = vector_sub(object->vertex[1], triangle.p0);
+	p0p2 = vector_sub(object->vertex[2], triangle.p0);
 	normal = vector_cross(p0p1, p0p2);
 	if (vector_dot(normal, ray.dir) > 0)
 		normal = vector_mul(-1, normal);

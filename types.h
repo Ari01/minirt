@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 09:49:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/08 11:10:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ typedef struct	s_triangle
 typedef struct	s_object
 {
 	void		*ptr;
-	t_vector	position;
+	t_vector	*vertex;
+	int			nvertices;
 	t_color		color;
 	double		specular;
 	t_vector	direction;

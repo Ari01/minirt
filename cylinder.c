@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:26:57 by user42            #+#    #+#             */
-/*   Updated: 2021/02/06 19:04:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/08 14:58:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int			ray_infinite_cylinder_intersect(t_ray ray, t_object *object, double *t1, d
 
 	t_cylinder	cylinder;
 	cylinder = *(t_cylinder *)object->ptr;
-	tmp = vector_cross(ray.dir, object->direction);
-	dist = vector_sub(ray.pos, object->position);
-	tmp2 = vector_cross(dist, object->direction);
+	tmp = vector_cross(ray.dir, object->current_direction);
+	dist = vector_sub(ray.pos, object->vertex[0]);
+	tmp2 = vector_cross(dist, object->current_direction);
 	quadratic.x = vector_dot(tmp, tmp);
 	quadratic.y = 2 * vector_dot(tmp, tmp2);
 	quadratic.z = vector_dot(tmp2, tmp2) - (pow(cylinder.diameter / 2, 2)
-				* vector_dot(object->direction, object->direction));
+				* vector_dot(object->current_direction, object->current_direction));
 	return (resolve_quadratic(quadratic, t1, t2));
 }
 
@@ -40,11 +40,11 @@ int			check_between_planes(t_ray ray, t_object *object, double t)
 
 	cylinder = *(t_cylinder *)object->ptr;
 	intersection = vector_add(ray.pos, vector_mul(t, ray.dir));
-	dot = vector_dot(object->direction, vector_sub(intersection, object->position));
+	dot = vector_dot(object->current_direction, vector_sub(intersection, object->vertex[0]));
 	if (dot < 0)
 		return (0);
-	center = vector_add(object->position, vector_mul(cylinder.height, object->direction));
-	dot = vector_dot(object->direction, vector_sub(intersection, center));
+	center = vector_add(object->vertex[0], vector_mul(cylinder.height, object->current_direction));
+	dot = vector_dot(object->current_direction, vector_sub(intersection, center));
 	return (dot <= 0);
 }
 
@@ -82,9 +82,9 @@ t_vector	get_cylinder_normal(t_ray ray, t_vector intersection, t_object *object)
 	cylinder = *(t_cylinder *)object->ptr;
 	if (get_caps_normal(intersection, object, &normal))
 		return (normal);
-	tmp = vector_len(vector_sub(intersection, object->position));
+	tmp = vector_len(vector_sub(intersection, object->vertex[0]));
 	tmp = sqrtf(tmp * tmp - cylinder.diameter * cylinder.diameter / 4);
-	normal = vector_add(object->position, vector_mul(tmp, object->direction));
+	normal = vector_add(object->vertex[0], vector_mul(tmp, object->current_direction));
 	normal = vector_sub(intersection, normal);
 	normal = vector_mul(1 / vector_len(normal), normal);
 	if (vector_dot(ray.dir, normal) <= 0)

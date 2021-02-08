@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:14:22 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 13:53:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/08 12:23:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,8 @@ void	print_rt(t_rt *rt)
 	ite = rt->scene.objects;
 	while (ite)
 	{
-		t_object object = *(t_object*)ite->content;
-		t_sphere sp = *(t_sphere*)object.ptr;
-		printf("sp	%f %f %f		%f		%f %f %f\n", object.position.x, object.position.y, object.position.z, sp.diameter, object.color.r, object.color.g, object.color.b);
+		t_object *object = (t_object*)ite->content;
+		printf("o	%f %f %f\n", object->vertex[0].x, object->vertex[0].y, object->vertex[0].z);
 		ite = ite->next;
 	}
 }
@@ -52,7 +51,7 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		rt = set_rt(av[1]);
-		//print_rt(&rt);
+		print_rt(&rt);
 		set_mlx(&rt);
 		render(&rt);
 		mlx_hook(rt.window, 33, 1L<<0, &exit_prog, &rt);
