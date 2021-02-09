@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:32:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 15:21:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/09 04:57:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ double		get_closest_intersection(t_rt *rt, t_object **closest_object, double t_m
 		if (t < closest_t)
 		{
 			closest_t = t;
-			*closest_object = current_object;
+			if (closest_object)
+				*closest_object = current_object;
 		}
 		object_list = object_list->next;
 	}
@@ -76,7 +77,7 @@ t_color		trace_ray(t_rt *rt)
 		intersection = vector_add(rt->ray.pos, rt->ray.dir);
 		normal = closest_object->get_normal(rt->ray, intersection, closest_object);
 	//	return (closest_object->color);
-		return (color_mul(compute_light(rt, closest_object, intersection, normal), closest_object->color));
+		return (compute_light(rt, closest_object, intersection, normal));
 	}
 	return (new_color(0, 0, 0));
 }

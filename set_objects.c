@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 16:55:19 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/09 05:16:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	set_square(char **split, t_rt *rt)
 		!set_color(color, &object->color) || !correct_direction(object->direction)
 		|| square->height <= 0)
 		return (0);
-	set_object(object, square, 1, 0);
+	set_object(object, square, 1, 1000);
 	object->nvertices = 1;
 	object->intersect = &ray_square_intersect;
 	object->get_normal = &get_plane_normal;
