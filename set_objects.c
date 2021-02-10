@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/02/06 20:02:57 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/10 05:58:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		set_sphere(char **split, t_rt *rt)
 		sphere->diameter <= 0)
 		return (0);
 	set_object(object, sphere, 0, 500);
+	object->reflective = 1;
 	object->direction = new_vector(0, 0, 0);
 	object->intersect = &ray_sphere_intersect;
 	object->get_normal = &get_sphere_normal;
@@ -57,6 +58,7 @@ int	set_plane(char **split, t_rt *rt)
 		!set_color(color, &object->color) || !correct_direction(object->direction))
 		return (0);
 	set_object(object, NULL, 1, -1);
+	object->reflective = 0;
 	object->intersect = &ray_plane_intersect;
 	object->get_normal = &get_plane_normal;
 	object->current_direction = object->direction;
@@ -85,6 +87,7 @@ int	set_square(char **split, t_rt *rt)
 		|| square->height <= 0)
 		return (0);
 	set_object(object, square, 1, 0);
+	object->reflective = 0;
 	object->intersect = &ray_square_intersect;
 	object->get_normal = &get_plane_normal;
 	object->current_direction = object->direction;

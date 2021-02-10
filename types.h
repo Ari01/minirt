@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 09:49:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/10 03:35:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct	s_object
 	t_vector	direction;
 	t_vector	current_direction;
 	int			rotate;
+	int			reflective;
 	t_vector	to_world_matrix[4];
 	double		(*intersect)(t_ray, struct s_object *, double , double);
 	t_vector	(*get_normal)(t_ray, t_vector, struct s_object *);
@@ -140,6 +141,7 @@ typedef struct	s_rt
 	t_object	*object;
 	t_light		*light;
 	t_ray		ray;
+	int			depth;
 	int			transform;
 	int			transform_focus;
 }				t_rt;

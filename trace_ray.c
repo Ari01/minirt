@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:32:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 09:06:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/10 05:49:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,47 @@ double		get_closest_intersection(t_rt *rt, t_object **closest_object, double t_m
 		if (t < closest_t)
 		{
 			closest_t = t;
-			*closest_object = current_object;
+			if (closest_object)
+				*closest_object = current_object;
 		}
 		object_list = object_list->next;
 	}
 	return (closest_t);
 }
 
-t_color		trace_ray(t_rt *rt)
+t_vector	reflect_ray(t_vector raydir, t_vector normal)
+{
+	t_vector	reflect;
+
+	reflect = vector_mul(2 * vector_dot(normal, raydir), normal);
+	reflect = vector_sub(reflect, raydir);
+	return (reflect);
+}
+
+t_color		trace_ray(t_rt *rt, int depth)
 {
 	double		closest_t;
 	t_object	*closest_object;
 	t_vector	intersection;
 	t_vector	normal;
+	t_color		color;
 
-	rt->ray.pos = rt->camera->position;
-	rt->ray.dir = rt->camera->direction;
 	closest_object = NULL;
 	closest_t = get_closest_intersection(rt, &closest_object, exp(-6), INFINITY);
 	if (closest_object)
 	{
-		rt->ray.dir = vector_mul(closest_t, rt->ray.dir);
-		intersection = vector_add(rt->ray.pos, rt->ray.dir);
+		intersection = vector_add(rt->ray.pos, vector_mul(closest_t, rt->ray.dir));
 		normal = closest_object->get_normal(rt->ray, intersection, closest_object);
 	//	return (closest_object->color);
-		return (color_mul(compute_light(rt, closest_object, intersection, normal), closest_object->color));
+		color = closest_object->color;
+		//color = color_mul(compute_light(rt, closest_object, intersection, normal), color);
+		color = color_add(color_mul(0.8, color), color_mul(0.2, compute_light(rt, closest_object, intersection, normal)));
+		//color = color_mix(compute_light(rt, closest_object, intersection, normal), color);
+		if (depth == 3 || !closest_object->reflective)
+			return (color);
+		rt->ray.dir = reflect_ray(rt->ray.dir, normal);
+		rt->ray.pos = vector_add(vector_mul(0.1, normal), intersection);
+		return (color_clamp(color_add(color_mul(0.5, color), color_mul(0.5, trace_ray(rt, depth + 1)))));
 	}
 	return (new_color(0, 0, 0));
 }
