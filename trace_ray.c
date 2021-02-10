@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:32:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/09 04:57:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/10 03:28:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,20 @@ t_color		trace_ray(t_rt *rt)
 	t_vector	intersection;
 	t_vector	normal;
 
-	rt->ray.pos = rt->camera->position;
-	rt->ray.dir = rt->camera->direction;
-	closest_object = NULL;
-	closest_t = get_closest_intersection(rt, &closest_object, exp(-6), INFINITY);
-	if (closest_object)
+	if (rt->depth < 10)
 	{
-		rt->ray.dir = vector_mul(closest_t, rt->ray.dir);
-		intersection = vector_add(rt->ray.pos, rt->ray.dir);
-		normal = closest_object->get_normal(rt->ray, intersection, closest_object);
-	//	return (closest_object->color);
-		return (compute_light(rt, closest_object, intersection, normal));
+		closest_object = NULL;
+		closest_t = get_closest_intersection(rt, &closest_object, exp(-6), INFINITY);
+		if (closest_object)
+		{
+			rt->ray.dir = vector_mul(closest_t, rt->ray.dir);
+			intersection = vector_add(rt->ray.pos, rt->ray.dir);
+			normal = closest_object->get_normal(rt->ray, intersection, closest_object);
+		//	return (closest_object->color);
+			return (color_add(closest_object->color, compute_light(rt, closest_object, intersection, normal)));
+		}
 	}
+	else
+		rt->depth = 0;
 	return (new_color(0, 0, 0));
 }

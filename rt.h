@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/09 04:57:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/09 12:35:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ t_vector			get_triangle_normal(t_ray ray, t_vector intersection, t_object *objec
 // color
 t_color				new_color(double r, double g, double b);
 int					color_to_trgb(t_color color);
+t_color				color_mix(t_color c1, t_color c2);
 t_color				color_add(t_color c1, t_color c2);
 t_color				color_mul(double x, t_color color);
 t_color				color_clamp(t_color color);
@@ -121,6 +122,9 @@ t_vector			vector_mul(double x, t_vector v2);
 double				vector_dot(t_vector v1, t_vector v2);
 t_vector			vector_cross(t_vector v1, t_vector v2);
 double				vector_len(t_vector v);
+
+// ray
+t_ray				new_ray(t_vector pos, t_vector dir);
 
 // matrix
 t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);

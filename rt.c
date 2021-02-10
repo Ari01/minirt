@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 15:34:58 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 10:42:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/10 01:14:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_rt	init_rt()
 
 	rt.width = -1;
 	rt.height = -1;
+	rt.depth = 0;
+	rt.hit_color = new_color(0, 0, 0);
 	rt.scene = init_scene();
 	rt.transform = TRANSLATE;
 	rt.transform_focus = CAMERA;

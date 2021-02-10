@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 07:10:25 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 12:39:30 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/09 12:36:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	render(t_rt *rt)
 		while (i < rt->width)
 		{
 			compute_camera(rt, i, j);
+			rt->ray = new_ray(rt->camera->position, rt->camera->direction);
 			color = trace_ray(rt);
 			img_pixel_put(rt, i, j, color_to_trgb(color_clamp(color)));
 			i++;

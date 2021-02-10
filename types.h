@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 11:10:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/10 01:09:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,12 @@ typedef struct	s_triangle
 	t_vector	p2;
 }				t_triangle;
 
+typedef struct	s_material
+{
+	double	specular;
+	int		reflective;
+}				t_material;
+
 typedef struct	s_object
 {
 	void		*ptr;
@@ -98,6 +104,7 @@ typedef struct	s_object
 	int			nvertices;
 	t_color		color;
 	double		specular;
+	int			reflective;
 	t_vector	direction;
 	t_vector	current_direction;
 	int			rotate;
@@ -141,6 +148,8 @@ typedef struct	s_rt
 	t_object	*object;
 	t_light		*light;
 	t_ray		ray;
+	t_color		hit_color;
+	int			depth;
 	int			transform;
 	int			transform_focus;
 }				t_rt;
