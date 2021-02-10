@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:26:57 by user42            #+#    #+#             */
-/*   Updated: 2021/02/06 19:04:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/10 07:38:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,16 @@ int			check_between_planes(t_ray ray, t_object *object, double t)
 
 double		ray_cylinder_intersect(t_ray ray, t_object *object, double t_min, double t_max)
 {
-	double	t1;
-	double	t2;
-	double	t3;
-	double	closest_t;
+	double		t1;
+	double		t2;
+	double		t3;
+	double		closest_t;
+	t_cylinder	cylinder;
 
 	closest_t = t_max;
-	t3 = ray_cylinder_planes_intersect(ray, object, t_min, t_max);
+	cylinder = *(t_cylinder *)object->ptr;
+	if (cylinder.caps)
+		t3 = ray_cylinder_planes_intersect(ray, object, t_min, t_max);
 	if (ray_infinite_cylinder_intersect(ray, object, &t1, &t2))
 	{
 		if (t1 > t_min && t1 < t_max && check_between_planes(ray, object, t1))
@@ -67,7 +70,7 @@ double		ray_cylinder_intersect(t_ray ray, t_object *object, double t_min, double
 		}
 		else if (t2 > t_min && t2 < t_max && check_between_planes(ray, object, t2))
 			closest_t = t2;
-		if (t3 > t_min && t3 < t_max && t3 < closest_t)
+		if (cylinder.caps && t3 > t_min && t3 < t_max && t3 < closest_t)
 			closest_t = t3;
 	}
 	return (closest_t);
@@ -80,7 +83,7 @@ t_vector	get_cylinder_normal(t_ray ray, t_vector intersection, t_object *object)
 	t_vector	normal;
 
 	cylinder = *(t_cylinder *)object->ptr;
-	if (get_caps_normal(intersection, object, &normal))
+	if (cylinder.caps && get_caps_normal(intersection, object, &normal))
 		return (normal);
 	tmp = vector_len(vector_sub(intersection, object->position));
 	tmp = sqrtf(tmp * tmp - cylinder.diameter * cylinder.diameter / 4);

@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:19:13 by user42            #+#    #+#             */
-/*   Updated: 2021/02/10 05:43:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/10 06:13:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_ambiant_light	init_ambiant_light()
 	return (l);
 }
 
+/*
 double			compute_diffuse(t_vector light_vector, t_vector normal)
 {
 	double	n_dot_l;
@@ -30,7 +31,18 @@ double			compute_diffuse(t_vector light_vector, t_vector normal)
 	if (n_dot_l > 0.0001)
 		intensity = n_dot_l / (vector_len(normal) * vector_len(light_vector));
 	return (intensity);
+}*/
+
+double			compute_diffuse(t_light light, t_vector light_vec, double len, t_vector normal)
+{
+	double	dot;
+	double	r2;
+
+	r2 = len * len;
+	dot = vector_dot(normal, light_vec);
+	return (0.18 * light.intensity * 1000 * dot / (r2 * M_PI));
 }
+
 
 double			compute_specular(double spec, t_vector viewray_dir, t_vector normal, t_vector light_vector)
 {
@@ -71,7 +83,7 @@ t_color			compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 		rt->ray.dir = light_vector;
 		if (get_closest_intersection(rt, NULL, exp(-6), 1) == 1)
 		{
-			intensity = compute_diffuse(light_vector, normal) * current_light.intensity;
+			intensity = compute_diffuse(current_light, light_vector, vector_len(light_vector), normal) * current_light.intensity;
 			if (object->specular != -1)
 				intensity += compute_specular(object->specular, rt->camera->direction, normal, light_vector) * current_light.intensity;
 		}

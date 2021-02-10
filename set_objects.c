@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/02/10 05:58:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/10 08:08:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		set_sphere(char **split, t_rt *rt)
 		sphere->diameter <= 0)
 		return (0);
 	set_object(object, sphere, 0, 500);
-	object->reflective = 1;
+	object->reflective = 0;
 	object->direction = new_vector(0, 0, 0);
 	object->intersect = &ray_sphere_intersect;
 	object->get_normal = &get_sphere_normal;
@@ -105,19 +105,21 @@ int	set_cylinder(char **split, t_rt *rt)
 
 	cylinder = malloc(sizeof(*cylinder));
 	object = malloc(sizeof(*object));
-	if (!cylinder || !object 
-		|| !split[1] || !split[2] || !split[3] || !split[4] || !split[5] || split[6])
+	if (!cylinder || !object || !split[1] || !split[2] || !split[3] 
+		|| !split[4] || !split[5] || !split[6] || !split[7] || split[8])
 		return (0);
 	coord = ft_split(split[1], ",");
 	dir = ft_split(split[2], ",");
-	color = ft_split(split[5], ",");
-	cylinder->diameter = ft_atod(split[3]);
-	cylinder->height = ft_atod(split[4]);
+	color = ft_split(split[7], ",");
+	cylinder->diameter = ft_atod(split[5]);
+	cylinder->height = ft_atod(split[6]);
+	cylinder->caps = ft_atoi(split[3]);
 	if (!set_coord(coord, &object->position) || !set_coord(dir, &object->direction)
 		|| !set_color(color, &object->color) || !correct_direction(object->direction)
 		|| cylinder->diameter <= 0 || cylinder->height <= 0)
 		return (0);
 	set_object(object, cylinder, 1, 2000);
+	object->reflective = ft_atoi(split[4]);
 	object->intersect = &ray_cylinder_intersect;
 	object->get_normal = &get_cylinder_normal;
 	object->current_direction = object->direction;

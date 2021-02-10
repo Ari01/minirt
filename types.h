@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/02/10 03:35:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/10 07:37:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct	s_cylinder
 {
 	double		diameter;
 	double		height;
+	int			caps;
 }				t_cylinder;
 
 typedef struct	s_triangle
