@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/02/10 03:35:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/11 12:54:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ typedef struct	s_color
 	double g;
 	double b;
 }				t_color;
+
+typedef struct	s_hls
+{
+	double h;
+	double l;
+	double s;
+}				t_hls;
 
 typedef struct	s_vector
 {

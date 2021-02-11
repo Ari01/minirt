@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/10 05:43:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/11 13:31:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ t_color				color_add(t_color c1, t_color c2);
 t_color				color_mix(t_color c1, t_color c2);
 t_color				color_mul(double x, t_color color);
 t_color				color_clamp(t_color color);
+t_color				hls_to_rgb(t_hls hls);
+t_hls				rgb_to_hls(t_color c);
 
 // vector
 t_vector			new_vector(double x, double y, double z);

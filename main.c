@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:14:22 by user42            #+#    #+#             */
-/*   Updated: 2021/01/05 13:53:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/11 14:59:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@ void	print_rt(t_rt *rt)
 		ite = ite->next;
 	}
 	ite = rt->scene.objects;
+	int count = 0;
 	while (ite)
 	{
-		t_object object = *(t_object*)ite->content;
-		t_sphere sp = *(t_sphere*)object.ptr;
-		printf("sp	%f %f %f		%f		%f %f %f\n", object.position.x, object.position.y, object.position.z, sp.diameter, object.color.r, object.color.g, object.color.b);
+		t_object object = *(t_object *)ite->content;
+		printf("o	%f %f %f	%f %f %f\n", object.position.x, object.position.y, object.position.z, object.color.r, object.color.g, object.color.b);
+		count++;
 		ite = ite->next;
 	}
+	printf("object count = %d\n", count);
 }
 
 int	main(int ac, char **av)
@@ -52,6 +54,10 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		rt = set_rt(av[1]);
+		t_color	c1 = new_color(255,255,0);
+		t_color c2 = new_color(0,255,255);
+		t_color c = color_mix(c1, c2);
+		printf("c = %f %f %f\n", c.r, c.g, c.b);
 		//print_rt(&rt);
 		set_mlx(&rt);
 		render(&rt);

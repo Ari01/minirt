@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:32:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/10 05:49:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/11 15:01:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ double		get_closest_intersection(t_rt *rt, t_object **closest_object, double t_m
 
 	closest_t = t_max;
 	object_list = rt->scene.objects;
+	int count = 0;
 	while (object_list)
 	{
+		count++;
 		current_object = (t_object *)object_list->content;
 		t = current_object->intersect(rt->ray, current_object, t_min, t_max);
 		if (t < closest_t)
@@ -57,6 +59,7 @@ double		get_closest_intersection(t_rt *rt, t_object **closest_object, double t_m
 		}
 		object_list = object_list->next;
 	}
+	//printf("count = %d\n", count);
 	return (closest_t);
 }
 
@@ -86,8 +89,8 @@ t_color		trace_ray(t_rt *rt, int depth)
 	//	return (closest_object->color);
 		color = closest_object->color;
 		//color = color_mul(compute_light(rt, closest_object, intersection, normal), color);
-		color = color_add(color_mul(0.8, color), color_mul(0.2, compute_light(rt, closest_object, intersection, normal)));
-		//color = color_mix(compute_light(rt, closest_object, intersection, normal), color);
+		//color = color_add(color_mul(0.8, color), color_mul(0.2, compute_light(rt, closest_object, intersection, normal)));
+		color = color_mix(compute_light(rt, closest_object, intersection, normal), color);
 		if (depth == 3 || !closest_object->reflective)
 			return (color);
 		rt->ray.dir = reflect_ray(rt->ray.dir, normal);

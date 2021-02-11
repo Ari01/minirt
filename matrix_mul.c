@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 17:34:19 by user42            #+#    #+#             */
-/*   Updated: 2021/01/29 13:58:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/11 11:33:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void		matrix_invert(t_vector *m)
 	tmp[2].x = m[1].x * m[2].y - m[2].x * m[1].y / det;
 	tmp[2].y = m[2].x * m[0].y - m[0].x * m[2].y / det;
 	tmp[2].z = m[0].x * m[1].y - m[1].x * m[0].y / det;
-	printf("det = %f\n", det);
 	matrix_cpy(m, tmp);
 }
 

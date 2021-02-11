@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:00:51 by user42            #+#    #+#             */
-/*   Updated: 2021/01/28 13:30:41 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/11 11:59:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	check_missing_parameters(t_rt *rt)
 		print_error_msg("missing object");
 }
 
+// penser a checker si gnl renvoie -1
 t_rt	set_rt(char *pathfile)
 {
 	t_rt	rt;
