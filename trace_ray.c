@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:32:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/10 06:32:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/11 09:29:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_color		trace_ray(t_rt *rt, int depth)
 	//	return (closest_object->color);
 		color = closest_object->color;
 		//color = color_mul(compute_light(rt, closest_object, intersection, normal), color);
-		color = color_add(color_mul(0.8, color), color_mul(0.2, compute_light(rt, closest_object, intersection, normal)));
+		color = color_clamp(color_add(color_mul(1, color), color_mul(0, compute_light(rt, closest_object, intersection, normal))));
 		//color = color_mix(compute_light(rt, closest_object, intersection, normal), color);
 		if (depth == 3 || !closest_object->reflective)
 			return (color);

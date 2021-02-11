@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:19:13 by user42            #+#    #+#             */
-/*   Updated: 2021/02/10 06:13:54 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/11 09:30:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ t_color			compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 				intensity += compute_specular(object->specular, rt->camera->direction, normal, light_vector) * current_light.intensity;
 		}
 		color = color_mix(color_mul(intensity, current_light.color), color);
+		printf("color = %f %f %f\n", color.r, color.g, color.b);
 		light_list = light_list->next;
 	}
 	return (color);
