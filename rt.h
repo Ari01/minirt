@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/10 07:36:30 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/11 09:51:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_scene				init_scene();
 
 // light
 t_ambiant_light		init_ambiant_light();
-t_color				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vector normal);
+double				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vector normal);
 
 // camera
 t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);
