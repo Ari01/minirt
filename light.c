@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:19:13 by user42            #+#    #+#             */
-/*   Updated: 2021/02/11 18:38:00 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/12 13:21:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_ambiant_light	init_ambiant_light()
 	l.intensity = -1;
 	return (l);
 }
-
+/*
 double			compute_diffuse(t_vector light_vector, t_vector normal)
 {
 	double	n_dot_l;
@@ -83,4 +83,45 @@ t_color			compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 	}
 	return (color);
 	//return (intensity);
+}*/
+
+
+t_color			compute_diffuse(t_light light, t_vector light_vector, t_vector normal)
+{
+	t_color		ctmp;
+	t_color		final_color;
+	double		ndotl;
+
+	ctmp = new_color(0.18, 0.18, 0.18);
+	light_color = color_mul(0.18 * light.intensity / M_PI, light.color);
+	//printf("light_color = %f %f %f \n", light_color.r, light_color.g, light_color.b);
+	ndotl = MAX(0, vector_dot(light_vector, normal));
+	//if (ndotl > 0)
+	//	printf("ndotl = %f\n", vector_dot(normal, light_vector));
+	final_color = color_mul(ndotl, light_color);
+	//if (final_color.r || final_color.g || final_color.b)
+	//	printf("final_color = %f %f %f \n", final_color.r, final_color.g, final_color.b);
+	return (final_color);
+}
+
+t_color			compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vector normal)
+{
+	t_color		color;
+	double		intensity;
+	t_vector	light_vector;
+	t_light		current_light;
+	t_list		*light_list;
+	
+	(void)intensity;
+	(void)object;
+	light_list = rt->scene.light;
+	//while (light_list)
+	//{
+	current_light = *(t_light *)light_list->content;
+	light_vector = vector_sub(current_light.position, intersection);
+	light_vector = vector_normalize(light_vector);
+	color = compute_diffuse(current_light, light_vector, normal);
+	return (color);
+	//light_list = light_list->next;
+	//}
 }

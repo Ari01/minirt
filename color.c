@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:22:46 by user42            #+#    #+#             */
-/*   Updated: 2021/02/11 17:29:22 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/12 12:08:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,22 @@ t_color	color_mix(t_color c1, t_color c2)
 	return (c);
 }
 
-t_color	color_mul(double x, t_color color)
+t_color	color_scale(double x, t_color color)
 {
 	color.r *= x;
 	color.g *= x;
 	color.b *= x;
 	return (color);
+}
+
+t_color	color_mul(t_color c1, t_color c2)
+{
+	t_color	c;
+
+	c.r = c1.r * c2.r;
+	c.g = c1.g * c2.g;
+	c.b = c1.b * c2.b;
+	return (c);
 }
 
 t_color	color_clamp(t_color color)
