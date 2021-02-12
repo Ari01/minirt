@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:19:13 by user42            #+#    #+#             */
-/*   Updated: 2021/02/11 13:02:08 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/11 18:38:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_color			compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 		current_light = *(t_light *)light_list->content;
 		light_vector = vector_sub(current_light.position, intersection);
 		rt->ray.dir = light_vector;
+		rt->ray.dir = vector_mul(1 / vector_len(rt->ray.dir), rt->ray.dir);
 		if (get_closest_intersection(rt, NULL, exp(-6), 1) == 1)
 		{
 			//intensity += compute_light(light_vector, normal) * current_light.intensity;
@@ -77,7 +78,7 @@ t_color			compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 			if (object->specular != -1)
 				intensity += compute_specular(object->specular, rt->camera->direction, normal, light_vector) * current_light.intensity;
 		}
-		color = color_mix(color, color_mul(intensity, current_light.color));
+		color = color_clamp(color_add(color, color_mul(intensity, current_light.color)));
 		light_list = light_list->next;
 	}
 	return (color);
