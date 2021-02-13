@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 12:54:51 by user42            #+#    #+#             */
-/*   Updated: 2021/02/11 14:56:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/12 15:52:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_hls		rgb_to_hls(t_color c)
 	double	delta;
 
 
-	c = color_mul(1.0 / 255.0, c);
+	c = color_scale(1.0 / 255.0, c);
 	cmax = MAX(c.r, MAX(c.g, c.b));
 	cmin = MIN(c.r, MIN(c.g, c.b));
 	delta = cmax - cmin;
@@ -69,6 +69,6 @@ t_color		hls_to_rgb(t_hls hls)
 	color.r += m;
 	color.b += m;
 	color.g += m;
-	color = color_mul(255, color);
+	color = color_scale(255, color);
 	return (color);
 }
