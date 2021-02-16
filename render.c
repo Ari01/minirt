@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 07:10:25 by user42            #+#    #+#             */
-/*   Updated: 2021/02/10 05:12:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/16 15:55:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	img_pixel_put(t_rt *rt, int x, int y, int color)
 	if (x < 0 || x >= rt->width || y < 0 || y >= rt->height)
 		return ;
 	dst = rt->img.addr + (y * rt->img.line_length + x * (rt->img.bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }
 
 void	render(t_rt *rt)
@@ -43,5 +43,6 @@ void	render(t_rt *rt)
 		}
 		j++;
 	}
+	printf("bpp = %d, endian = %d, line length = %d\n", rt->img.bits_per_pixel, rt->img.endian, rt->img.line_length);
 	mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
 }

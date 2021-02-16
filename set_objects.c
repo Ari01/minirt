@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/02/13 15:25:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/15 15:04:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	set_plane(char **split, t_rt *rt)
 	if (!set_coord(coord, &object->position) || !set_coord(dir, &object->direction) ||
 		!set_color(color, &object->color) || !correct_direction(object->direction))
 		return (0);
-	set_object(object, NULL, 1, -1);
+	set_object(object, NULL, 1, 1000);
 	object->reflective = 1;
 	object->intersect = &ray_plane_intersect;
 	object->get_normal = &get_plane_normal;

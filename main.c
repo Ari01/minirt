@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:14:22 by user42            #+#    #+#             */
-/*   Updated: 2021/02/11 14:59:01 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/16 16:20:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,10 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		rt = set_rt(av[1]);
-		t_color	c1 = new_color(255,255,0);
-		t_color c2 = new_color(0,255,255);
-		t_color c = color_mix(c1, c2);
-		printf("c = %f %f %f\n", c.r, c.g, c.b);
 		//print_rt(&rt);
 		set_mlx(&rt);
 		render(&rt);
+		img_to_bmp(&rt, "test.bmp");
 		mlx_hook(rt.window, 33, 1L<<0, &exit_prog, &rt);
 		mlx_hook(rt.window, 2, 1L<<0, &key_hook, &rt);
 		mlx_loop(rt.mlx);

@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:19:13 by user42            #+#    #+#             */
-/*   Updated: 2021/02/13 15:24:34 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/15 14:53:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ t_color			compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 	t_light		current_light;
 	t_list		*light_list;
 	
-	//intensity = rt->scene.ambiant_light.intensity;
 	color = color_scale(rt->scene.ambiant_light.intensity, rt->scene.ambiant_light.color);
 	rt->ray.pos = intersection;
 	light_list = rt->scene.light;
@@ -70,55 +69,12 @@ t_color			compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vec
 		rt->ray.dir = vector_mul(1 / vector_len(rt->ray.dir), rt->ray.dir);
 		if (get_closest_intersection(rt, NULL, exp(-6), vector_len(light_vector)) == vector_len(light_vector))
 		{
-			//intensity += compute_light(light_vector, normal) * current_light.intensity;
 			intensity = compute_diffuse(light_vector, current_light.intensity, normal);
 			if (object->specular != -1)
 				intensity += compute_specular(object->specular, rt->camera->direction, normal, light_vector) * current_light.intensity;
-
 			color = color_clamp(color_add(color, color_scale(intensity, current_light.color)));
 		}
 		light_list = light_list->next;
 	}
 	return (color);
-	//return (intensity);
 }
-
-/*
-double			compute_diffuse(t_light light, t_vector light_vector, t_vector normal)
-{
-	double		ndotl;
-
-	ndotl = MAX(0, vector_dot(light_vector, normal));
-	return (light.intensity * ndotl);
-}*/
-/*
-t_color			compute_light(t_rt *rt, t_object object, t_vector intersection, t_vector normal)
-{
-	t_color		color;
-	double		intensity;
-	t_vector	light_vector;
-	t_light		current_light;
-	t_list		*light_list;
-	
-	color = color_scale(rt->scene.ambiant_light.intensity, rt->scene.ambiant_light.color);
-	intensity = rt->scene.ambiant_light.intensity;
-	light_list = rt->scene.light;
-	rt->ray.pos = intersection;
-	while (light_list)
-	{
-		current_light = *(t_light *)light_list->content;
-		light_vector = vector_sub(current_light.position, intersection);
-		rt->ray.dir = light_vector;
-		if (get_closest_intersection(rt, NULL, exp(-6), 1) == 1)
-		{
-			intensity += compute_diffuse(light_vector, current_light.intensity, normal);
-			if (object.specular != -1)
-				intensity += compute_specular(object.specular, rt->camera->direction, normal, light_vector) * current_light.intensity;
-		}
-		color = color_clamp(color_add(color_scale(intensity, current_light.color), color));
-		light_list = light_list->next;
-	}
-	object.color = color_clamp(color_scale(intensity, object.color));
-	color = color_add(color_scale(0.8, object.color), color_scale(0.2, color));
-	return (color);
-}*/
