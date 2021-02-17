@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 09:02:24 by user42            #+#    #+#             */
-/*   Updated: 2021/02/16 17:08:41 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/17 10:10:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		write_default_value(int fd, int n)
 	i = 0;
 	while (i < n)
 	{
-		ft_putstr_fd("00 ", fd);
+		ft_putstr_fd("00", fd);
 		i++;
 	}
 }
@@ -30,9 +30,10 @@ void		write_hex(int fd, char *hex)
 
 	len = ft_strlen(hex);
 	if (len == 1)
-	{
+	//{
 		ft_putstr_fd("0", fd);
-		write(fd, &hex[0], 1);
+	ft_putstr_fd(hex, fd);
+	/*	write(fd, &hex[0], 1);
 	}
 	else if (len > 2)
 	{
@@ -44,19 +45,18 @@ void		write_hex(int fd, char *hex)
 	{
 		write(fd, &hex[0], 1);
 		write(fd, &hex[1], 1);
-	}
-	ft_putstr_fd(" ", fd);
+	}*/
 }
 
 void		write_bmp_header(t_rt *rt, int fd)
 {
 	char	*hex;
 
-	ft_putstr_fd("42 4D ", fd);
+	ft_putstr_fd("424D", fd);
 	write_default_value(fd, 8);
-	ft_putstr_fd("36 ", fd);
+	ft_putstr_fd("36", fd);
 	write_default_value(fd, 3);
-	ft_putstr_fd("28 ", fd);
+	ft_putstr_fd("28", fd);
 	write_default_value(fd, 3);
 	hex = ft_dec_to_hex(rt->width);
 	write_hex(fd, hex);
@@ -66,7 +66,7 @@ void		write_bmp_header(t_rt *rt, int fd)
 	write_hex(fd, hex);
 	write_default_value(fd, 3 - ft_strlen(hex) / 3);
 	free(hex);
-	ft_putstr_fd("01 00 ", fd);
+	ft_putstr_fd("0100", fd);
 	hex = ft_dec_to_hex(rt->img.bits_per_pixel);
 	write_hex(fd, hex);
 	write_default_value(fd, 3 - ft_strlen(hex) / 3);
@@ -74,10 +74,23 @@ void		write_bmp_header(t_rt *rt, int fd)
 	write_default_value(fd, 24);
 }
 
+void		write_color(int color, int fd)
+{
+	char	*hex;
+	char	hex2[3];
+
+	hex = ft_dec_to_hex(color);
+	hex2[0] = hex[0];
+	hex2[1] = hex[1];
+	hex2[2] = '\0';
+	free(hex);
+	printf("%s\n", hex2);
+	write_hex(fd, hex2);
+}
+
 void		write_pixel_data(t_rt *rt, int fd)
 {
 	char			*dst;
-	char			*hex;
 	unsigned int	color;
 	int				x;
 	int				y;
@@ -90,11 +103,11 @@ void		write_pixel_data(t_rt *rt, int fd)
 		while (y < rt->height)
 		{
 			dst = rt->img.addr + (y * rt->img.line_length + x * (rt->img.bits_per_pixel / 8));
-			color = *(unsigned int *)dst;
-			color = (color & (0xFF << 8));
-			hex = ft_dec_to_hex(color / 100);
-			write_hex(fd, hex);
-			free(hex);
+			color = *(int *)dst;
+			write_color(color & (0xFF << 24), fd);
+			write_color(color & (0xFF << 16), fd);
+			write_color(color & (0xFF << 8), fd);
+			write_color(color & (0xFF), fd);
 			y++;
 		}
 		x++;
