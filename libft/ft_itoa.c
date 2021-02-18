@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 14:58:59 by user42            #+#    #+#             */
-/*   Updated: 2020/12/03 14:23:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/18 10:40:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,9 @@ static size_t	get_nb_len(int n)
 char			*ft_itoa(int n)
 {
 	char			*s;
-	int				i;
 	size_t			len;
 	unsigned int	unbr;
 
-	i = 0;
 	unbr = n;
 	len = get_nb_len(n);
 	s = malloc(sizeof(*s) * (len + 1));

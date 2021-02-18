@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/02/17 16:28:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/18 10:38:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ typedef struct	s_rt
 /*
 **	BMP
 */
+#pragma pack(1)
 typedef struct	s_image_header
 {
 	int		size_imhead;
