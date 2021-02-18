@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 09:02:24 by user42            #+#    #+#             */
-/*   Updated: 2021/02/18 08:38:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/18 08:59:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ void		write_color(t_rt *rt, int pitch, int fd)
 		{
 			src = rt->img.addr + (i * rt->img.line_length + j * (rt->img.bits_per_pixel / 8));
 			color = *(unsigned int *)src;
-			rgb = color & 0xFF;
+			rgb = (unsigned char)(color & 0xFF);
 			//printf("b = %d\n", rgb);
 			write(fd, &rgb, sizeof(rgb));
-			rgb = (color >> 8 & 0xFF);
+			rgb = (unsigned char)((color >> 8 & 0xFF));
 			//printf("g = %d\n", rgb);
 			write(fd, &rgb, sizeof(rgb));
-			rgb = (color >> 16 & 0xFF);
+			rgb = (unsigned char)((color >> 16 & 0xFF));
 			//printf("r = %d\n", rgb);
 			write(fd, &rgb, sizeof(rgb));
 			i++;
