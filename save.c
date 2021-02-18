@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 09:02:24 by user42            #+#    #+#             */
-/*   Updated: 2021/02/17 18:00:41 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/18 08:38:48 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void			write_header(t_rt *rt, int fd)
 	data_size += head.im_header.height * pitch;
 	head.im_header.size_im = data_size;
 	head.size = head.offsetim + head.im_header.size_im;
+	printf("size = %d\n", head.size);
 	write(fd, &head, sizeof(t_bmp_header));
 	write_color(rt, pitch, fd);
 }
