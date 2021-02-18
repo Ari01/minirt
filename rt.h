@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/16 11:59:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/18 11:59:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void				img_to_bmp(t_rt *rt, char *path);
 
 // hook
 int					exit_prog(t_rt *rt);
+int					expose_hook(t_rt *rt);
 int					key_hook(int key, t_rt *rt);
 
 // render

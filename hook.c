@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 19:16:14 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 09:49:22 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/18 11:59:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ int		exit_prog(t_rt *rt)
 {
 	free_rt(rt);
 	exit(EXIT_SUCCESS);
+}
+
+int		expose_hook(t_rt *rt)
+{
+	mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
+	return (0);
 }
 
 int		key_hook(int key, t_rt *rt)

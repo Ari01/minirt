@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 07:10:25 by user42            #+#    #+#             */
-/*   Updated: 2021/02/18 10:44:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/18 11:15:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,5 @@ void	render(t_rt *rt)
 		}
 		j++;
 	}
-	printf("bpp = %d, endian = %d, line length = %d\n", rt->img.bits_per_pixel, rt->img.endian, rt->img.line_length);
 	mlx_put_image_to_window(rt->mlx, rt->window, rt->img.img, 0, 0);
 }
