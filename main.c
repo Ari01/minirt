@@ -6,55 +6,38 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:14:22 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 12:23:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/19 11:13:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	print_rt(t_rt *rt)
+int	check_save_arg(char *av)
 {
-	t_list *ite;
-
-	printf("R	 %f %f\n", rt->width, rt->height);
-	printf("A	 %f			 %f %f %f\n", rt->scene.ambiant_light.intensity, rt->scene.ambiant_light.color.r, rt->scene.ambiant_light.color.g, rt->scene.ambiant_light.color.b);
-
-/*	ite = rt->scene.camera;
-	while (ite)
-	{
-		t_camera camera = *(t_camera*)ite->content;
-		printf("c	%f %f %f	%f %f %f	%f\n", camera.position.x, camera.position.y, camera.position.z, camera.direction.x, camera.direction.y, camera.direction.z, camera.fov);
-		ite = ite->next;
-	}*/
-	printf("c	%f %f %f	%f %f %f	%f\n", rt->camera->position.x, rt->camera->position.y, rt->camera->position.z, rt->camera->direction.x, rt->camera->direction.y, rt->camera->direction.z, rt->camera->fov);
-
-	ite = rt->scene.light;
-	while (ite)
-	{
-		t_light light = *(t_light*)ite->content;
-		printf("l	%f %f %f	%f		%f %f %f\n", light.position.x, light.position.y, light.position.z, light.intensity, light.color.r, light.color.g, light.color.b);
-		ite = ite->next;
-	}
-	ite = rt->scene.objects;
-	while (ite)
-	{
-		t_object *object = (t_object*)ite->content;
-		printf("o	%f %f %f\n", object->vertex[0].x, object->vertex[0].y, object->vertex[0].z);
-		ite = ite->next;
-	}
+	if (ft_strlen(av) != 5 || ft_strncmp(av, "-save", 5))
+		return (0);
+	return (1);
 }
 
 int	main(int ac, char **av)
 {
 	t_rt rt;
-
-	if (ac == 2)
+	
+	if (ac == 2 || (ac == 3 && check_save_arg(av[2])))
 	{
 		rt = set_rt(av[1]);
-		print_rt(&rt);
 		set_mlx(&rt);
+		printf("rendering image...\n");
 		render(&rt);
+		printf("rendering done.\n");
+		if (ac == 3)
+		{
+			printf("saving image...\n");
+			img_to_bmp(&rt, "test.bmp");
+			printf("image saved.\n");
+		}
 		mlx_hook(rt.window, 33, 1L<<0, &exit_prog, &rt);
+		mlx_hook(rt.window, 12, 1L<<15, &expose_hook, &rt);
 		mlx_hook(rt.window, 2, 1L<<0, &key_hook, &rt);
 		mlx_loop(rt.mlx);
 	}

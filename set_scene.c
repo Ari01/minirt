@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:44:14 by user42            #+#    #+#             */
-/*   Updated: 2021/01/31 15:23:08 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/18 10:41:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		set_camera(char **split, t_rt *rt)
 	if (!set_coord(coord, &camera->position) || !set_coord(direction, &camera->direction)
 		|| !correct_direction(camera->direction) || camera->fov < 0 || camera->fov > 180)
 		return (0);
-		set_camera_matrix(camera);
+	set_camera_matrix(camera);
 	if (rt->scene.camera == NULL)
 		rt->camera = camera;
 	ft_lstadd_front(&rt->scene.camera, ft_lstnew(camera));

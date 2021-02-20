@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 11:10:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/19 16:19:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ typedef struct	s_color
 	double g;
 	double b;
 }				t_color;
+
+typedef struct	s_hls
+{
+	double h;
+	double l;
+	double s;
+}				t_hls;
 
 typedef struct	s_vector
 {
@@ -98,6 +105,7 @@ typedef struct	s_object
 	int			nvertices;
 	t_color		color;
 	double		specular;
+	double		reflective;
 	t_vector	direction;
 	t_vector	current_direction;
 	int			rotate;
@@ -141,8 +149,37 @@ typedef struct	s_rt
 	t_object	*object;
 	t_light		*light;
 	t_ray		ray;
+	int			depth;
 	int			transform;
 	int			transform_focus;
 }				t_rt;
+
+/*
+**	BMP
+*/
+#pragma pack(1)
+typedef struct	s_image_header
+{
+	int		size_imhead;
+	int		width;
+	int		height;
+	short	nbplans;
+	short	bpp;
+	int		compression;
+	int		size_im;
+	int		hres;
+	int		vres;
+	int		cpalette;
+	int		cipalette;
+}				t_image_header;
+
+typedef struct	s_bmp_header
+{
+	char			signature[2];
+	int				size;
+	int				rsv;
+	int				offsetim;
+	t_image_header	im_header;
+}				t_bmp_header;
 
 #endif

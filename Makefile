@@ -4,8 +4,8 @@ LIBFT		= libft/libft.a
 SRCS		= $(wildcard *.c)
 OBJS		= $(SRCS:.c=.o)
 
-CC			= clang
-CFLAGS		= -Wall -Wextra -Werror -g
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror -lm
 LFLAGS		= -L libft -lft -lm -L minilibx -lmlx -lXext -lX11
 INCLUDES	= -I libft -I minilibx
 

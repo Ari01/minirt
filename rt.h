@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/09 04:57:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/19 09:46:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,12 @@ t_rt				init_rt();
 void				free_rt(t_rt *rt);
 void				set_mlx(t_rt *rt);
 
+// bmp image
+void				img_to_bmp(t_rt *rt, char *path);
+
 // hook
 int					exit_prog(t_rt *rt);
+int					expose_hook(t_rt *rt);
 int					key_hook(int key, t_rt *rt);
 
 // render
@@ -66,7 +70,7 @@ void				render(t_rt *rt);
 // trace ray
 int					resolve_quadratic(t_vector v, double *t1, double *t2);
 double				get_closest_intersection(t_rt *rt, t_object **closest_object, double t_min, double t_max);
-t_color				trace_ray(t_rt *rt);
+t_color				trace_ray(t_rt *rt, int depth);
 
 // scene
 t_scene				init_scene();
@@ -110,7 +114,9 @@ t_vector			get_triangle_normal(t_ray ray, t_vector intersection, t_object *objec
 t_color				new_color(double r, double g, double b);
 int					color_to_trgb(t_color color);
 t_color				color_add(t_color c1, t_color c2);
-t_color				color_mul(double x, t_color color);
+t_color				color_mix(t_color c1, t_color c2);
+t_color				color_scale(double x, t_color color);
+t_color				color_mul(t_color c1, t_color c2);
 t_color				color_clamp(t_color color);
 
 // vector
@@ -121,6 +127,10 @@ t_vector			vector_mul(double x, t_vector v2);
 double				vector_dot(t_vector v1, t_vector v2);
 t_vector			vector_cross(t_vector v1, t_vector v2);
 double				vector_len(t_vector v);
+t_vector			vector_normalize(t_vector v);
+
+// ray
+t_ray				new_ray(t_vector pos, t_vector dir);
 
 // matrix
 t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);

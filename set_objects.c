@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:37:37 by user42            #+#    #+#             */
-/*   Updated: 2021/02/09 05:16:25 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/19 17:10:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		set_sphere(char **split, t_rt *rt)
 	sphere = malloc(sizeof(*sphere));
 	object = malloc(sizeof(*object));
 	object->vertex = malloc(sizeof(*(object->vertex)));
-	if (!sphere || !object || !object->vertex || !split[1] || !split[2] || !split[3] || split[4])
+	if (!sphere || !object || !object->vertex || !split[1] || !split[2] || !split[3])
 		return (0);
 	coord = ft_split(split[1], ",");
 	color = ft_split(split[3], ",");
@@ -30,9 +30,15 @@ int		set_sphere(char **split, t_rt *rt)
 	if (!set_coord(coord, object->vertex) || !set_color(color, &object->color) || 
 		sphere->diameter <= 0)
 		return (0);
-	set_object(object, sphere, 0, 2000);
+	set_object(object, sphere, 0, -1);
+	object->reflective = 0;
+	if (split[4])
+	{
+		object->specular = MAX(0.0, MIN(10000.0, (ft_atod(split[4]))));
+		if (split[5])
+			object->reflective = MAX(0.0, MIN(1.0, ft_atod(split[5])));
+	}
 	object->nvertices = 1;
-	object->direction = new_vector(0, 0, 0);
 	object->intersect = &ray_sphere_intersect;
 	object->get_normal = &get_sphere_normal;
 	ft_lstadd_front(&rt->scene.objects, ft_lstnew(object));
@@ -44,14 +50,11 @@ int	set_plane(char **split, t_rt *rt)
 	char		**coord;
 	char		**dir;
 	char		**color;
-	//t_plane		*plane;
 	t_object	*object;
 
-	//plane = malloc(sizeof(*plane));
-	// if (!plane)
 	object = malloc(sizeof(*object));
 	object->vertex = malloc(sizeof(*(object->vertex)));
-	if (!object || !object->vertex || !split[1] || !split[2] || !split[3] || split[4])
+	if (!object || !object->vertex || !split[1] || !split[2] || !split[3])
 		return (0);
 	coord = ft_split(split[1], ",");
 	dir = ft_split(split[2], ",");
@@ -60,6 +63,13 @@ int	set_plane(char **split, t_rt *rt)
 		!set_color(color, &object->color) || !correct_direction(object->direction))
 		return (0);
 	set_object(object, NULL, 1, -1);
+	object->reflective = 0;
+	if (split[4])
+	{
+		object->specular = MAX(0.0, MIN(5000.0, (ft_atod(split[4]))));
+		if (split[5])
+			object->reflective = MAX(0.0, MIN(1.0, ft_atod(split[5])));
+	}
 	object->nvertices = 1;
 	object->intersect = &ray_plane_intersect;
 	object->get_normal = &get_plane_normal;
@@ -80,7 +90,7 @@ int	set_square(char **split, t_rt *rt)
 	object = malloc(sizeof(*object));
 	object->vertex = malloc(sizeof(*(object->vertex)));
 	if (!square || !object || !object->vertex 
-		|| !split[1] || !split[2] || !split[3] || !split[4] || split[5])
+		|| !split[1] || !split[2] || !split[3] || !split[4])
 		return (0);
 	coord = ft_split(split[1], ",");
 	dir = ft_split(split[2], ",");
@@ -90,7 +100,14 @@ int	set_square(char **split, t_rt *rt)
 		!set_color(color, &object->color) || !correct_direction(object->direction)
 		|| square->height <= 0)
 		return (0);
-	set_object(object, square, 1, 1000);
+	set_object(object, square, 1, -1);
+	object->reflective = 0;
+	if (split[5])
+	{
+		object->specular = MAX(0.0, MIN(5000.0, (ft_atod(split[5]))));
+		if (split[6])
+			object->reflective = MAX(0.0, MIN(1.0, ft_atod(split[6])));
+	}
 	object->nvertices = 1;
 	object->intersect = &ray_square_intersect;
 	object->get_normal = &get_plane_normal;
@@ -111,7 +128,7 @@ int	set_cylinder(char **split, t_rt *rt)
 	object = malloc(sizeof(*object));
 	object->vertex = malloc(sizeof(*(object->vertex)));
 	if (!cylinder || !object || !object->vertex 
-		|| !split[1] || !split[2] || !split[3] || !split[4] || !split[5] || split[6])
+		|| !split[1] || !split[2] || !split[3] || !split[4] || !split[5])
 		return (0);
 	coord = ft_split(split[1], ",");
 	dir = ft_split(split[2], ",");
@@ -122,7 +139,14 @@ int	set_cylinder(char **split, t_rt *rt)
 		|| !set_color(color, &object->color) || !correct_direction(object->direction)
 		|| cylinder->diameter <= 0 || cylinder->height <= 0)
 		return (0);
-	set_object(object, cylinder, 1, 2000);
+	set_object(object, cylinder, 1, -1);
+	object->reflective = 0;
+	if (split[6])
+	{
+		object->specular = MAX(0.0, MIN(5000.0, (ft_atod(split[6]))));
+		if (split[7])
+			object->reflective = MAX(0.0, MIN(1.0, ft_atod(split[7])));
+	}
 	object->nvertices = 1;
 	object->intersect = &ray_cylinder_intersect;
 	object->get_normal = &get_cylinder_normal;
@@ -135,13 +159,15 @@ int	set_triangle(char **split, t_rt *rt)
 {
 	char		**coord[3];
 	char		**color;
-	t_triangle	*triangle;
 	t_object	*object;
 
-	triangle = malloc(sizeof(*triangle));
 	object = malloc(sizeof(*object));
 	object->vertex = malloc(sizeof(*(object->vertex)) * 3);
-	if (!triangle || !object || !split[1] || !split[2] || !split[3] || !split[4] || split[5])
+	object->vertex[0] = new_vector(0,0,0);
+	object->vertex[1] = new_vector(0,0,0);
+	object->vertex[2] = new_vector(0,0,0);
+	if (!object || !object->vertex || !split[1] 
+		|| !split[2] || !split[3] || !split[4])
 		return (0);
 	coord[0] = ft_split(split[1], ",");
 	coord[1] = ft_split(split[2], ",");
@@ -150,11 +176,17 @@ int	set_triangle(char **split, t_rt *rt)
 	if (!set_coord(coord[0], &object->vertex[0]) || !set_coord(coord[1], &object->vertex[1])
 		|| !set_coord(coord[2], &object->vertex[2]) || !set_color(color, &object->color))
 		return (0);
-	set_object(object, triangle, 0, 1000);
+	set_object(object, NULL, 0, -1);
+	object->reflective = 0;
+	if (split[5])
+	{
+		object->specular = MAX(0.0, MIN(5000.0, (ft_atod(split[5]))));
+		if (split[6])
+			object->reflective = MAX(0.0, MIN(1.0, ft_atod(split[6])));
+	}
 	object->nvertices = 3;
 	object->intersect = &ray_triangle_intersect;
 	object->get_normal = &get_triangle_normal;
-	object->current_direction = new_vector(0, 0, 0);
 	ft_lstadd_front(&rt->scene.objects, ft_lstnew(object));
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 17:26:57 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 14:58:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/19 09:53:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_vector	get_cylinder_normal(t_ray ray, t_vector intersection, t_object *object)
 	t_cylinder	cylinder;
 	t_vector	normal;
 
+	(void)ray;
 	cylinder = *(t_cylinder *)object->ptr;
 	if (get_caps_normal(intersection, object, &normal))
 		return (normal);
@@ -87,7 +88,6 @@ t_vector	get_cylinder_normal(t_ray ray, t_vector intersection, t_object *object)
 	normal = vector_add(object->vertex[0], vector_mul(tmp, object->current_direction));
 	normal = vector_sub(intersection, normal);
 	normal = vector_mul(1 / vector_len(normal), normal);
-	if (vector_dot(ray.dir, normal) <= 0)
-		vector_mul(-1, normal);
+	//	vector_mul(-1, normal);
 	return (normal);
 }
