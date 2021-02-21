@@ -6,13 +6,16 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 13:37:29 by user42            #+#    #+#             */
-/*   Updated: 2021/02/19 15:53:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/21 20:01:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-double		ray_plane_intersect(t_ray ray, t_object *object, double t_min, double t_max)
+double		ray_plane_intersect(t_ray ray,
+								t_object *object,
+								double t_min,
+								double t_max)
 {
 	t_vector	dist;
 	double		t;

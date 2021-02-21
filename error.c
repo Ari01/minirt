@@ -6,13 +6,13 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 09:15:33 by user42            #+#    #+#             */
-/*   Updated: 2021/01/02 13:11:37 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/21 17:41:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_perror()
+void	ft_perror(void)
 {
 	perror(strerror(errno));
 	exit(EXIT_FAILURE);

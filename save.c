@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 09:02:24 by user42            #+#    #+#             */
-/*   Updated: 2021/02/18 11:13:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/21 20:10:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void		write_color(t_rt *rt, int pitch, int fd)
 	int				i;
 	int				j;
 	int				color;
-	unsigned char	rgb;
+	unsigned char	rgb[3];
 	char			*src;
 
 	j = rt->height - 1;
@@ -40,14 +40,13 @@ void		write_color(t_rt *rt, int pitch, int fd)
 		i = 0;
 		while (i < rt->width)
 		{
-			src = rt->img.addr + (j * rt->img.line_length + i * (rt->img.bits_per_pixel / 8));
+			src = rt->img.addr + (j * rt->img.line_length
+					+ i * (rt->img.bits_per_pixel / 8));
 			color = *(unsigned int *)src;
-			rgb = (unsigned char)(color & 0xFF);
-			write(fd, &rgb, sizeof(rgb));
-			rgb = (unsigned char)((color >> 8 & 0xFF));
-			write(fd, &rgb, sizeof(rgb));
-			rgb = (unsigned char)((color >> 16 & 0xFF));
-			write(fd, &rgb, sizeof(rgb));
+			rgb[0] = (unsigned char)(color & 0xFF);
+			rgb[1] = (unsigned char)((color >> 8 & 0xFF));
+			rgb[2] = (unsigned char)((color >> 16 & 0xFF));
+			write(fd, rgb, sizeof(*rgb) * 3);
 			i++;
 		}
 		write_pitch(pitch, fd);

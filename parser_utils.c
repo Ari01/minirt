@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:40:05 by user42            #+#    #+#             */
-/*   Updated: 2021/02/19 10:21:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/21 20:00:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ int		set_color(char **split, t_color *color)
 		valid_format = 0;
 	else
 	{
-		*color = new_color(ft_atod(split[0]), ft_atod(split[1]), ft_atod(split[2]));
+		*color = new_color(ft_atod(split[0]),
+							ft_atod(split[1]),
+							ft_atod(split[2]));
 		if (color->r < 0 || color->r > 255
 			|| color->g < 0 || color->g > 255
 			|| color->b < 0 || color->b > 255)
@@ -56,7 +58,9 @@ int		set_coord(char **split, t_vector *coord)
 	if (!split || !split[0] || !split[1] || !split[2] || split[3])
 		valid_format = 0;
 	else
-		*coord = new_vector(ft_atod(split[0]), ft_atod(split[1]), ft_atod(split[2]));
+		*coord = new_vector(ft_atod(split[0]),
+							ft_atod(split[1]),
+							ft_atod(split[2]));
 	string_array_free(split);
 	return (valid_format);
 }

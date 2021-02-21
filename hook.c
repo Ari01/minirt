@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 19:16:14 by user42            #+#    #+#             */
-/*   Updated: 2021/02/19 09:52:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/21 18:39:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,8 @@ int		expose_hook(t_rt *rt)
 	return (0);
 }
 
-int		key_hook(int key, t_rt *rt)
+t_list	*switch_cam(int key, t_rt *rt, t_list *cameras)
 {
-	static t_list	*objects = NULL;
-	static t_list	*cameras = NULL;
-	static t_list	*lights = NULL;
-
-	if (key == ESCAPE)
-		exit_prog(rt);
 	if (key == TAB)
 	{
 		if (!cameras || !cameras->next)
@@ -41,47 +35,19 @@ int		key_hook(int key, t_rt *rt)
 		rt->camera = (t_camera *)cameras->content;
 		render(rt);
 	}
-	if (key == 'o')
-	{
-		if (!objects || !objects->next)
-			objects = rt->scene.objects;
-		else
-			objects = objects->next;
-		rt->object = (t_object *)objects->content;
-		rt->transform_focus = OBJECT;
-	}
-	if (key == 'l')
-	{
-		if (!lights || !lights->next)
-			lights = rt->scene.light;
-		else
-			lights = lights->next;
-		rt->light = (t_light *)lights->content;
-		rt->transform_focus = LIGHT;
-	}
-	if (key == 'c')
-		rt->transform_focus = CAMERA;
-	if (key == 't')
-		rt->transform = (rt->transform + 1 == 2 ? TRANSLATE : ROTATE);
-	if (key == 'q' || key == 'd' || key == 'z' || key == 's' || key == CONTROL || key == SPACE)
-	{
-		if (rt->transform_focus == CAMERA)
-		{
-			rt->transform == TRANSLATE ? move_camera(key, rt->camera->to_world_matrix) : rotate_camera(key, rt->camera);
-		}
-		else if (rt->transform_focus == OBJECT)
-		{
-			if (rt->transform == TRANSLATE)
-			{
-				rt->object->to_world_matrix[3] = get_translation(key, rt->camera->to_world_matrix);
-				move_object(rt->object);
-			}
-			else if (rt->object->direction.x || rt->object->direction.y || rt->object->direction.z)
-				rotate_object(key, rt->object, rt->camera);
-		}
-		else if (rt->transform == TRANSLATE)
-			rt->light->position = vector_add(rt->light->position, get_translation(key, rt->camera->to_world_matrix));
-		render(rt);
-	}
+	return (cameras);
+}
+
+int		key_hook(int key, t_rt *rt)
+{
+	static t_list	*objects = NULL;
+	static t_list	*cameras = NULL;
+	static t_list	*lights = NULL;
+
+	if (key == ESCAPE)
+		exit_prog(rt);
+	cameras = switch_cam(key, rt, cameras);
+	grab_focus(key, rt, &objects, &lights);
+	transform_hook(key, rt);
 	return (0);
 }

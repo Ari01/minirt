@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 09:02:32 by user42            #+#    #+#             */
-/*   Updated: 2021/01/29 14:02:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/21 17:13:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ void		set_camera_matrix(t_camera *camera)
 
 void		compute_camera(t_rt *rt, double x, double y)
 {
-	double aspect_ratio;
-	double scale;
-	double max;
-	double min;
-	t_vector pworld;
+	double		aspect_ratio;
+	double		scale;
+	double		max;
+	double		min;
+	t_vector	pworld;
 
 	max = MAX(rt->width, rt->height);
 	min = MIN(rt->width, rt->height);

@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 07:10:25 by user42            #+#    #+#             */
-/*   Updated: 2021/02/19 09:47:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/21 20:03:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	img_pixel_put(t_rt *rt, int x, int y, int color)
 
 	if (x < 0 || x >= rt->width || y < 0 || y >= rt->height)
 		return ;
-	dst = rt->img.addr + (y * rt->img.line_length + x * (rt->img.bits_per_pixel / 8));
+	dst = rt->img.addr
+			+ (y * rt->img.line_length
+			+ x * (rt->img.bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 
@@ -29,7 +31,8 @@ void	render(t_rt *rt)
 	t_color	color;
 
 	j = 0;
-	rt->camera->position = vector_matrix_mul(new_vector(0, 0, 0), rt->camera->to_world_matrix);
+	rt->camera->position = vector_matrix_mul(new_vector(0, 0, 0),
+											rt->camera->to_world_matrix);
 	while (j < rt->height)
 	{
 		i = 0;

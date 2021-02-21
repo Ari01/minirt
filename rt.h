@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/19 09:46:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/21 20:08:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void				img_to_bmp(t_rt *rt, char *path);
 // hook
 int					exit_prog(t_rt *rt);
 int					expose_hook(t_rt *rt);
+void				transform_hook(int key, t_rt *rt);
+void				grab_focus(int key, t_rt *rt, t_list **objects, t_list **lights);
 int					key_hook(int key, t_rt *rt);
 
 // render
@@ -76,7 +78,6 @@ t_color				trace_ray(t_rt *rt, int depth);
 t_scene				init_scene();
 
 // light
-t_ambiant_light		init_ambiant_light();
 t_color				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vector normal);
 
 // camera

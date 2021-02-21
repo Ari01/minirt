@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:00:22 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 14:58:22 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/21 17:41:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,16 @@ int			check_inside_ray(t_ray ray, t_object *object, double t)
 	vtmp = vector_sub(intersection, object->vertex[0]);
 	if (vector_len(vtmp) < cylinder.diameter * cylinder.diameter / 4)
 		return (1);
-	center = vector_add(object->vertex[0], vector_mul(cylinder.height, object->current_direction));
+	vtmp = vector_mul(cylinder.height, object->current_direction);
+	center = vector_add(object->vertex[0], vtmp);
 	vtmp = vector_sub(intersection, center);
 	return (vector_len(vtmp) < cylinder.diameter * cylinder.diameter / 4);
 }
 
-double		ray_cylinder_planes_intersect(t_ray ray, t_object *object, double t_min, double t_max)
+double		ray_cylinder_planes_intersect(t_ray ray,
+											t_object *object,
+											double t_min,
+											double t_max)
 {
 	double		t1;
 	double		t2;
@@ -39,7 +43,8 @@ double		ray_cylinder_planes_intersect(t_ray ray, t_object *object, double t_min,
 
 	cylinder = *(t_cylinder *)object->ptr;
 	t1 = ray_plane_intersect(ray, object, t_min, t_max);
-	center = vector_add(object->vertex[0], vector_mul(cylinder.height, object->current_direction));
+	center = vector_mul(cylinder.height, object->current_direction);
+	center = vector_add(object->vertex[0], center);
 	tmp.vertex = malloc(sizeof(*tmp.vertex));
 	tmp.vertex[0] = center;
 	tmp.current_direction = vector_mul(-1, object->current_direction);
@@ -57,14 +62,17 @@ double		ray_cylinder_planes_intersect(t_ray ray, t_object *object, double t_min,
 	return (t1);
 }
 
-int		get_caps_normal(t_vector intersection, t_object *object, t_vector *normal)
+int			get_caps_normal(t_vector intersection,
+							t_object *object,
+							t_vector *normal)
 {
 	t_vector	center;
 	t_vector	dist;
 	t_cylinder	cylinder;
 
 	cylinder = *(t_cylinder *)object->ptr;
-	center = vector_add(object->vertex[0], vector_mul(cylinder.height, object->current_direction));
+	center = vector_mul(cylinder.height, object->current_direction);
+	center = vector_add(object->vertex[0], center);
 	dist = vector_sub(intersection, center);
 	if (vector_len(dist) < cylinder.diameter / 2)
 	{
