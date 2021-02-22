@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 08:19:13 by user42            #+#    #+#             */
-/*   Updated: 2021/02/21 19:51:38 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/22 19:30:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,13 @@ int				in_shadow(t_rt *rt, t_vector light_vector)
 	return (1);
 }
 
-t_color			mix_light_colors(t_rt *rt,
+t_color			add_light_colors(t_rt *rt,
 								t_list *light_list,
 								t_object *object,
 								t_vector normal)
 {
 	double		intensity;
+	double		spec;
 	t_light		current_light;
 	t_vector	light_vector;
 	t_color		color;
@@ -81,10 +82,9 @@ t_color			mix_light_colors(t_rt *rt,
 		{
 			intensity = compute_diffuse(light_vector, current_light.intensity,
 										normal);
-			intensity += compute_specular(object->specular,
-										rt->camera->direction,
-										normal, light_vector);
-			intensity *= current_light.intensity;
+			spec = compute_specular(object->specular, rt->camera->direction,
+									normal, light_vector);
+			intensity += current_light.intensity * spec;
 			color = color_clamp(
 						color_add(color,
 							color_scale(intensity, current_light.color)));
@@ -107,6 +107,6 @@ t_color			compute_light(t_rt *rt,
 	rt->ray.pos = intersection;
 	color = color_clamp(
 				color_add(color,
-					mix_light_colors(rt, rt->scene.light, object, normal)));
+					add_light_colors(rt, rt->scene.light, object, normal)));
 	return (color);
 }

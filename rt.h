@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/21 20:08:00 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/22 20:42:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void				set_camera_matrix(t_camera *camera);
 void				compute_camera(t_rt *rt, double x, double y);
 
 // objects
+t_object			*new_object(char **split, int color_index, int n_vertices, int rotate);
 void				set_object(t_object *object, void *ptr, int rotate, double specular);
 
 // sphere

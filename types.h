@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 06:31:09 by user42            #+#    #+#             */
-/*   Updated: 2021/02/19 16:19:01 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/22 19:17:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,6 @@ typedef struct	s_sphere
 {
 	double		diameter;
 }				t_sphere;
-
-typedef struct	s_plane
-{
-}				t_plane;
 
 typedef struct	s_square
 {
