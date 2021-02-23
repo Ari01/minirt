@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 15:34:58 by user42            #+#    #+#             */
-/*   Updated: 2021/02/21 20:03:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/23 17:02:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ t_rt	init_rt(void)
 	rt.object = NULL;
 	rt.camera = NULL;
 	rt.light = NULL;
+	rt.mlx = NULL;
+	rt.window = NULL;
+	rt.img.img = NULL;
 	return (rt);
 }
 
@@ -48,14 +51,24 @@ void	free_object(void *object)
 
 void	free_rt(t_rt *rt)
 {
-	ft_lstclear(&rt->scene.camera, &free);
-	ft_lstclear(&rt->scene.light, &free);
-	ft_lstclear(&rt->scene.objects, &free_object);
-	mlx_destroy_image(rt->mlx, rt->img.img);
-	mlx_clear_window(rt->mlx, rt->window);
-	mlx_destroy_window(rt->mlx, rt->window);
-	mlx_destroy_display(rt->mlx);
-	free(rt->mlx);
+	if (rt)
+	{
+		ft_lstclear(&rt->scene.camera, &free);
+		ft_lstclear(&rt->scene.light, &free);
+		ft_lstclear(&rt->scene.objects, &free_object);
+		if (rt->mlx)
+		{
+			if (rt->img.img)
+				mlx_destroy_image(rt->mlx, rt->img.img);
+			if (rt->window)
+			{
+				mlx_clear_window(rt->mlx, rt->window);
+				mlx_destroy_window(rt->mlx, rt->window);
+				mlx_destroy_display(rt->mlx);
+			}
+			free(rt->mlx);
+		}
+	}
 }
 
 void	set_mlx(t_rt *rt)

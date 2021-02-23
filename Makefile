@@ -5,7 +5,7 @@ SRCS		= $(wildcard *.c)
 OBJS		= $(SRCS:.c=.o)
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -lm
+CFLAGS		= -Wall -Wextra -Werror -g
 LFLAGS		= -L libft -lft -lm -L minilibx -lmlx -lXext -lX11
 INCLUDES	= -I libft -I minilibx
 

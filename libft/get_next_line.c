@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 17:34:58 by user42            #+#    #+#             */
-/*   Updated: 2021/02/11 11:58:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/23 18:22:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,29 +65,31 @@ char	*trim_line(char **linebuf)
 	return (line);
 }
 
-int		get_next_line(int fd, char **line)
+int		get_next_line(int fd, char **line, char **linebuf)
 {
-	static char	*linebuf;
 	int			read_value;
 
 	if (!line || BUFFER_SIZE <= 0)
 		return (-1);
-	if (!linebuf)
-		linebuf = ft_strdup("");
-	if (!linebuf)
+	if (!*linebuf)
+		*linebuf = ft_strdup("");
+	if (!*linebuf)
 		return (-1);
-	read_value = read_line(fd, &linebuf);
+	read_value = read_line(fd, &*linebuf);
 	if (read_value < 0)
 		return (-1);
-	if (ft_strchr(linebuf, '\n'))
+	if (ft_strchr(*linebuf, '\n'))
 		read_value = 1;
-	*line = trim_line(&linebuf);
-	if (!line || !read_value)
+	*line = trim_line(&*linebuf);
+	if (!*line)
 	{
-		free(linebuf);
-		linebuf = NULL;
-		if (!line)
-			return (-1);
+		free(*linebuf);
+		return (-1);
+	}
+	if (!**linebuf)
+	{
+		free(*linebuf);
+		*linebuf = NULL;
 	}
 	return (read_value);
 }

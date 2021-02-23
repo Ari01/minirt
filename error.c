@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 09:15:33 by user42            #+#    #+#             */
-/*   Updated: 2021/02/21 17:41:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/23 18:29:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ void	print_error_msg(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-int		is_elem_id(char *id)
+void	parsing_error(t_rt *rt, char *msg)
 {
-	if (!ft_strnstr(ELEM_ID_SET, id, 1024))
-		return (0);
-	return (1);
+	free_rt(rt);
+	print_error_msg(msg);
 }

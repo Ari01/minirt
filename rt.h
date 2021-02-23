@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/22 20:42:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/23 18:45:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,20 @@
 # define ROTATE		1
 # define RAD		0.174533
 
+/*
+**	ERROR CODE
+*/
+# define RESOLUTION_ERROR		-1
+# define AMBIANT_LIGHT_ERROR	-2
+# define CAMERA_ERROR			-3
+# define LIGHT_ERROR			-4
+# define SPHERE_ERROR			-5
+# define PLANE_ERROR			-6
+# define SQUARE_ERROR			-7
+# define CYLINDER_ERROR			-8
+# define TRIANGLE_ERROR			-9
+#
+
 // rt
 t_rt				init_rt();
 void				free_rt(t_rt *rt);
@@ -81,8 +95,8 @@ t_scene				init_scene();
 t_color				compute_light(t_rt *rt, t_object *object, t_vector intersection, t_vector normal);
 
 // camera
-t_vector			vector_matrix_mul(t_vector v, t_vector *matrix);
 void				set_camera_matrix(t_camera *camera);
+void				add_camera(t_rt *rt, t_camera *camera);
 void				compute_camera(t_rt *rt, double x, double y);
 
 // objects
@@ -156,9 +170,11 @@ void				rotate_object(int key, t_object *object, t_camera *cam);
 // error
 void				ft_perror();
 void				print_error_msg(char *msg);
+void				parsing_error(t_rt *rt, char *msg);
 
 // parser utils
 void				string_array_free(char **split);
+int					check_nargs(char **split, int nargs);
 int					set_color(char **split, t_color *color);
 int					set_coord(char **split, t_vector *coord);
 int					correct_direction(t_vector dir);
@@ -167,7 +183,7 @@ int					set_resolution(char **split, t_rt *rt);
 int					set_ambiant_light(char **split, t_rt *rt);
 int					set_camera(char **split, t_rt *rt);
 int					set_light(char **split, t_rt *rt);
-int					set_scene(char *line, char **split, t_rt *rt);
+int					set_scene(char *line, t_rt *rt);
 // set_objects
 int					set_sphere(char **split, t_rt *rt);
 int					set_plane(char **split, t_rt *rt);

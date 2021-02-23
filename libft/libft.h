@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 14:37:58 by user42            #+#    #+#             */
-/*   Updated: 2021/02/16 10:25:21 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/23 18:21:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 /*
 **	ADDED FUNCTIONS
 */
-int					get_next_line(int fd, char **line);
+int					get_next_line(int fd, char **line, char **linebuf);
 char*				ft_dec_to_hex(int d);
 
 #endif

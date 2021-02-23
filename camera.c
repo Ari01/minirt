@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 09:02:32 by user42            #+#    #+#             */
-/*   Updated: 2021/02/21 17:13:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/23 18:45:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ void		set_camera_matrix(t_camera *camera)
 											camera->position.z);
 	matrix_cpy(camera->to_cam_matrix, camera->to_world_matrix);
 	matrix_invert(camera->to_cam_matrix);
+}
+
+void		add_camera(t_rt *rt, t_camera *camera)
+{
+	set_camera_matrix(camera);
+	if (rt->scene.camera == NULL)
+		rt->camera = camera;
+	ft_lstadd_front(&rt->scene.camera, ft_lstnew(camera));
 }
 
 void		compute_camera(t_rt *rt, double x, double y)

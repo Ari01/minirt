@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 19:11:56 by user42            #+#    #+#             */
-/*   Updated: 2021/02/22 21:18:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/22 21:34:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ t_object	*set_reflexion(t_object *object, char **split, int i)
 	return (object);
 }
 
-t_object	*new_object(char **split, int color_index, int nvertices, int rotate)
+t_object	*new_object(char **split,
+						int color_index,
+						int nvertices,
+						int rotate)
 {
 	t_object	*obj;
 	char		**color;
@@ -84,12 +87,3 @@ t_object	*new_object(char **split, int color_index, int nvertices, int rotate)
 	init_rotation_matrix(obj->to_world_matrix);
 	return (obj);
 }
-
-/*
-void	set_object(t_object *object, void *ptr, int rotate, double specular)
-{
-	object->ptr = ptr;
-	object->specular = specular;
-	object->rotate = rotate;
-	init_rotation_matrix(object->to_world_matrix);
-}*/
