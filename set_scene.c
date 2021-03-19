@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:44:14 by user42            #+#    #+#             */
-/*   Updated: 2021/02/23 19:46:21 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/03 20:30:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		set_resolution(char **split, t_rt *rt)
 {
-	if (!ft_strncmp(split[0], "R", 2))
+	if (ft_streq(split[0], "R"))
 	{
 		if (rt->width != -1 || rt->height != -1
 			|| !split[1] || !split[2] || split[3])
@@ -32,10 +32,10 @@ int		set_ambiant_light(char **split, t_rt *rt)
 	char			**color;
 	t_ambiant_light	ambiant_light;
 
-	if (!ft_strncmp(split[0], "A", 2))
+	if (ft_streq(split[0], "A"))
 	{
 		if (rt->scene.ambiant_light.intensity != -1
-			|| !split[1] || !split[2] || split[3])
+			|| !check_nargs(split, 2))
 			return (0);
 		color = ft_split(split[2], ",");
 		ambiant_light.intensity = ft_atod(split[1]);
@@ -56,7 +56,7 @@ int		set_camera(char **split, t_rt *rt)
 	char		**direction;
 	t_camera	*camera;
 
-	if (!ft_strncmp(split[0], "c", 2))
+	if (ft_streq(split[0], "c"))
 	{
 		if (!(camera = malloc(sizeof(*camera))))
 			return (0);
@@ -66,11 +66,11 @@ int		set_camera(char **split, t_rt *rt)
 			direction = ft_split(split[2], ",");
 			camera->fov = ft_atod(split[3]);
 			if (set_coord(coord, &camera->position)
-				&& set_coord(direction, &camera->direction)
+				& set_coord(direction, &camera->direction)
 				&& correct_direction(camera->direction)
-				&& camera->fov > 0 && camera->fov <= 180)
+				&& (camera->fov > 0) && (camera->fov <= 180))
 			{
-				add_camera(rt, camera);	
+				add_camera(rt, camera);
 				return (1);
 			}
 		}
@@ -85,7 +85,7 @@ int		set_light(char **split, t_rt *rt)
 	char		**color;
 	t_light		*light;
 
-	if (!ft_strncmp(split[0], "l", 2))
+	if (ft_streq(split[0], "l"))
 	{
 		if (!(light = malloc(sizeof(*light))))
 			return (0);
@@ -94,7 +94,8 @@ int		set_light(char **split, t_rt *rt)
 			coord = ft_split(split[1], ",");
 			color = ft_split(split[3], ",");
 			light->intensity = ft_atod(split[2]);
-			if (set_coord(coord, &light->position) && set_color(color, &light->color)
+			if (set_coord(coord, &light->position)
+				& set_color(color, &light->color)
 				&& light->intensity >= 0 && light->intensity <= 1)
 			{
 				ft_lstadd_front(&rt->scene.light, ft_lstnew(light));

@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_streq.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/26 09:15:33 by user42            #+#    #+#             */
-/*   Updated: 2021/03/03 18:10:07 by user42           ###   ########.fr       */
+/*   Created: 2021/03/03 17:13:10 by user42            #+#    #+#             */
+/*   Updated: 2021/03/03 17:15:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "libft.h"
 
-void	ft_perror(void)
+int		ft_streq(char *s1, char *s2)
 {
-	perror(strerror(errno));
-	exit(EXIT_FAILURE);
-}
+	size_t	len;
 
-void	print_error_msg(char *msg)
-{
-	ft_putendl_fd("Error", STDERR_FILENO);
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(EXIT_FAILURE);
-}
-
-void	parsing_error(t_rt *rt, char *msg)
-{
-	free_rt(rt);
-	print_error_msg(msg);
+	len = ft_strlen(s1);
+	if (len != ft_strlen(s2))
+		return (0);
+	if (!ft_strncmp(s1, s2, len))
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:00:22 by user42            #+#    #+#             */
-/*   Updated: 2021/02/21 17:41:19 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/03 18:49:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,9 @@ double		ray_cylinder_planes_intersect(t_ray ray,
 	t1 = ray_plane_intersect(ray, object, t_min, t_max);
 	center = vector_mul(cylinder.height, object->current_direction);
 	center = vector_add(object->vertex[0], center);
-	tmp.vertex = malloc(sizeof(*tmp.vertex));
-	tmp.vertex[0] = center;
+	tmp.vertex = &center;
 	tmp.current_direction = vector_mul(-1, object->current_direction);
 	t2 = ray_plane_intersect(ray, &tmp, t_min, t_max);
-	free(tmp.vertex);
 	if (t1 > t_min && t1 < t_max && check_inside_ray(ray, object, t1))
 	{
 		if (t2 > t_min && t2 < t_max && check_inside_ray(ray, object, t2))

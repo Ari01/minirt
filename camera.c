@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 09:02:32 by user42            #+#    #+#             */
-/*   Updated: 2021/02/23 18:45:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/19 08:34:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,12 @@ void		compute_camera(t_rt *rt, double x, double y)
 	scale = tan(M_PI * rt->camera->fov * 0.5 / 180);
 	x = ((2 * (x + 0.5) / rt->width) - 1) * scale;
 	y = (1 - 2 * (y + 0.5) / rt->height) * scale;
-	if (rt->width >= rt->height)
+	if (rt->width > rt->height)
 		x *= aspect_ratio;
-	else
+	else if (rt->height < rt->width)
 		y *= aspect_ratio;
 	pworld = new_vector(x, y, 1);
 	pworld = vector_matrix_mul(pworld, rt->camera->to_world_matrix);
 	rt->camera->direction = vector_sub(pworld, rt->camera->position);
-	rt->camera->direction = vector_mul(1 / vector_len(rt->camera->direction),
-										rt->camera->direction);
+	rt->camera->direction = vector_normalize(rt->camera->direction);
 }

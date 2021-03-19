@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 20:28:39 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 15:07:33 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/19 08:45:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,22 @@ void		move_camera(int key, t_vector *matrix)
 
 void		rotate_camera(int key, t_camera *camera)
 {
-	double		xdeg = 0;
-	double		ydeg = 0;
+	double		angle;
 	t_vector	mtmp[3];
 
 	init_rotation_matrix(mtmp);
 	if (key == 'q' || key == 'd')
 	{
-		xdeg += (key == 'q' ? -10 : 10);
-		set_yrotation_matrix(mtmp, xdeg);
+		angle = (key == 'q' ? -10 : 10);
+		set_yrotation_matrix(mtmp, angle);
 	}
 	if (key == 'z' || key == 's')
 	{
-		ydeg += (key == 'z' ? 10 : -10);
-		set_xrotation_matrix(mtmp, ydeg);
+		angle = (key == 'z' ? -10 : 10);
+		set_xrotation_matrix(mtmp, angle);
 	}
 	matrix_mul(camera->to_world_matrix, mtmp);
-	matrix_cpy(camera->to_cam_matrix, camera->to_cam_matrix);
+	matrix_cpy(camera->to_cam_matrix, camera->to_world_matrix);
 	matrix_invert(camera->to_cam_matrix);
 }
 

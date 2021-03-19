@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 15:34:58 by user42            #+#    #+#             */
-/*   Updated: 2021/02/23 17:02:52 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/24 19:56:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,6 @@ t_rt	init_rt(void)
 	rt.window = NULL;
 	rt.img.img = NULL;
 	return (rt);
-}
-
-void	free_object(void *object)
-{
-	t_object *tmp;
-
-	tmp = (t_object *)object;
-	if (tmp)
-	{
-		if (tmp->ptr)
-			free(tmp->ptr);
-		if (tmp->vertex)
-			free(tmp->vertex);
-		free(tmp);
-	}
 }
 
 void	free_rt(t_rt *rt)

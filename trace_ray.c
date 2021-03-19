@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 14:32:35 by user42            #+#    #+#             */
-/*   Updated: 2021/02/20 15:26:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/03 20:59:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int			resolve_quadratic(t_vector v, double *t1, double *t2)
 	return (1);
 }
 
-double		get_closest_intersection(t_rt *rt, t_object **closest_object, double t_min, double t_max)
+double		get_closest_intersection(t_rt *rt,
+									t_object **closest_object,
+									double t_min,
+									double t_max)
 {
 	t_object	*current_object;
 	t_list		*object_list;
@@ -64,33 +67,45 @@ t_vector	reflect_ray(t_vector raydir, t_vector normal)
 {
 	t_vector	reflect;
 
+	raydir = vector_mul(-1, raydir);
 	reflect = vector_mul(2 * vector_dot(normal, raydir), normal);
 	reflect = vector_sub(reflect, raydir);
 	return (reflect);
 }
 
+t_color		trace_reflect(t_rt *rt, t_object *ohit, t_color color, int depth)
+{
+	t_color	reflect;
+
+	color = color_scale(1 - ohit->reflective, color);
+	reflect = color_scale(ohit->reflective, trace_ray(rt, depth + 1));
+	return (color_clamp(color_add(color, reflect)));
+}
+
 t_color		trace_ray(t_rt *rt, int depth)
 {
 	double		closest_t;
-	t_object	*closest_object;
-	t_vector	intersection;
+	t_object	*ohit;
+	t_vector	phit;
 	t_vector	normal;
 	t_color		color;
 
-	closest_object = NULL;
-	closest_t = get_closest_intersection(rt, &closest_object, exp(-6), INFINITY);
+	ohit = NULL;
+	closest_t = get_closest_intersection(rt, &ohit, exp(-6), INFINITY);
 	color = new_color(0, 0, 0);
-	if (closest_object)
+	if (ohit)
 	{
-		intersection = vector_add(rt->ray.pos, vector_mul(closest_t, rt->ray.dir));
-		normal = closest_object->get_normal(rt->ray, intersection, closest_object);
-		color = closest_object->color;
-		color = color_mix(compute_light(rt, closest_object, intersection, normal), color);
-		if (depth == 3 || !closest_object->reflective)
+		phit = vector_mul(closest_t, rt->ray.dir);
+		phit = vector_add(rt->ray.pos, phit);
+		normal = ohit->get_normal(rt->ray, phit, ohit);
+		color = ohit->color;
+		color = color_mix(color, compute_light(rt, ohit, phit, normal));
+		if (depth == 3 || !ohit->reflective)
 			return (color);
-		rt->ray.dir = reflect_ray(vector_mul(-1, rt->camera->direction), normal);
-		rt->ray.pos = vector_add(vector_mul(0.1, normal), intersection);
-		return (color_clamp(color_add(color_scale(1 - closest_object->reflective, color), color_scale(closest_object->reflective, trace_ray(rt, depth + 1)))));
+		rt->ray.dir = reflect_ray(rt->camera->direction, normal);
+		rt->ray.pos = vector_add(vector_mul(0.1, normal), phit);
+		color = trace_reflect(rt, ohit, color, depth);
+		return (color);
 	}
 	return (color);
 }

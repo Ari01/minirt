@@ -6,13 +6,16 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 17:23:08 by user42            #+#    #+#             */
-/*   Updated: 2021/02/08 11:22:19 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/03 20:34:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-double		ray_square_intersect(t_ray ray, t_object *object, double t_min, double t_max)
+double		ray_square_intersect(t_ray ray,
+								t_object *object,
+								double t_min,
+								double t_max)
 {
 	double		t;
 	t_vector	intersection;

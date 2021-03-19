@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   object2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/26 09:15:33 by user42            #+#    #+#             */
-/*   Updated: 2021/03/03 18:10:07 by user42           ###   ########.fr       */
+/*   Created: 2021/03/03 17:42:20 by user42            #+#    #+#             */
+/*   Updated: 2021/03/03 18:51:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_perror(void)
+int			check_object_param(t_object *object, double p)
 {
-	perror(strerror(errno));
-	exit(EXIT_FAILURE);
-}
-
-void	print_error_msg(char *msg)
-{
-	ft_putendl_fd("Error", STDERR_FILENO);
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(EXIT_FAILURE);
-}
-
-void	parsing_error(t_rt *rt, char *msg)
-{
-	free_rt(rt);
-	print_error_msg(msg);
+	if (isnan(p) || p <= 0)
+	{
+		free_object(object);
+		return (0);
+	}
+	return (1);
 }

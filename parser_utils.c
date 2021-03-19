@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/01 14:40:05 by user42            #+#    #+#             */
-/*   Updated: 2021/02/23 19:40:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/02/24 19:43:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,13 @@ int		set_coord(char **split, t_vector *coord)
 	if (!split || !split[0] || !split[1] || !split[2] || split[3])
 		valid_format = 0;
 	else
+	{
 		*coord = new_vector(ft_atod(split[0]),
 							ft_atod(split[1]),
 							ft_atod(split[2]));
-	if (isnan(coord->x) || isnan(coord->y) || isnan(coord->z))
-		valid_format = 0;
+		if (isnan(coord->x) || isnan(coord->y) || isnan(coord->z))
+			valid_format = 0;
+	}
 	string_array_free(split);
 	return (valid_format);
 }

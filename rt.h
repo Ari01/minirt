@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/26 07:15:21 by user42            #+#    #+#             */
-/*   Updated: 2021/02/23 18:45:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/03 18:32:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ void				add_camera(t_rt *rt, t_camera *camera);
 void				compute_camera(t_rt *rt, double x, double y);
 
 // objects
+
+void				free_object(void *object);
+int					check_object_param(t_object *object, double p);
 t_object			*new_object(char **split, int color_index, int n_vertices, int rotate);
 void				set_object(t_object *object, void *ptr, int rotate, double specular);
 

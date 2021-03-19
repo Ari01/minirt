@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 07:10:25 by user42            #+#    #+#             */
-/*   Updated: 2021/02/21 20:03:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/19 08:03:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	render(t_rt *rt)
 	t_color	color;
 
 	j = 0;
-	rt->camera->position = vector_matrix_mul(new_vector(0, 0, 0),
-											rt->camera->to_world_matrix);
+	rt->camera->position = rt->camera->to_world_matrix[3];
 	while (j < rt->height)
 	{
 		i = 0;
