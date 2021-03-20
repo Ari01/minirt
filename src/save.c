@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 09:02:24 by user42            #+#    #+#             */
-/*   Updated: 2021/02/21 20:10:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/20 10:17:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,5 @@ void		img_to_bmp(t_rt *rt, char *path)
 		ft_perror(errno);
 	write_header(rt, fd);
 	close(fd);
+	free(fullpath);
 }
