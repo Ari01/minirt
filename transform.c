@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 20:28:39 by user42            #+#    #+#             */
-/*   Updated: 2021/03/19 08:45:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/20 08:08:30 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,29 +88,25 @@ void		move_object(t_object *object)
 void		rotate_object(int key, t_object *object, t_camera *cam)
 {
 	double		angle;
-	double		dot;
 	t_vector	rotation_matrix[3];
 
 	if (object->rotate)
 	{
 		init_rotation_matrix(rotation_matrix);
-		angle = 1;
-		dot = vector_dot(object->current_direction, new_vector(0, 1, 0));
-		if (dot < exp(-6) && -dot < exp(-6))
-			angle *= -1;
 		if (key == 'q' || key == 'd')
 		{	
-			angle *= (key == 'q' ? -90 : 90);
+			angle = (key == 'q' ? 90 : -90);
 			set_zrotation_matrix(rotation_matrix, angle);
 		}
 		if (key == 'z' || key == 's')
 		{
-			angle *= (key == 'z' ? 90 : -90);
+			angle = (key == 'z' ? 90 : -90);
 			set_xrotation_matrix(rotation_matrix, angle);
 		}
-		matrix_mul(object->to_world_matrix, cam->to_world_matrix);
+		matrix_cpy(object->to_world_matrix, cam->to_world_matrix);
 		matrix_mul(object->to_world_matrix, rotation_matrix);
 		matrix_mul(object->to_world_matrix, cam->to_cam_matrix);
-		object->current_direction = dir_matrix_mul(object->direction, object->to_world_matrix);
+		object->current_direction = dir_matrix_mul(object->current_direction, object->to_world_matrix);
+		object->current_direction = vector_normalize(object->current_direction);
 	}
 }

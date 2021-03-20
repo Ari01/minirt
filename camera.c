@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 09:02:32 by user42            #+#    #+#             */
-/*   Updated: 2021/03/19 08:34:54 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/19 13:15:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void		set_camera_matrix(t_camera *camera)
 	camera->to_world_matrix[3] = new_vector(camera->position.x,
 											camera->position.y,
 											camera->position.z);
+	//printf("cam matrix =\n%f %f %f\n%f %f %f\n%f %f %f\n", camera->to_world_matrix[0].x, camera->to_world_matrix[1].x, camera->to_world_matrix[2].x, camera->to_world_matrix[0].y, camera->to_world_matrix[1].y, camera->to_world_matrix[2].y, camera->to_world_matrix[0].z, camera->to_world_matrix[1].z, camera->to_world_matrix[2].z);
 	matrix_cpy(camera->to_cam_matrix, camera->to_world_matrix);
 	matrix_invert(camera->to_cam_matrix);
 }

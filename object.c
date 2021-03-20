@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 19:11:56 by user42            #+#    #+#             */
-/*   Updated: 2021/03/03 20:20:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/19 09:46:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,6 @@ t_object	*new_object(char **split,
 	}
 	obj = set_reflexion(obj, split, color_index + 1);
 	init_rotation_matrix(obj->to_world_matrix);
+	obj->to_world_matrix[3] = new_vector(0, 0, 0);
 	return (obj);
 }

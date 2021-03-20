@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 13:37:29 by user42            #+#    #+#             */
-/*   Updated: 2021/03/03 21:32:59 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/19 13:26:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ double		ray_plane_intersect(t_ray ray,
 t_vector	get_plane_normal(t_ray ray, t_vector intersection, t_object *object)
 {
 	(void)intersection;
-//	(void)ray;
-	if (vector_dot(object->current_direction, ray.dir) < 0)
-		vector_mul(-1, object->current_direction);
+	if (vector_dot(object->current_direction, ray.dir) > 0)
+		object->current_direction = vector_mul(-1, object->current_direction);
 	return (object->current_direction);
 }
